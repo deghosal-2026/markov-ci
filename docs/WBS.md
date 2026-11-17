@@ -5,116 +5,137 @@ run only the ticket's tests; full suite + ruff + mypy --strict once per mileston
 each ticket ends implemented → tested → committed → pushed. Ticket IDs are referenced in
 commits as `M<N>.<T>`.
 
+**Tracking:** every ticket below is a GitHub issue ([repo issues](https://github.com/deghosal-2026/markov-ci/issues));
+each milestone maps to a GitHub milestone. The `#` column is the issue number.
+
 ---
 
-## M0 — Scaffold
+## M0 — Scaffold · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/1)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M0.1 | Repo skeleton | Tree per docs/architecture.md; `src/markov_ci/__init__.py`, `py.typed`; empty module dirs |
-| M0.2 | `pyproject.toml` | hatchling src-layout build; deps (spec/0012-engineering-baseline.md); ruff+mypy(strict)+pytest config |
-| M0.3 | Makefile | `make test lint typecheck cov docs build` — each wired to real tool |
-| M0.4 | CI workflows | `ci.yml` (lint+typecheck+unit on PR), `integration.yml`, `cancel-closed-pr.yml` |
-| M0.5 | Community health files | CONTRIBUTING.md, SECURITY.md, CODE_OF_CONDUCT.md, CHANGELOG.md (Keep a Changelog) |
-| M0.6 | mkdocs site | `mkdocs.yml` + docs build green in CI (`docs.yml`) |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M0.1 | [#1](https://github.com/deghosal-2026/markov-ci/issues/1) | Repo skeleton | Tree per docs/architecture.md; `src/markov_ci/__init__.py`, `py.typed`; empty module dirs |
+| M0.2 | [#2](https://github.com/deghosal-2026/markov-ci/issues/2) | `pyproject.toml` | hatchling src-layout; deps per spec/0012-engineering-baseline.md; ruff+mypy(strict)+pytest config |
+| M0.3 | [#3](https://github.com/deghosal-2026/markov-ci/issues/3) | Makefile | `make test lint typecheck cov docs build` — each wired to a real tool |
+| M0.4 | [#4](https://github.com/deghosal-2026/markov-ci/issues/4) | CI workflows | `ci.yml` (lint+typecheck+unit on PR), `integration.yml`, `cancel-closed-pr.yml` |
+| M0.5 | [#5](https://github.com/deghosal-2026/markov-ci/issues/5) | Community health files | CONTRIBUTING, SECURITY, CODE_OF_CONDUCT, CHANGELOG (Keep a Changelog) |
+| M0.6 | [#6](https://github.com/deghosal-2026/markov-ci/issues/6) | mkdocs site | `mkdocs.yml` + docs build green in CI (`docs.yml`) |
 
-**Gate:** full suite + lint + typecheck green on empty-but-wired scaffold.
+**Gate:** full suite + lint + typecheck green on the empty-but-wired scaffold.
 
-## M1 — Math core (`markov_ci.model`)
+## M1 — Math core (`markov_ci.model`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/2)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M1.1 | State space types | `State`, `StateSpace`, absorbing/transient classification; unit tests |
-| M1.2 | Step augmentation | base→`#attempt` expansion; loop-back edge generation; unit tests |
-| M1.3 | Config→matrix assembly | `assemble()` per spec/0002-matrix-assembly.md incl. caps renormalization; unit tests |
-| M1.4 | Validation | row sums, reachability, absorbing identity; `validate` exit-code behavior |
-| M1.5 | Fundamental matrix ops | `split`, `fundamental`, `absorption`, `steps_to_absorb`, `expected_cost`; property tests (B rows sum 1, N ≥ 0) |
-| M1.6 | Posteriors/CI | Dirichlet posterior + credible intervals from counts; property tests |
-| M1.7 | Worked-example fixture | default config yields documented numbers (P(a1\|s0) ≈ 0.92); golden test |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M1.1 | [#7](https://github.com/deghosal-2026/markov-ci/issues/7) | State space types | `State`, `StateSpace`, absorbing/transient classification; unit tests |
+| M1.2 | [#8](https://github.com/deghosal-2026/markov-ci/issues/8) | Step augmentation | base→`#attempt` expansion; loop-back edge generation; unit tests |
+| M1.3 | [#9](https://github.com/deghosal-2026/markov-ci/issues/9) | Config→matrix assembly | `assemble()` per spec/0002-matrix-assembly.md incl. caps renormalization; unit tests |
+| M1.4 | [#10](https://github.com/deghosal-2026/markov-ci/issues/10) | Matrix validation | row sums, reachability, absorbing identity; `validate` exit-code behaviour |
+| M1.5 | [#11](https://github.com/deghosal-2026/markov-ci/issues/11) | Fundamental-matrix ops | `split`, `fundamental`, `absorption`, `steps_to_absorb`, `expected_cost`; property tests |
+| M1.6 | [#12](https://github.com/deghosal-2026/markov-ci/issues/12) | Posteriors / CI | Dirichlet posterior + credible intervals from counts; property tests |
+| M1.7 | [#13](https://github.com/deghosal-2026/markov-ci/issues/13) | Worked-example fixture | default config yields documented numbers (P(a1\|s0) ≈ 0.92); golden test |
+| M1.8 | [#14](https://github.com/deghosal-2026/markov-ci/issues/14) | Property-based harness (F22) | hypothesis suite over matrix ops; adversarial `success=[1,1,1]` still absorbs |
 
 **Gate:** milestone suite + `analyze` golden numbers.
 
-## M2 — Policy + config (`markov_ci.policy`, `markov_ci.config`)
+## M2 — Policy + config (`markov_ci.policy`, `markov_ci.config`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/3)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M2.1 | Policy dataclass + evaluation order | budgets → cap → confidence; unit tests incl. a3 on budget trip |
-| M2.2 | YAML loader (pydantic) | full schema, unknown-key rejection, helpful errors; unit tests |
-| M2.3 | Packaged default config | `markov_ci.data.default` = spec/0001-state-model.md defaults; loads+validates |
-| M2.4 | `validate` + `analyze` CLI | exit codes 0/4; JSON output flag |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M2.1 | [#15](https://github.com/deghosal-2026/markov-ci/issues/15) | Policy dataclass + gate order | budgets → cap → confidence; unit tests incl. a3 on budget trip |
+| M2.2 | [#16](https://github.com/deghosal-2026/markov-ci/issues/16) | YAML loader (pydantic) | spec/0003 schema, unknown-key rejection, helpful errors; unit tests |
+| M2.3 | [#17](https://github.com/deghosal-2026/markov-ci/issues/17) | Packaged default config | `markov_ci.data.default` = spec/0001-state-model.md defaults; loads+validates |
+| M2.4 | [#18](https://github.com/deghosal-2026/markov-ci/issues/18) | `validate` + `analyze` CLI | exit codes 0/4; JSON output flag |
 
-## M3 — Triage (`markov_ci.triage`)
+## M3 — Triage (`markov_ci.triage`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/4)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M3.1 | JUnit XML parser | failures → (name, message, type); fixture tests |
-| M3.2 | Category classifier | spec/0010-triage.md categories; infra/dependency → a2 routing; fixture tests |
-| M3.3 | Log minimizer | failing block + stack trace, 200-line cap; property tests on line cap |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M3.1 | [#19](https://github.com/deghosal-2026/markov-ci/issues/19) | JUnit XML parser | failures → (name, message, type); robust fallback; fixture tests |
+| M3.2 | [#20](https://github.com/deghosal-2026/markov-ci/issues/20) | Category classifier | spec/0010-triage.md categories; infra/dependency → a2 routing; fixture tests |
+| M3.3 | [#21](https://github.com/deghosal-2026/markov-ci/issues/21) | Log minimizer | failing block + stack trace, 200-line cap; property tests |
 
-## M4 — Agents (`markov_ci.agents`)
+## M4 — Agents (`markov_ci.agents`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/5)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M4.1 | Adapter protocol + RepairContext/PatchProposal types | typing-only ticket; protocol conformance tests |
-| M4.2 | SimulatedAgent | seeded, fixture-driven, calibrated to priors; determinism tests |
-| M4.3 | Harness adapter interface (headless CLI) + tests | offline contract tests only (no network in CI) |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M4.1 | [#22](https://github.com/deghosal-2026/markov-ci/issues/22) | Adapter protocol + types | `AgentAdapter`, `RepairContext`, `PatchProposal`; protocol conformance tests |
+| M4.2 | [#23](https://github.com/deghosal-2026/markov-ci/issues/23) | SimulatedAgent | seeded, fixture-driven, calibrated to priors; determinism + fit tests |
+| M4.3 | [#24](https://github.com/deghosal-2026/markov-ci/issues/24) | Harness adapter interface | headless CLI invocation per spec/0006; offline contract tests |
+| M4.4 | [#25](https://github.com/deghosal-2026/markov-ci/issues/25) | Harness templates T2/T3 + conformance | claude/opencode/aider templates + BYO command; one conformance suite |
 
-## M5 — Guardrails (`markov_ci.guardrails`)
+## M5 — Guardrails (`markov_ci.guardrails`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/6)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M5.1 | Path allowlist enforcement | allow/deny matching incl. always-denied set; adversarial cases (`.github`, `**/secrets/**`) |
-| M5.2 | TMR checker | test-vs-src line ratio; assertion-deletion detection → hard stop |
-| M5.3 | Branch manager | `ai-fix/pr-<n>` isolation; **no force-push code path exists**; tests assert absence |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M5.1 | [#26](https://github.com/deghosal-2026/markov-ci/issues/26) | Path allowlist enforcement | allow/deny incl. always-denied set; adversarial cases (`.github`, `**/secrets/**`) |
+| M5.2 | [#27](https://github.com/deghosal-2026/markov-ci/issues/27) | TMR checker | test-vs-src line ratio; assertion-deletion detection → hard stop |
+| M5.3 | [#28](https://github.com/deghosal-2026/markov-ci/issues/28) | Branch manager | `ai-fix/pr-<n>` isolation; **no force-push code path exists**; tests assert absence |
 
-## M6 — Engine (`markov_ci.engine`)
+## M6 — Engine (`markov_ci.engine`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/7)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M6.1 | RunResult + event emission | telemetry contract fields; crash-safe JSONL |
-| M6.2 | Transition loop | spec/0011-engine-runtime.md algorithm; unit tests per hop decision |
-| M6.3 | Sandbox apply-and-test | isolated worktree, run failing tests, revert; integration tests |
-| M6.4 | `run` CLI | exit codes 0/2/3/4; `--seed`; end-to-end on fixtures |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M6.1 | [#29](https://github.com/deghosal-2026/markov-ci/issues/29) | RunResult + event emission | telemetry contract fields; crash-safe JSONL |
+| M6.2 | [#30](https://github.com/deghosal-2026/markov-ci/issues/30) | Transition loop | spec/0011-engine-runtime.md algorithm; unit tests per hop decision |
+| M6.3 | [#31](https://github.com/deghosal-2026/markov-ci/issues/31) | Sandbox apply-and-test | isolated worktree, run failing tests, revert; integration tests |
+| M6.4 | [#32](https://github.com/deghosal-2026/markov-ci/issues/32) | `run` CLI | exit codes 0/2/3/4; `--seed`; end-to-end on fixtures |
+| M6.5 | [#33](https://github.com/deghosal-2026/markov-ci/issues/33) | Telemetry JSON Schema artifact | `schemas/transition-event.schema.json`; reference page generated from it |
 
-## M7 — Queueing (`markov_ci.queueing`)
+## M7 — Queueing (`markov_ci.queueing`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/8)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M7.1 | Erlang-C | ρ, P_wait, Wq, p95; property tests vs closed-form; lam ≥ cμ rejected |
-| M7.2 | DES simulator | bursty arrival patterns; convergence test vs Erlang-C under Poisson |
-| M7.3 | `queue` CLI | `--lambda/--mu/--c`, `--simulate`, JSON output |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M7.1 | [#34](https://github.com/deghosal-2026/markov-ci/issues/34) | Erlang-C | ρ, P_wait, Wq, p95; property tests vs closed-form; λ ≥ cμ rejected |
+| M7.2 | [#35](https://github.com/deghosal-2026/markov-ci/issues/35) | DES simulator | bursty arrival patterns; convergence test vs Erlang-C under Poisson |
+| M7.3 | [#36](https://github.com/deghosal-2026/markov-ci/issues/36) | `queue` CLI | `--lambda/--mu/--c`, `--simulate`, JSON output |
 
-## M8 — CLI polish + docs build
+## M8 — CLI polish + docs build · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/9)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M8.1 | `simulate` command | Monte-Carlo absorption stats vs analytic B (within CI) |
-| M8.2 | `recompute` command | events.jsonl → empirical matrix; round-trip golden test |
-| M8.3 | Docs site complete | every reference page matches shipped code; `make docs` green |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M8.1 | [#37](https://github.com/deghosal-2026/markov-ci/issues/37) | `simulate` command | Monte-Carlo absorption stats vs analytic B (within CI) |
+| M8.2 | [#38](https://github.com/deghosal-2026/markov-ci/issues/38) | `recompute` command | events.jsonl → empirical matrix; round-trip golden test |
+| M8.3 | [#39](https://github.com/deghosal-2026/markov-ci/issues/39) | Docs site complete | every reference page matches shipped code; `make docs` green; docs-are-tests |
+| M8.4 | [#40](https://github.com/deghosal-2026/markov-ci/issues/40) | GitLab/Jenkins docs (F20) | integration how-tos + CI examples; exit-code contract shown |
 
-## M9 — Examples (offline)
+## M9 — Examples (demos) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/10)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M9.1 | `01-lint-error` | first-pass green; deterministic seed; tutorial matches output |
-| M9.2 | `02-unit-assertion-decay` | decay → a2; expected-token math shown |
-| M9.3 | `03-infra-timeout` | zero tokens, immediate a2 |
-| M9.4 | `04-runner-pool-sizing` | Erlang-C + burst simulation report |
-| M9.5 | `05-github-actions-e2e` | workflow runs on this repo's own PRs (opt-in secrets) |
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M9.1 | [#41](https://github.com/deghosal-2026/markov-ci/issues/41) | `01-lint-error` | first-pass green; deterministic seed; tutorial matches output |
+| M9.2 | [#42](https://github.com/deghosal-2026/markov-ci/issues/42) | `02-unit-assertion-decay` | decay → a2; expected-token math shown |
+| M9.3 | [#43](https://github.com/deghosal-2026/markov-ci/issues/43) | `03-infra-timeout` | zero tokens, immediate a2 |
+| M9.4 | [#44](https://github.com/deghosal-2026/markov-ci/issues/44) | `04-runner-pool-sizing` | Erlang-C + burst simulation report |
+| M9.5 | [#45](https://github.com/deghosal-2026/markov-ci/issues/45) | `05-github-actions-e2e` (live) | workflow runs on a real PR (opt-in secrets); depends on M10.1 |
 
-## M10 — Action + release + articles
+## M10 — Releases and articles · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/11)
 
-| ID | Ticket | Deliverable / acceptance |
-|---|---|---|
-| M10.1 | Root `action.yml` | composite action wrapping CLI; tested on a test repo PR |
-| M10.2 | Release readiness | CHANGELOG, version 0.1.0, tag, GitHub Release, PyPI publish (name check first) |
-| M10.3 | Public flip | `gh repo edit --visibility public` + README badges + topics |
-| M10.4 | Article 1 | Dev.To + LinkedIn: DAG → Markov concept piece |
-| M10.5 | Article 2 | Build log + "what the original article got wrong" |
-| M10.6 | Article 3 | Queueing theory for runner fleets |
-| M10.7 | Article 4 | Measuring agentic CI (metrics + anti-patterns) |
+*Staging:* v0.1.0 = F1–F14 + public flip + articles 1–2 · v0.2.0 = GitHub Action + article 3 · v0.3.0 = article 4.
+
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M10.1 | [#46](https://github.com/deghosal-2026/markov-ci/issues/46) | Root `action.yml` (F15) | composite action wrapping CLI; tested on a test repo PR |
+| M10.2 | [#47](https://github.com/deghosal-2026/markov-ci/issues/47) | Release readiness (v0.1.0) | CHANGELOG, version 0.1.0, tag, GitHub Release, PyPI publish (name check first) |
+| M10.3 | [#48](https://github.com/deghosal-2026/markov-ci/issues/48) | Public flip | `gh repo edit --visibility public` + README badges + topics |
+| M10.4 | [#49](https://github.com/deghosal-2026/markov-ci/issues/49) | Article 1 | Dev.To + LinkedIn: DAG → Markov concept piece |
+| M10.5 | [#50](https://github.com/deghosal-2026/markov-ci/issues/50) | Article 2 | Build log + "what the original article got wrong" |
+| M10.6 | [#51](https://github.com/deghosal-2026/markov-ci/issues/51) | Article 3 | Queueing theory for runner fleets (+ harness cost hook) |
+| M10.7 | [#52](https://github.com/deghosal-2026/markov-ci/issues/52) | Article 4 | Measuring agentic CI (metrics + anti-patterns) |
+
+## M11 — Live operations (v0.3) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/12)
+
+| ID | # | Ticket | Deliverable / acceptance |
+|---|---|---|---|
+| M11.1 | [#53](https://github.com/deghosal-2026/markov-ci/issues/53) | Cost model in currency (F23) | per-state `$` cost vectors; org price cards |
+| M11.2 | [#54](https://github.com/deghosal-2026/markov-ci/issues/54) | A/B policy comparison (F24) | two configs side-by-side: outcome/cost deltas |
+| M11.3 | [#55](https://github.com/deghosal-2026/markov-ci/issues/55) | State-space visualization (F25) | Mermaid graph + N-heatmap export |
+| M11.4 | [#56](https://github.com/deghosal-2026/markov-ci/issues/56) | Multi-pipeline aggregation (F26) | org-level matrix across repos |
+| M11.5 | [#57](https://github.com/deghosal-2026/markov-ci/issues/57) | Time-varying matrices / drift (F27) | weekly recompute recipes; drift alerts beyond CI |
+| M11.6 | [#58](https://github.com/deghosal-2026/markov-ci/issues/58) | Community harness templates (F28) | more verified headless templates via the shared protocol |
+| M11.7 | [#59](https://github.com/deghosal-2026/markov-ci/issues/59) | MCP governance server (F29) | expose `analyze`/`validate`/`queue` as MCP tools |
 
 ---
 
-**Dependency notes:** M1 → M2 → (M3 ∥ M4 ∥ M5) → M6 → (M7 ∥ M8) → M9 → M10.
+**Dependency notes:** M1 → M2 → (M3 ∥ M4 ∥ M5) → M6 → (M7 ∥ M8) → M9 → M10 → M11.
 Docs (`docs/`) are contract-first and already written; M8.3 trues them up to shipped code.

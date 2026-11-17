@@ -22,6 +22,7 @@
 | 0.6 | 2026-11-16 | World-class additions: Critical User Journeys, North Star metric, metric hierarchy, CUJ↔feature↔WBS traceability, GTM plan |
 | 0.7 | 2026-11-16 | Dedicated **harness compatibility strategy** sub-PRD (07); security & privacy requirements (09); deprecation policy (10); files renumbered |
 | 0.8 | 2026-11-16 | Gap review applied: **product principles** (00); NSM measurement resolution (03); **adoption ladder** (12 §6); APR + CI-observability competitive rows (11); sizing + dependency columns in the traceability matrix (13) |
+| 0.9 | 2026-11-16 | Traceability re-synced to the tracked WBS: F20→M8.4, F22→M1.8, F19→M4.3–M4.4, F23–F29→M11.x, plus a GitHub-issue column (13 Appendix B) |
 
 ## Sub-PRD index (read in order)
 

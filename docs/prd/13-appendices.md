@@ -18,36 +18,42 @@
 
 ## Appendix B — CUJ ↔ feature ↔ WBS traceability matrix
 
-| Feature | Size | Depends on | CUJs | WBS tickets |
-|---|---|---|---|---|
-| F1 state-space config | M | — | 1 | M1.1–M1.2, M2.2–M2.3 |
-| F2 assembly + validation | M | F1 | 1, 3 | M1.3–M1.4 |
-| F3 forecast math | M | F2 | 1, 5 | M1.5–M1.7 |
-| F4 policy engine | S | F2 | 1, 3 | M2.1 |
-| F5 deterministic triage | M | — | 2 | M3.1–M3.3 |
-| F6 adapter protocol + simulated agent | M | F5 | 2, 4 | M4.1–M4.2 |
-| F7 guardrails | M | — | 2, 6 | M5.1–M5.3 |
-| F8 runtime engine | L | F2, F4, F5, F6, F7 | 2, 3 | M6.1–M6.4 |
-| F9 telemetry contract | S | F8 | 3, 4, 5 | M6.1, M8.2 |
-| F10 CLI surface | S | F3 | all | M2.4, M8.1 |
-| F11 packaged defaults | S | F1 | 1 | M2.3 |
-| F12 documentation set | M | F10 | 1, 4 | M8.3 |
-| F13 offline demos 01–03 | M | F6, F8 | 4 | M9.1–M9.3 |
-| F14 self-hosted CI | S | F10, F13 | 3 | M0.4 |
-| F15 GitHub Action | S | F10 | 1 | M10.1 |
-| F16 queueing module | M | — | 3 | M7.1–M7.3 |
-| F17 Monte-Carlo simulate | S | F3 | 1, 5 | M8.1 |
-| F18 demos 04–05 | M | F16 | 3 | M9.4–M9.5 |
-| F19 harness adapters | M | F6 | 4 | M4.3 |
-| F20 GitLab/Jenkins how-tos | S | F10 | 1 | M8.3 (extends) |
-| F21 recompute pipeline | M | F9 | 4, 5 | M8.2 |
-| F22 property-based hardening | M | F3, F5, F7 | 2, 6 | M1.5, M5.1 (extend) |
-| F23–F27 live-ops COULDs | S–L | F3, F17, F21 (varies) | 5 | v0.3 planning |
-| F28 community harness adapters | S | F19 | 4 | post-M10 |
-| F29 MCP governance server | M | F3, F16 | 4 | post-M10 |
+| Feature | Size | Depends on | CUJs | WBS tickets | Issues |
+|---|---|---|---|---|---|
+| F1 state-space config | M | — | 1 | M1.1–M1.2, M2.2–M2.3 | #7, #8, #16, #17 |
+| F2 assembly + validation | M | F1 | 1, 3 | M1.3–M1.4 | #9, #10 |
+| F3 forecast math | M | F2 | 1, 5 | M1.5–M1.7 | #11, #12, #13 |
+| F4 policy engine | S | F2 | 1, 3 | M2.1 | #15 |
+| F5 deterministic triage | M | — | 2 | M3.1–M3.3 | #19, #20, #21 |
+| F6 adapter protocol + simulated agent | M | F5 | 2, 4 | M4.1–M4.2 | #22, #23 |
+| F7 guardrails | M | — | 2, 6 | M5.1–M5.3 | #26, #27, #28 |
+| F8 runtime engine | L | F2, F4, F5, F6, F7 | 2, 3 | M6.1–M6.4 | #29, #30, #31, #32 |
+| F9 telemetry contract | S | F8 | 3, 4, 5 | M6.1, M6.5, M8.2 | #29, #33, #38 |
+| F10 CLI surface | S | F3 | all | M2.4, M6.4 | #18, #32 |
+| F11 packaged defaults | S | F1 | 1 | M2.3 | #17 |
+| F12 documentation set | M | F10 | 1, 4 | M8.3 | #39 |
+| F13 offline demos 01–03 | M | F6, F8 | 4 | M9.1–M9.3 | #41, #42, #43 |
+| F14 self-hosted CI | S | F10, F13 | 3 | M0.4 | #4 |
+| F15 GitHub Action | S | F10 | 1 | M10.1 | #46 |
+| F16 queueing module | M | — | 3 | M7.1–M7.3 | #34, #35, #36 |
+| F17 Monte-Carlo simulate | S | F3 | 1, 5 | M8.1 | #37 |
+| F18 demos 04–05 | M | F16, F15 | 3 | M9.4–M9.5 | #44, #45 |
+| F19 harness adapters | M | F6 | 4 | M4.3–M4.4 | #24, #25 |
+| F20 GitLab/Jenkins how-tos | S | F10 | 1 | M8.4 | #40 |
+| F21 recompute pipeline | M | F9 | 4, 5 | M8.2 | #38 |
+| F22 property-based hardening | M | F3, F5, F7 | 2, 6 | M1.8 | #14 |
+| F23 cost model in currency | M | F3 | 5 | M11.1 | #53 |
+| F24 A/B policy comparison | S | F3 | 5 | M11.2 | #54 |
+| F25 state-space visualization | S | F3 | 5 | M11.3 | #55 |
+| F26 multi-pipeline aggregation | L | F21 | 5 | M11.4 | #56 |
+| F27 time-varying matrices / drift | M | F21 | 5 | M11.5 | #57 |
+| F28 community harness adapters | S | F19 | 4 | M11.6 | #58 |
+| F29 MCP governance server | M | F3, F16 | 4 | M11.7 | #59 |
 
 **Size key** (single-maintainer relative effort): S ≤ days · M ≤ 1–2 weeks · L > 2 weeks.
 **Depends on** = hard build-order edges; the WBS sequence already respects them.
+**Issues** = GitHub issue numbers; the canonical `#NN` ↔ `M<n>.<t>` map lives in
+[../WBS.md](../WBS.md).
 
 ## Appendix C — Spec contract map
 
@@ -60,8 +66,16 @@
 | [spec/0005 guardrails](../spec/0005-guardrails.md) | F7 |
 | [spec/0006 agent adapters](../spec/0006-agent-adapters.md) | F6, F19 |
 | [spec/0007 telemetry events](../spec/0007-telemetry-events.md) | F9 |
-| [spec/0008 CLI contract](../spec/0008-cli-contract.md) | F10 |
+| [spec/0008 CLI contract](../spec/0008-cli-contract.md) | F10, F16, F17, F21 (command + exit-code contracts) |
 | [spec/0009 queueing](../spec/0009-queueing.md) | F16 |
 | [spec/0010 triage](../spec/0010-triage.md) | F5 |
 | [spec/0011 engine runtime](../spec/0011-engine-runtime.md) | F8 |
-| [spec/0012 engineering baseline](../spec/0012-engineering-baseline.md) | F12, F14, quality attributes |
+| [spec/0012 engineering baseline](../spec/0012-engineering-baseline.md) | F12, F14, F22, quality attributes |
+
+**Features without a dedicated spec contract (by design):**
+
+| Feature | Where it is governed instead |
+|---|---|
+| F13, F18 (demos) | [docs/tutorials/](../tutorials/01-lint-error-first-pass.md) — examples, not contracts; must match shipped behaviour |
+| F15 (GitHub Action), F20 (GitLab/Jenkins) | [docs/how-to/](../how-to/integrate-github-actions.md) — integration contract; exit codes per spec/0008 |
+| F23–F29 (v0.3 live ops) | Not yet contracted — each gets a `spec/00NN-*.md` when its ticket starts |
