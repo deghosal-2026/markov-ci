@@ -10,6 +10,17 @@ only when (a) someone adopted the tool, (b) the tool actually ran, and (c) the r
 terminated in a designed outcome rather than a crash or a hang. `analyze`-only usage is
 deliberately not counted — forecasting without governing is evaluation, not value.
 
+**Measurement (resolving the privacy tension):** markov-ci phones home to no one
+(09 §5), so this NSM is *not* centrally collected by the project. Three-part resolution:
+
+1. **Adopter-side truth.** Each org reads the number from its own local event stream
+   (`recompute` reports governed-run counts). The NSM is real and measurable where it
+   matters — inside the adopter's warehouse.
+2. **Project-side proxy.** We track adoption proxies only — PyPI downloads, clones,
+   Action usage — as the public trend line, reported in release notes.
+3. **Voluntary show-and-tell.** An issue template invites adopters to share governed-run
+   counts and forecast accuracy; consented, never scraped.
+
 ## 2. Metric hierarchy
 
 | Tier | Metric | Target |

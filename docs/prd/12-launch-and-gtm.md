@@ -50,3 +50,20 @@ adoption of the NSM (governed runs per week).
 
 Dogfooding is non-negotiable: this repo's own PRs run under markov-ci (F14) — the
 product's first public case study is itself.
+
+## 6. Adoption ladder (progressive risk)
+
+Adoption is staged: every rung is useful standalone, and each adds capability with a
+bounded, named increment of risk. Priya climbs at her own pace (CUJ-1):
+
+| Rung | What a team enables | Risk added | What they learn |
+|---|---|---|---|
+| **L0 — Observe** | `analyze` on their own config (read-only) | none | Their forecast: attempts, tokens, outcomes per category |
+| **L1 — Stress** | `simulate` Monte-Carlo runs | none | Confidence intervals, worst-case spend |
+| **L2 — Govern (offline)** | `run` with the simulated agent; no keys, no network | none — sandbox only | The full governed loop; absorption in practice |
+| **L3 — Govern (live)** | Opt-in harness adapter (`markov-ci[harness]`) | agent writes code — but allowlisted, sandboxed, budget-capped, never auto-merged | Real per-harness economics; per-harness priors emerge |
+| **L4 — Learn** | `recompute` from their own telemetry | none | Empirical matrix replaces priors; drift becomes visible |
+
+Rules: L0/L1 never execute an agent; nobody reaches L3 with L2 not green; existing
+retry-action users migrate by pointing their retry budget at the policy block — the
+ladder replaces "retry N times" with "govern N attempts."

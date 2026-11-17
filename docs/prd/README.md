@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | **Product** | markov-ci — Markov-governed, self-healing CI/CD |
-| **Version** | 0.7 (world-class draft) |
+| **Version** | 0.8 (reviewed) |
 | **Date** | 2026-11-16 |
 | **Status** | Private, pre-implementation · release target v0.1.0 |
 | **Owner** | @deghosal-2026 |
@@ -21,11 +21,13 @@
 | 0.5 | 2026-11-16 | Restructured into a folder of sub-PRDs; all content migrated |
 | 0.6 | 2026-11-16 | World-class additions: Critical User Journeys, North Star metric, metric hierarchy, CUJ↔feature↔WBS traceability, GTM plan |
 | 0.7 | 2026-11-16 | Dedicated **harness compatibility strategy** sub-PRD (07); security & privacy requirements (09); deprecation policy (10); files renumbered |
+| 0.8 | 2026-11-16 | Gap review applied: **product principles** (00); NSM measurement resolution (03); **adoption ladder** (12 §6); APR + CI-observability competitive rows (11); sizing + dependency columns in the traceability matrix (13) |
 
 ## Sub-PRD index (read in order)
 
 | # | Sub-PRD | Covers |
 |---|---|---|
+| 00 | [Product principles](00-principles.md) | The ten binding principles — they outrank features |
 | 01 | [Summary and vision](01-summary-and-vision.md) | Executive summary, vision, positioning, the product test |
 | 02 | [Problem and why Markov](02-problem-and-why-markov.md) | The problem, the opportunity, cost of inaction, **why Markov** |
 | 03 | [Goals, metrics, non-goals](03-goals-and-metrics.md) | **North Star metric**, metric hierarchy, objectives, non-goals |
@@ -37,8 +39,8 @@
 | 09 | [UX, docs, quality, security](09-cli-ux-docs-quality.md) | CLI/UX, docs & content, quality attributes, security & privacy |
 | 10 | [Release plan and constraints](10-release-and-constraints.md) | Release staging, deprecation policy, assumptions, constraints |
 | 11 | [Risks and competition](11-risks-competitive-questions.md) | Risk register, competitive landscape, open questions |
-| 12 | [Launch and GTM](12-launch-and-gtm.md) | Public flip sequencing, distribution, community, validation loop |
-| 13 | [Appendices](13-appendices.md) | Glossary, **CUJ↔feature↔WBS matrix**, spec contract map |
+| 12 | [Launch and GTM](12-launch-and-gtm.md) | Public flip sequencing, distribution, community, **adoption ladder**, validation loop |
+| 13 | [Appendices](13-appendices.md) | Glossary, **CUJ↔feature↔WBS matrix** with sizing + dependencies, spec contract map |
 
 Stable IDs across all sub-PRDs: features F1–F29, objectives O1–O6, stories US-1…US-10,
 journeys CUJ-1…CUJ-6, adapter tiers T1–T3 — referenced by [../WBS.md](../WBS.md) and

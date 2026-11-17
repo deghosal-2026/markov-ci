@@ -18,33 +18,36 @@
 
 ## Appendix B — CUJ ↔ feature ↔ WBS traceability matrix
 
-| Feature | CUJs | WBS tickets |
-|---|---|---|
-| F1 state-space config | 1 | M1.1–M1.2, M2.2–M2.3 |
-| F2 assembly + validation | 1, 3 | M1.3–M1.4 |
-| F3 forecast math | 1, 5 | M1.5–M1.7 |
-| F4 policy engine | 1, 3 | M2.1 |
-| F5 deterministic triage | 2 | M3.1–M3.3 |
-| F6 adapter protocol + simulated agent | 2, 4 | M4.1–M4.2 |
-| F7 guardrails | 2, 6 | M5.1–M5.3 |
-| F8 runtime engine | 2, 3 | M6.1–M6.4 |
-| F9 telemetry contract | 3, 4, 5 | M6.1, M8.2 |
-| F10 CLI surface | all | M2.4, M8.1 |
-| F11 packaged defaults | 1 | M2.3 |
-| F12 documentation set | 1, 4 | M8.3 |
-| F13 offline demos 01–03 | 4 | M9.1–M9.3 |
-| F14 self-hosted CI | 3 | M0.4 |
-| F15 GitHub Action | 1 | M10.1 |
-| F16 queueing module | 3 | M7.1–M7.3 |
-| F17 Monte-Carlo simulate | 1, 5 | M8.1 |
-| F18 demos 04–05 | 3 | M9.4–M9.5 |
-| F19 harness adapters | 4 | M4.3 |
-| F20 GitLab/Jenkins how-tos | 1 | M8.3 (extends) |
-| F21 recompute pipeline | 4, 5 | M8.2 |
-| F22 property-based hardening | 2, 6 | M1.5, M5.1 (extend) |
-| F23–F27 live-ops COULDs | 5 | v0.3 planning |
-| F28 community harness adapters | 4 | post-M10 |
-| F29 MCP governance server | 4 | post-M10 (requires F3, F16) |
+| Feature | Size | Depends on | CUJs | WBS tickets |
+|---|---|---|---|---|
+| F1 state-space config | M | — | 1 | M1.1–M1.2, M2.2–M2.3 |
+| F2 assembly + validation | M | F1 | 1, 3 | M1.3–M1.4 |
+| F3 forecast math | M | F2 | 1, 5 | M1.5–M1.7 |
+| F4 policy engine | S | F2 | 1, 3 | M2.1 |
+| F5 deterministic triage | M | — | 2 | M3.1–M3.3 |
+| F6 adapter protocol + simulated agent | M | F5 | 2, 4 | M4.1–M4.2 |
+| F7 guardrails | M | — | 2, 6 | M5.1–M5.3 |
+| F8 runtime engine | L | F2, F4, F5, F6, F7 | 2, 3 | M6.1–M6.4 |
+| F9 telemetry contract | S | F8 | 3, 4, 5 | M6.1, M8.2 |
+| F10 CLI surface | S | F3 | all | M2.4, M8.1 |
+| F11 packaged defaults | S | F1 | 1 | M2.3 |
+| F12 documentation set | M | F10 | 1, 4 | M8.3 |
+| F13 offline demos 01–03 | M | F6, F8 | 4 | M9.1–M9.3 |
+| F14 self-hosted CI | S | F10, F13 | 3 | M0.4 |
+| F15 GitHub Action | S | F10 | 1 | M10.1 |
+| F16 queueing module | M | — | 3 | M7.1–M7.3 |
+| F17 Monte-Carlo simulate | S | F3 | 1, 5 | M8.1 |
+| F18 demos 04–05 | M | F16 | 3 | M9.4–M9.5 |
+| F19 harness adapters | M | F6 | 4 | M4.3 |
+| F20 GitLab/Jenkins how-tos | S | F10 | 1 | M8.3 (extends) |
+| F21 recompute pipeline | M | F9 | 4, 5 | M8.2 |
+| F22 property-based hardening | M | F3, F5, F7 | 2, 6 | M1.5, M5.1 (extend) |
+| F23–F27 live-ops COULDs | S–L | F3, F17, F21 (varies) | 5 | v0.3 planning |
+| F28 community harness adapters | S | F19 | 4 | post-M10 |
+| F29 MCP governance server | M | F3, F16 | 4 | post-M10 |
+
+**Size key** (single-maintainer relative effort): S ≤ days · M ≤ 1–2 weeks · L > 2 weeks.
+**Depends on** = hard build-order edges; the WBS sequence already respects them.
 
 ## Appendix C — Spec contract map
 

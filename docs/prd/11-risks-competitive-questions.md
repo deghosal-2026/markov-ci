@@ -20,6 +20,8 @@
 |---|---|---|---|
 | Retry actions | nick-fields/retry & similar | Blind re-run N times | Probability model, cost forecast, escalation semantics, absorption guarantee |
 | Agent harnesses in CI | Claude Code CI, Aider, Devin-style runners | Act, generate patches | No governance model: no forecasts, no budgets, no test-integrity checks |
+| Automated program repair (APR) | Classical: GenProg, TravisRepair · LLM-era: SWE-bench repair agents | Generate fixes for failing tests/builds | APR *is* an agent by our definition — it can run as a T1/T3 adapter. markov-ci governs whoever fixes: forecasts spend, caps loops, protects tests. APR's probabilistic fix quality is exactly what the matrix models |
+| CI observability | Datadog CI Visibility, CircleCI insights | Measure pipeline health, flakiness, duration | They observe pipelines; they neither govern agents nor forecast agentic spend — though their data is excellent triage input |
 | Prompt/output guardrails | guardrails-ai, instructor | Validate LLM text | Pipeline-level state machine + runner economics, not text validation |
 | Flaky-test management | Trunk, BuildPulse | Detect/rerun flakes | Deterministic triage is one input here; flakes route away from agents entirely |
 | Orchestration engines | Temporal, Prefect | Durable execution graphs | Deterministic retry semantics; no absorbing-chain math, no agent economics |
