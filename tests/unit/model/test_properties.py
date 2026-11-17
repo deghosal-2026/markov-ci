@@ -11,6 +11,7 @@ from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from markov_ci.model import (
+    EdgeWeight,
     State,
     StateSpace,
     StateType,
@@ -53,7 +54,7 @@ def _chain(success: list[float], exit_rate: float, loop_back: float):  # type: i
     total = exit_rate + loop_back
     if total > 1.0:
         exit_rate, loop_back = exit_rate / total, loop_back / total
-    weights = {
+    weights: dict[tuple[str, str], EdgeWeight] = {
         ("s0", "a1"): 0.82,
         ("s0", "s1"): 0.18,
         ("s1", "s2"): 0.75,

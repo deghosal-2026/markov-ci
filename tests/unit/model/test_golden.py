@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 from markov_ci.model import (
+    EdgeWeight,
     State,
     StateSpace,
     StateType,
@@ -56,7 +57,7 @@ def _space() -> StateSpace:
 
 def _a1_probabilities(max_attempts: int) -> tuple[float, float]:
     success = (0.95,) * max_attempts
-    weights = {
+    weights: dict[tuple[str, str], EdgeWeight] = {
         ("s0", "a1"): 0.82,
         ("s0", "s1"): 0.18,
         ("s1", "s2"): 0.75,
