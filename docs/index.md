@@ -24,8 +24,7 @@ theorem, not a timeout.
 ## Try it in five minutes
 
 ```bash
-git clone https://github.com/deghosal-2026/markov-ci && cd markov-ci
-pip install -e ".[dev]"
+pip install markov-ci
 markov-ci analyze          # zero-config: prints the worked example
 ```
 

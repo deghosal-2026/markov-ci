@@ -3,7 +3,8 @@
 **Markov-governed, self-healing CI/CD — governance for agentic pipelines.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Python 3.11 | 3.12 | 3.13](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://www.python.org/)
+[![PyPI](https://img.shields.io/pypi/v/markov-ci.svg)](https://pypi.org/project/markov-ci/)
+[![Python 3.11 | 3.12 | 3.13](https://img.shields.io/pypi/pyversions/markov-ci.svg)](https://www.python.org/)
 [![Status: pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange.svg)](docs/WBS.md)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Types: mypy strict](https://img.shields.io/badge/types-mypy%20--strict-blue.svg)](https://mypy-lang.org/)
@@ -52,15 +53,17 @@ theorem, not a timeout — even under adversarial probabilities.
 > (see `docs/quick-start.md`, executed by `tests/unit/docs/test_docs_are_tests.py`).
 
 ```bash
-git clone https://github.com/deghosal-2026/markov-ci && cd markov-ci
-pip install -e ".[dev]"
+pip install markov-ci
 
 markov-ci analyze                                   # zero-config: prints the worked example
 markov-ci analyze --category unit_assertion         # per-attempt decay + expected cost
+
+# the offline demos live in the repo:
+git clone https://github.com/deghosal-2026/markov-ci && cd markov-ci
 markov-ci run examples/01-lint-error/config.yaml \
     --junit examples/01-lint-error/report.xml \
     --repo examples/01-lint-error/repo --seed 42
-```
+````
 
 No API keys, no network — the default agent is a seeded, offline simulator. See the
 [quick start](docs/quick-start.md) for the full five-minute path.

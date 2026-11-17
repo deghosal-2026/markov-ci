@@ -8,11 +8,11 @@ Time to first forecast: **5 minutes. Zero API keys. Zero network.**
 ## 1. Install
 
 ```bash
-git clone https://github.com/deghosal-2026/markov-ci && cd markov-ci
-pip install -e ".[dev]"
+pip install markov-ci
 ```
 
-Requires Python 3.11+.
+Requires Python 3.11+. (Developing on markov-ci itself? `git clone` the repo and
+`pip install -e ".[dev]"` — see [CONTRIBUTING](https://github.com/deghosal-2026/markov-ci/blob/main/CONTRIBUTING.md).)
 
 ## 2. First forecast — zero config
 
@@ -55,6 +55,12 @@ markov-ci validate config.yaml        # exit 0 = matrix valid, 4 = invalid (with
 ```
 
 ## 5. Run a governed demo — still offline
+
+The demos ship with the repository, so clone it first:
+
+```bash
+git clone https://github.com/deghosal-2026/markov-ci && cd markov-ci
+```
 
 ```bash
 git -C examples/01-lint-error/repo init -q && \
