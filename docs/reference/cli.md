@@ -22,9 +22,12 @@ Print `N` (expected visits), `B` (absorption probabilities), `t` (expected steps
 `C` (expected cost); credible intervals ship via `simulate`/`recompute`. Zero-config
 works out of the box and prints the golden worked example (P(a1|s0) ≈ 0.92).
 
-### `markov-ci run [config] --junit X [--seed S]`
+### `markov-ci run [config] --junit X [--seed S] [--repo P] [--adapter A] [--max-tokens N] [--wall-clock S]`
 Execute the governed remediation loop (spec 0011): triage → assemble → hop under the
-policy gates → adapter repair → guardrails → sandbox → absorb.
+policy gates → adapter repair → guardrails → sandbox → absorb. `--repo` selects the
+repository to sandbox; `--adapter` overrides `agent.adapter`; `--max-tokens` /
+`--wall-clock` override the config's policy budgets for this run (the composite Action's
+inputs map straight onto these).
 
 ### `markov-ci simulate [config] --runs N`
 Monte-Carlo absorption/cost stats; must converge to the analytic `B`/`C` within

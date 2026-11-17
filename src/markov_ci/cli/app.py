@@ -106,8 +106,11 @@ def analyze(
         _console.print(render_human(report))
 
 
-def _build_adapter(config: Config, category: str, seed: int):  # type: ignore[no-untyped-def]
-    if config.agent.adapter == "harness":
+def _build_adapter(  # type: ignore[no-untyped-def]
+    config: Config, category: str, seed: int, *, adapter: str | None = None,
+):
+    selected = adapter or config.agent.adapter
+    if selected == "harness":
         if config.agent.harness is None:
             _fail("agent.adapter is 'harness' but no harness block is configured")
         assert config.agent.harness is not None
@@ -117,6 +120,8 @@ def _build_adapter(config: Config, category: str, seed: int):  # type: ignore[no
                 timeout_seconds=config.agent.harness.timeout_seconds,
             ),
         )
+    if selected != "simulated":
+        _fail(f"unsupported adapter: {selected!r} (use 'simulated' or 'harness')")
     return SimulatedAgent(success_curve(config, "default", category), seed=seed)
 
 
@@ -129,6 +134,15 @@ def run(  # noqa: PLR0913
     pr_number: int | None = typer.Option(None, "--pr-number"),
     failing_command: str = typer.Option("pytest -q", "--failing-command"),
     regression_command: str | None = typer.Option(None, "--regression-command"),
+    max_tokens: int | None = typer.Option(
+        None, "--max-tokens", help="override policy.max_tokens for this run",
+    ),
+    wall_clock: int | None = typer.Option(
+        None, "--wall-clock", help="override policy.wall_clock_seconds for this run",
+    ),
+    adapter: str | None = typer.Option(
+        None, "--adapter", help="override agent.adapter (simulated|harness)",
+    ),
     json_output: bool = typer.Option(False, "--json", help="machine-readable output"),
 ) -> None:
     """Run the governed remediation loop and exit on the absorbing state."""
@@ -152,8 +166,13 @@ def run(  # noqa: PLR0913
         patch_branch(pr_number=pr_number) if pr_number is not None
         else patch_branch(run_id=run_id)
     )
+    policy = resolved.policy.to_policy()
+    if max_tokens is not None:
+        policy = replace(policy, max_tokens=max_tokens)
+    if wall_clock is not None:
+        policy = replace(policy, wall_clock_seconds=wall_clock)
     loop_config = LoopConfig(
-        policy=resolved.policy.to_policy(),
+        policy=policy,
         success_curve=success_curve(resolved, "default", category),
         allow_write=tuple(resolved.agent.allow_write),
         deny_write=tuple(resolved.agent.deny_write),
@@ -171,7 +190,7 @@ def run(  # noqa: PLR0913
     context = minimize(list(report.failures)).text
     try:
         result = run_loop(
-            adapter=_build_adapter(resolved, category, seed),
+            adapter=_build_adapter(resolved, category, seed, adapter=adapter),
             category=triage.category,
             context=context,
             config=loop_config,

@@ -95,6 +95,7 @@ class RunResult:
     events_path: str | None
     patch_branch: str | None
     mandatory_review: bool = False
+    run_id: str = ""
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -106,4 +107,5 @@ class RunResult:
             "events_path": self.events_path,
             "patch_branch": self.patch_branch,
             "mandatory_review": self.mandatory_review,
+            "run_id": self.run_id,
         }

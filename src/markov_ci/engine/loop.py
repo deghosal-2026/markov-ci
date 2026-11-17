@@ -190,6 +190,7 @@ def run_loop(  # noqa: PLR0913
         events_path=None,
         patch_branch=patch_branch,
         mandatory_review=mandatory_review,
+        run_id=run_id,
     )
 
 

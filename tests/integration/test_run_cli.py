@@ -65,6 +65,21 @@ def test_run_happy_path_absorbs_in_a1(repo: Path, tmp_path: Path) -> None:
     assert payload["absorbing_state"] == "a1_ready_for_human_review"
 
 
+def test_run_wall_clock_override_absorbs_in_a3(repo: Path, tmp_path: Path) -> None:
+    junit = tmp_path / "report.xml"
+    junit.write_text(JUNIT, encoding="utf-8")
+    result = RUNNER.invoke(
+        app,
+        [
+            "run", "--junit", str(junit), "--repo", str(repo), "--seed", "1",
+            "--failing-command", "python3 -c 'import time,sys; time.sleep(1.5); sys.exit(1)'",
+            "--wall-clock", "1", "--json",
+        ],
+    )
+    assert result.exit_code == 3, result.stdout
+    assert json.loads(result.stdout)["absorbing_state"] == "a3_budget_exceeded"
+
+
 def test_run_does_not_modify_the_repository(repo: Path, tmp_path: Path) -> None:
     junit = tmp_path / "report.xml"
     junit.write_text(JUNIT, encoding="utf-8")

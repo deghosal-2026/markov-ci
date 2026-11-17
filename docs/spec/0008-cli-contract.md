@@ -8,7 +8,7 @@
 |---|---|---|
 | `markov-ci validate [config]` | Validate + summarize the assembled matrix | 0 ok; 4 invalid |
 | `markov-ci analyze [config] [--category C] [--json]` | Print `N`, `B`, `t`, `C` (CIs via `simulate`/`recompute`) | 0; 4 |
-| `markov-ci run [config] --junit X [--seed S]` | Governed remediation loop | 0 = a1; 2 = a2; 3 = a3; 4 invalid |
+| `markov-ci run [config] --junit X [--seed S] [--repo P] [--adapter A] [--max-tokens N] [--wall-clock S]` | Governed remediation loop | 0 = a1; 2 = a2; 3 = a3; 4 invalid |
 | `markov-ci simulate [config] --runs N` | Monte-Carlo absorption/cost stats | 0; 4 |
 | `markov-ci queue --lambda L --mu M --c N [--simulate]` | Erlang-C (+ DES) runner-pool math | 0; 4 on bad input |
 | `markov-ci recompute <events.jsonl>` | Empirical matrix from telemetry | 0; 4 |

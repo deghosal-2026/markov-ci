@@ -177,3 +177,9 @@ def test_result_carries_tokens_and_branch() -> None:
     result = _run()
     assert result.tokens_used == 10
     assert result.patch_branch == "ai-fix/pr-1"
+
+
+def test_result_carries_the_run_id() -> None:
+    result = _run()
+    assert result.run_id == "run_test"
+    assert result.as_dict()["run_id"] == "run_test"

@@ -1,0 +1,78 @@
+name: markov-ci
+description: >-
+  Markov-governed, self-healing CI/CD — forecast, govern, and learn from your
+  agentic repair loops. Never merges, never force-pushes.
+author: deghosal-2026
+
+branding:
+  icon: git-pull-request
+  color: purple
+
+inputs:
+  config:
+    description: "Path to your markov-ci config YAML (default: the packaged default)."
+    required: false
+    default: ""
+  junit:
+    description: JUnit XML produced by your test step.
+    required: true
+  seed:
+    description: Seeded determinism for the simulated agent.
+    required: false
+    default: "42"
+  adapter:
+    description: Agent adapter to use — "simulated" (offline) or "harness" (opt-in extra).
+    required: false
+    default: ""
+  max-tokens:
+    description: "Per-run token-budget override (default: from config)."
+    required: false
+    default: ""
+  wall-clock:
+    description: "Per-run wall-clock-budget override in seconds (default: from config)."
+    required: false
+    default: ""
+
+outputs:
+  absorbing-state:
+    description: a1_ready_for_human_review | a2_escalate_to_author | a3_budget_exceeded
+    value: ${{ steps.govern.outputs.absorbing-state }}
+  exit-code:
+    description: Run outcome code (0 = a1, 2 = a2, 3 = a3, 4 = invalid config).
+    value: ${{ steps.govern.outputs.exit-code }}
+  run-id:
+    description: Correlates with the uploaded event-stream artifact.
+    value: ${{ steps.govern.outputs.run-id }}
+  patch-branch:
+    description: The isolated ai-fix/* branch, if a patch applied.
+    value: ${{ steps.govern.outputs.patch-branch }}
+  events-path:
+    description: Path to the uploaded events.jsonl artifact.
+    value: ${{ steps.govern.outputs.events-path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Install markov-ci
+      shell: bash
+      run: python -m pip install --disable-pip-version-check "${{ github.action_path }}/.."
+
+    - name: Govern the run
+      id: govern
+      shell: bash
+      env:
+        INPUT_CONFIG: ${{ inputs.config }}
+        INPUT_JUNIT: ${{ inputs.junit }}
+        INPUT_SEED: ${{ inputs.seed }}
+        INPUT_ADAPTER: ${{ inputs.adapter }}
+        INPUT_MAX_TOKENS: ${{ inputs.max-tokens }}
+        INPUT_WALL_CLOCK: ${{ inputs.wall-clock }}
+      run: bash "${{ github.action_path }}/run.sh"
+
+    - name: Upload the event stream
+      if: ${{ always() && steps.govern.outputs.events-path != '' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: markov-ci-events-${{ steps.govern.outputs.run-id }}
+        path: ${{ steps.govern.outputs.events-path }}
+        if-no-files-found: warn

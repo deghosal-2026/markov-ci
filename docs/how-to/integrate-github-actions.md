@@ -1,8 +1,8 @@
 # How-to: integrate with GitHub Actions
 
 markov-ci ships a composite Action (root `action.yml`, F15, v0.2.0) that wraps the CLI.
-This page is the input/output contract the Action must satisfy — the same contract the
-Action's own tests assert.
+This page is the input/output contract the Action must satisfy — the same contract
+`tests/unit/test_action.py` asserts.
 
 ## Action contract
 
