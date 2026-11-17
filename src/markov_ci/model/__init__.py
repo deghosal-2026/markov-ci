@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from markov_ci.model.assemble import Chain, EdgeWeight, assemble
 from markov_ci.model.augment import (
     AugmentedEdge,
     AugmentedSpace,
@@ -18,11 +19,14 @@ from markov_ci.model.state import (
 __all__ = [
     "AugmentedEdge",
     "AugmentedSpace",
+    "Chain",
+    "EdgeWeight",
     "InvalidStateSpace",
     "State",
     "StateSpace",
     "StateType",
     "TransitionEdge",
+    "assemble",
     "augment",
 ]
 
