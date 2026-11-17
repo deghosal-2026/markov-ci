@@ -8,8 +8,14 @@ the confidence gate says "stop" — *before* the third attempt burns tokens.
 ## Run it
 
 ```bash
+# one-time: the demo repo must be a real git repository (the sandbox uses git worktrees)
+git -C examples/02-unit-assertion-decay/repo init -q && \
+  git -C examples/02-unit-assertion-decay/repo add -A && \
+  git -C examples/02-unit-assertion-decay/repo commit -qm "demo baseline"
+
 markov-ci run examples/02-unit-assertion-decay/config.yaml \
-  --junit examples/02-unit-assertion-decay/report.xml --seed 42
+  --junit examples/02-unit-assertion-decay/report.xml \
+  --repo examples/02-unit-assertion-decay/repo --seed 42
 echo $?      # 2 = absorbed in a2_escalate_to_author
 ```
 
@@ -20,7 +26,7 @@ echo $?      # 2 = absorbed in a2_escalate_to_author
 
 | Hop | State | Gate outcome |
 |---|---|---|
-| 1 | `s0 → s1 → s2#1` | classified `unit_assertion`; P(success) = 0.74 ≥ 0.40 → attempt 1 allowed |
+| 1 | `s1 → s2#1` | classified `unit_assertion`; P(success) = 0.74 ≥ 0.40 → attempt 1 allowed |
 | 2 | `s2#1 → s3#1` | patch proposed — sandbox says it did **not** fix the assertion |
 | 3 | `s3#1 → s2#2` | loop back with the new error logs; P(success) = 0.45 ≥ 0.40 → attempt 2 allowed |
 | 4 | `s2#2 → s3#2` | second patch — sandbox rejects again |
