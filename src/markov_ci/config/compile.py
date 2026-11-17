@@ -31,12 +31,13 @@ class ConfigCompileError(ValueError):
 
 
 def _success_curve(config: Config, adapter: str, category: str) -> tuple[float, ...]:
+    # resolution: priors[adapter][category] -> priors["default"][category] -> error
     adapter_block = config.priors.get(adapter)
     if adapter_block is None:
         adapter_block = config.priors.get("default")
     if adapter_block is None:
         raise ConfigCompileError(f"no priors for adapter {adapter!r}")
-    prior = adapter_block.get(category) or adapter_block.get("default")
+    prior = adapter_block.get(category)
     if prior is None:
         raise ConfigCompileError(
             f"no prior for category {category!r} (adapter {adapter!r})",
