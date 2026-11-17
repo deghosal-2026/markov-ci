@@ -66,3 +66,9 @@ No release is published — and the repository does not go public — until an a
 
 The gate is a required CI step on the release path; a release cannot publish while any
 scanner reports an unresolved finding.
+
+## See also
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — contribution workflow, quality bar, and the
+  project principles contributors are held to.
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — community expectations.
