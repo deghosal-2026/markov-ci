@@ -4,6 +4,10 @@
 run only the ticket's tests; each ticket ends implemented → tested → committed → pushed.
 Ticket IDs are referenced in commits as `M<N>.<T>`.
 
+**No skipped tests.** A test is either passing or failing — never skipped or conditionally
+disabled. An enforcement test is written (RED) *with the artifact it guards*, never left as
+a placeholder that skips until the artifact lands.
+
 **Milestone gate (mandatory — every milestone M0–M11).** A milestone is **not complete**
 until, on the merged milestone HEAD:
 
@@ -148,7 +152,9 @@ golden test green · ≥95% coverage · `ruff` + `mypy --strict` clean.
 **Convention:** every `examples/<NN>-<name>/` directory ships its own `README.md` (how to
 run it, the expected exit code, the expected event stream) and is covered by a tutorial in
 `docs/tutorials/`. The example READMEs and the tutorials are both linked from the root
-`README.md`. Enforced by the docs-are-tests suite.
+`README.md`. **The enforcing test is written (RED) in M9.1** as part of that ticket — there
+are no placeholder or skipped tests: an enforcement test is created with the artifact it
+guards.
 
 **Gate:** demos 01–04 byte-stable under `--seed` and match their tutorials; every example
 has a README; the Docker runner (#61) reproduces them under `--network none` ·

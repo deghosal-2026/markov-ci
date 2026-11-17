@@ -122,15 +122,3 @@ def test_every_site_page_is_reachable_from_the_nav() -> None:
     }
     orphans = sorted(pages - nav)
     assert orphans == [], f"docs pages not in the mkdocs nav: {orphans}"
-
-
-def test_every_example_ships_a_readme() -> None:
-    examples = ROOT / "examples"
-    if not examples.is_dir():
-        pytest.skip("examples land in M9")
-    missing = [
-        day.name
-        for day in sorted(examples.iterdir())
-        if day.is_dir() and not (day / "README.md").is_file()
-    ]
-    assert missing == [], f"examples without an accompanying README: {missing}"

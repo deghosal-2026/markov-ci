@@ -37,7 +37,7 @@ Then, in the project's standing order:
 |---|---|
 | Types | `mypy --strict` clean; `# type: ignore` needs a justification comment |
 | Lint/format | `ruff` clean |
-| Tests | unit + integration for behavior changes; property tests for the math |
+| Tests | unit + integration for behavior changes; property tests for the math. **No skipped tests** — a guard is written (RED) with the artifact it protects, never `pytest.skip` |
 | Docs | update the matching `docs/spec/` contract or reference page — **docs are tests** |
 | Telemetry | never emit secrets; keep the [event contract](docs/reference/telemetry.md) |
 
