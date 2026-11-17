@@ -1,8 +1,9 @@
 # How-to: run the examples in Docker
 
 > **Status:** ships with **M9.6 ([#61](https://github.com/deghosal-2026/markov-ci/issues/61))**.
-> This page is the contract for the Docker runner — the commands below become part of
-> the docs-are-tests suite once the image lands.
+> The commands below are the contract for the Docker runner and are exercised by
+> `tests/unit/test_docker.py`; the image is scanned by the release
+> [security gate](https://github.com/deghosal-2026/markov-ci/issues/60).
 
 The offline demos (01–04) are designed to be deterministic and network-free. A
 container is the strongest way to prove that: it pins the Python interpreter

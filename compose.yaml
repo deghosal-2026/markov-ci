@@ -1,0 +1,66 @@
+# Offline proof-suite runner (docs/how-to/run-in-docker.md, M9.6 / #61).
+#
+# Each service runs one demo under `--network none` and asserts its documented
+# exit code, so `docker compose run --rm demo-NN` is a real check.
+name: markov-ci-examples
+
+x-demo: &demo
+  build: .
+  network_mode: none
+  entrypoint: ["sh", "/examples/run-demo.sh"]
+
+services:
+  demo-01:
+    <<: *demo
+    command:
+      - "0"
+      - markov-ci
+      - run
+      - /examples/01-lint-error/config.yaml
+      - --junit
+      - /examples/01-lint-error/report.xml
+      - --repo
+      - /examples/01-lint-error/repo
+      - --seed
+      - "42"
+
+  demo-02:
+    <<: *demo
+    command:
+      - "2"
+      - markov-ci
+      - run
+      - /examples/02-unit-assertion-decay/config.yaml
+      - --junit
+      - /examples/02-unit-assertion-decay/report.xml
+      - --repo
+      - /examples/02-unit-assertion-decay/repo
+      - --seed
+      - "42"
+
+  demo-03:
+    <<: *demo
+    command:
+      - "2"
+      - markov-ci
+      - run
+      - /examples/03-infra-timeout/config.yaml
+      - --junit
+      - /examples/03-infra-timeout/report.xml
+      - --seed
+      - "42"
+
+  demo-04:
+    <<: *demo
+    command:
+      - "0"
+      - markov-ci
+      - queue
+      - --lambda
+      - "120"
+      - --mu
+      - "30"
+      - --c
+      - "5"
+      - --simulate
+      - --json
