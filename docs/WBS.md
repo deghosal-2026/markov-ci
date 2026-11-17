@@ -145,9 +145,14 @@ golden test green · ≥95% coverage · `ruff` + `mypy --strict` clean.
 | M9.5 | [#45](https://github.com/deghosal-2026/markov-ci/issues/45) | `05-github-actions-e2e` (live) | workflow runs on a real PR (opt-in secrets); depends on M10.1 |
 | M9.6 | [#61](https://github.com/deghosal-2026/markov-ci/issues/61) | Docker runner for the offline examples | pinned-python image + git; compose runs demos 01–04 under `--network none`; image scanned by [#60](https://github.com/deghosal-2026/markov-ci/issues/60) |
 
-**Gate:** demos 01–04 byte-stable under `--seed` and match their tutorials; the Docker
-runner reproduces them under `--network none` · ≥95% coverage · `ruff` + `mypy --strict`
-clean.
+**Convention:** every `examples/<NN>-<name>/` directory ships its own `README.md` (how to
+run it, the expected exit code, the expected event stream) and is covered by a tutorial in
+`docs/tutorials/`. The example READMEs and the tutorials are both linked from the root
+`README.md`. Enforced by the docs-are-tests suite.
+
+**Gate:** demos 01–04 byte-stable under `--seed` and match their tutorials; every example
+has a README; the Docker runner (#61) reproduces them under `--network none` ·
+≥95% coverage · `ruff` + `mypy --strict` clean.
 
 ## M10 — Releases and articles · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/11)
 

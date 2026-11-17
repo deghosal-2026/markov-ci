@@ -69,5 +69,6 @@ The event stream lands in `.markov-ci/events.jsonl` (see
 ## Where next?
 
 - [Tutorial 01](tutorials/01-lint-error-first-pass.md) — walk that run hop by hop
+- [Run the examples in Docker](how-to/run-in-docker.md) — reproducible, zero setup
 - [Adoption ladder](prd/12-launch-and-gtm.md) — Observe → Stress → Govern → Learn
 - [Configuration reference](reference/configuration.md) — your own states and priors

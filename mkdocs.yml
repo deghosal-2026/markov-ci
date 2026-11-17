@@ -45,6 +45,7 @@ nav:
   - How-to:
       - Integrate with GitHub Actions: how-to/integrate-github-actions.md
       - Integrate with GitLab / Jenkins: how-to/integrate-gitlab-jenkins.md
+      - Run the examples in Docker: how-to/run-in-docker.md
   - Reference:
       - Configuration: reference/configuration.md
       - Telemetry events: reference/telemetry.md

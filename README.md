@@ -84,16 +84,31 @@ hop emits a versioned telemetry event. Read
 
 ## Documentation
 
-| | |
-|---|---|
-| **[What & why — start here](docs/OVERVIEW.md)** | The concept in depth |
-| [Quick start](docs/quick-start.md) · [Architecture](docs/architecture.md) | Get running, understand the design |
-| [Tutorials](docs/tutorials/01-lint-error-first-pass.md) · [How-tos](docs/how-to/integrate-github-actions.md) | Offline demos and CI integration |
-| [Reference](docs/reference/configuration.md) | Config · telemetry · CLI |
-| [Explanations](docs/explanations/markov-model.md) | Markov math · queueing theory · [design review](docs/explanations/design-review.md) |
-| [PRD](docs/prd/README.md) · [spec](docs/spec/README.md) · [ADRs](docs/adr/README.md) · [WBS](docs/WBS.md) | How this project is specified and built |
+Everything below also builds as a site — run `mkdocs serve`.
 
-Build the site locally with `mkdocs serve`.
+**Start here**
+
+- [Overview — what & why](docs/OVERVIEW.md) — the concept in depth
+- [Quick start](docs/quick-start.md) — first forecast in five minutes
+- [Architecture](docs/architecture.md) — modules and data flow
+
+**Guides**
+
+- Tutorials: [01 — lint fix](docs/tutorials/01-lint-error-first-pass.md) · [02 — decay → escalate](docs/tutorials/02-assertion-decay-escalation.md) · [03 — infra timeout](docs/tutorials/03-infra-timeout-no-tokens.md) · [04 — runner pools](docs/tutorials/04-runner-pool-sizing.md) · [05 — GitHub Actions](docs/tutorials/05-github-actions-e2e.md)
+- How-to: [GitHub Actions](docs/how-to/integrate-github-actions.md) · [GitLab & Jenkins](docs/how-to/integrate-gitlab-jenkins.md) · [run the examples in Docker](docs/how-to/run-in-docker.md)
+
+**Reference & explanations**
+
+- [Configuration](docs/reference/configuration.md) · [Telemetry](docs/reference/telemetry.md) · [CLI](docs/reference/cli.md)
+- [The Markov model, derived](docs/explanations/markov-model.md) · [Queueing theory](docs/explanations/queueing-theory.md) · [Design review](docs/explanations/design-review.md)
+
+**How this project is specified**
+
+- [PRD](docs/prd/README.md) · [spec contracts](docs/spec/README.md) · [ADRs](docs/adr/README.md) · [WBS & issues](docs/WBS.md)
+
+**Project files**
+
+- [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Code of Conduct](CODE_OF_CONDUCT.md) · [Changelog](CHANGELOG.md) · [License](LICENSE)
 
 ## Roadmap
 

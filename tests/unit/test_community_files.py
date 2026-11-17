@@ -41,3 +41,40 @@ def test_readme_local_links_resolve() -> None:
 def test_contributing_and_security_cross_link() -> None:
     assert "SECURITY.md" in _read("CONTRIBUTING.md")
     assert "CONTRIBUTING.md" in _read("SECURITY.md")
+
+
+# Every user-facing doc the README must point at.
+REQUIRED_DOC_LINKS = (
+    "docs/OVERVIEW.md",
+    "docs/quick-start.md",
+    "docs/architecture.md",
+    "docs/tutorials/01-lint-error-first-pass.md",
+    "docs/tutorials/02-assertion-decay-escalation.md",
+    "docs/tutorials/03-infra-timeout-no-tokens.md",
+    "docs/tutorials/04-runner-pool-sizing.md",
+    "docs/tutorials/05-github-actions-e2e.md",
+    "docs/how-to/integrate-github-actions.md",
+    "docs/how-to/integrate-gitlab-jenkins.md",
+    "docs/how-to/run-in-docker.md",
+    "docs/reference/configuration.md",
+    "docs/reference/telemetry.md",
+    "docs/reference/cli.md",
+    "docs/explanations/markov-model.md",
+    "docs/explanations/queueing-theory.md",
+    "docs/explanations/design-review.md",
+    "docs/prd/README.md",
+    "docs/spec/README.md",
+    "docs/adr/README.md",
+    "docs/WBS.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CODE_OF_CONDUCT.md",
+    "CHANGELOG.md",
+    "LICENSE",
+)
+
+
+def test_readme_links_every_relevant_doc() -> None:
+    readme = _read("README.md")
+    missing = [target for target in REQUIRED_DOC_LINKS if f"]({target})" not in readme]
+    assert missing == [], f"README is missing links to: {missing}"

@@ -101,3 +101,36 @@ def test_mkdocs_config_has_no_broken_nav_targets() -> None:
 @pytest.mark.parametrize("page", ["index.md", "quick-start.md", "architecture.md"])
 def test_top_level_docs_exist(page: str) -> None:
     assert (ROOT / "docs" / page).is_file()
+
+
+# Planning docs live in the repo but are deliberately kept out of the site nav.
+_PLANNING = ("prd/", "spec/", "adr/", "WBS")
+
+
+def _nav_targets() -> set[str]:
+    text = (ROOT / "mkdocs.yml").read_text(encoding="utf-8")
+    return set(re.findall(r":\s*([\w./-]+\.md)\s*$", text, re.MULTILINE))
+
+
+def test_every_site_page_is_reachable_from_the_nav() -> None:
+    nav = _nav_targets()
+    docs_root = ROOT / "docs"
+    pages = {
+        str(path.relative_to(docs_root))
+        for path in docs_root.rglob("*.md")
+        if not str(path.relative_to(docs_root)).startswith(_PLANNING)
+    }
+    orphans = sorted(pages - nav)
+    assert orphans == [], f"docs pages not in the mkdocs nav: {orphans}"
+
+
+def test_every_example_ships_a_readme() -> None:
+    examples = ROOT / "examples"
+    if not examples.is_dir():
+        pytest.skip("examples land in M9")
+    missing = [
+        day.name
+        for day in sorted(examples.iterdir())
+        if day.is_dir() and not (day / "README.md").is_file()
+    ]
+    assert missing == [], f"examples without an accompanying README: {missing}"
