@@ -13,14 +13,18 @@ markov-ci run examples/03-infra-timeout/config.yaml \
 echo $?      # 2 = absorbed in a2_escalate_to_author
 ```
 
-## What happens, hop by hop
+## What happens
 
-| Hop | State | What occurred |
-|---|---|---|
-| 1 | `s0 → s1` | tests fail with `TimeoutError` / `ConnectionRefused` signatures |
-| 2 | `s1 → a2` | triage classifies `infra_timeout` → **routed directly to escalation** |
+Triage runs **before** the governed loop (spec 0011 §1), so there are no hops and no
+events — the run exits at classification:
 
-Two hops. No `s2`. **`tokens_used: 0`** on every event in the stream.
+```
+infra_timeout: matched 'timeouterror' → infra_timeout — escalating (a2)
+```
+
+Exit code `2`, `tokens_used` never becomes non-zero, and **no event stream is written**:
+the loop is never entered, so `s2` is never reached. The state space is the audit trail
+— there is nothing to loop.
 
 ## Why this routing exists
 
@@ -36,8 +40,8 @@ out as a pattern; markov-ci enforces it as a rule — deterministic classificati
 
 ## What to notice
 
-- Compare event counts: tutorial 01 emitted 5 events, this one emits 2 — the state
-  space itself is the audit trail.
+- Compare event counts: tutorial 01 emitted four events, this one emits none — the
+  state space itself is the audit trail.
 - The developer receives escalation *with the classified context* (which timeout, which
   signature), not a shrug.
 - Flip the fixture to a real `AssertionError` and the same config routes to `s2#1` —

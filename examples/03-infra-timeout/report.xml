@@ -1,0 +1,7 @@
+<testsuites>
+  <testsuite name="integration" tests="1" errors="1">
+    <testcase name="test_registry" classname="pkg.integration">
+      <error message="TimeoutError: request timed out" type="TimeoutError">requests.exceptions.Timeout: HTTPSConnectionPool(host='registry.example', port=443): Read timed out</error>
+    </testcase>
+  </testsuite>
+</testsuites>

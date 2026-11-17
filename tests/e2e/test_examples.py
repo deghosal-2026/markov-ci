@@ -92,8 +92,11 @@ def test_example_run_is_deterministic_under_seed(example: Path) -> None:
     second = _invoke()
     assert first.exit_code == second.exit_code == _declared_exit_code(readme)
 
-    def _stable(payload: str) -> dict[str, object]:
-        data = json.loads(payload)
+    def _stable(payload: str) -> object:
+        try:
+            data = json.loads(payload)
+        except json.JSONDecodeError:
+            return payload  # a triage short-circuit prints a constant line
         return {key: data[key] for key in ("absorbing_state", "visits", "tokens_used")}
 
     assert _stable(first.stdout) == _stable(second.stdout)
