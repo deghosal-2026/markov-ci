@@ -3,13 +3,13 @@
 Normative contract: [spec/0008](../spec/0008-cli-contract.md). The exit-code table is
 **stable API** — CI may branch on it.
 
-## Global flags
+## Common argument & flags
 
-| Flag | Default | Meaning |
-|---|---|---|
-| `--config PATH` | packaged default | config YAML (spec 0003) |
-| `--seed INT` | — | deterministic RNG for `run` / `simulate` |
-| `--json` | off | machine-readable output; same information as the human view |
+| Name | Where | Default | Meaning |
+|---|---|---|---|
+| `[config]` | `validate`, `analyze`, `run`, `simulate` | packaged default | config YAML — a **positional argument** (spec 0003) |
+| `--seed INT` | `run`, `simulate` | `0` | deterministic RNG |
+| `--json` | `analyze`, `run`, `simulate`, `queue`, `recompute` | off | machine-readable output; same information as the human view |
 
 ## Commands
 

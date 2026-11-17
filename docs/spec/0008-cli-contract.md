@@ -22,11 +22,13 @@
 | 3 | Absorbed in `a3_budget_exceeded` |
 | 4 | Invalid config / input — never a silent failure |
 
-## 3. Global flags
+## 3. Common argument & flags
 
-- `--config PATH` — default: the packaged default (spec 0003 §3)
-- `--seed INT` — deterministic RNG for `run`/`simulate`
-- `--json` — machine-readable output; identical information to the human output
+- `[config]` — a **positional argument** on `validate` / `analyze` / `run` / `simulate`
+  (default: the packaged default, spec 0003 §3). There is no `--config` flag.
+- `--seed INT` — deterministic RNG for `run` / `simulate`.
+- `--json` — machine-readable output (identical information to the human view);
+  available on `analyze` / `run` / `simulate` / `queue` / `recompute`.
 
 ## 4. UX rules
 
