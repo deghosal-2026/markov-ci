@@ -16,6 +16,7 @@ from markov_ci.model.math import (
     split,
     steps_to_absorb,
 )
+from markov_ci.model.posterior import Posterior, posterior
 from markov_ci.model.state import (
     InvalidStateSpace,
     State,
@@ -33,6 +34,7 @@ __all__ = [
     "InvalidStateSpace",
     "State",
     "StateSpace",
+    "Posterior",
     "StateType",
     "TransitionEdge",
     "ValidationResult",
@@ -41,6 +43,7 @@ __all__ = [
     "augment",
     "expected_cost",
     "fundamental",
+    "posterior",
     "split",
     "steps_to_absorb",
     "validate",
