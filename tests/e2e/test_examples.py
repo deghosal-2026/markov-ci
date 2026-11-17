@@ -27,7 +27,6 @@ import sys
 from pathlib import Path
 
 import pytest
-from click.testing import Result
 from typer.testing import CliRunner
 
 from markov_ci.cli import app
@@ -123,12 +122,8 @@ def test_cli_example_run_reproduces_its_declared_exit_code(example: Path) -> Non
 def test_cli_example_run_is_deterministic_under_seed(example: Path) -> None:
     readme = _readme(example)
     tokens = [*_run_tokens(readme), "--json"]
-
-    def _invoke() -> Result:
-        return RUNNER.invoke(app, tokens)
-
-    first = _invoke()
-    second = _invoke()
+    first = RUNNER.invoke(app, tokens)
+    second = RUNNER.invoke(app, tokens)
     assert first.exit_code == second.exit_code == _declared_exit_code(readme)
 
     def _stable(payload: str) -> object:
