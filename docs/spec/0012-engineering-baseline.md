@@ -20,7 +20,7 @@
 | `tests/e2e` | the five demo scenarios offline | deterministic seeds; assert absorbing state, visits, event stream |
 | property-based | `hypothesis` over matrix ops, triage parsing, path matching | absorption under adversarial priors (`success=[1,1,1]` still terminates) |
 
-Golden fixtures: default config assembly + `P(a1|s2) ≈ 0.73`, `P(a1|s0) ≈ 0.92` — docs
+Golden fixtures: default config assembly + `P(a1|s2) ≈ 0.72`, `P(a1|s0) ≈ 0.92` — docs
 and tutorials must not drift from these (docs-are-tests).
 
 ## 3. Versioning

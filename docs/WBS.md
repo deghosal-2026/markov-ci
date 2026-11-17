@@ -49,7 +49,7 @@ each milestone maps to a GitHub milestone. The `#` column is the issue number.
 | M1.7 | [#13](https://github.com/deghosal-2026/markov-ci/issues/13) | Worked-example fixture | default config yields documented numbers (P(a1\|s0) ≈ 0.92); golden test |
 | M1.8 | [#14](https://github.com/deghosal-2026/markov-ci/issues/14) | Property-based harness (F22) | hypothesis suite over matrix ops; adversarial `success=[1,1,1]` still absorbs |
 
-**Gate:** milestone suite + `analyze` golden numbers (0.73 / 0.92) · **≥95% coverage** ·
+**Gate:** milestone suite + `analyze` golden numbers (0.72 / 0.92) · **≥95% coverage** ·
 `ruff` + `mypy --strict` clean.
 
 ## M2 — Policy + config (`markov_ci.policy`, `markov_ci.config`) · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/3)

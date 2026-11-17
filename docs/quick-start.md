@@ -37,7 +37,7 @@ Expected steps to absorption: t = N·1
 Expected cost (cost_weight units): C = N·c
 ```
 
-The two golden numbers — **P(a1 | s0) ≈ 0.92** and **P(a1 | s2) ≈ 0.73** — are asserted
+The two golden numbers — **P(a1 | s0) ≈ 0.92** and **P(a1 | s2) ≈ 0.72** — are asserted
 by the test suite; if your build prints different values, the build is wrong.
 
 ## 3. Per-category forecast

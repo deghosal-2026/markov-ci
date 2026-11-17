@@ -40,7 +40,7 @@ row, unknown state reference. Golden assembly test on default config.
 **F3 — Forecast math engine.** `N = (I−Q)⁻¹`, `B = N·R`, `t = N·1`, `C = N·c`
 (user-supplied per-state cost vector), Dirichlet posterior CIs from counts.
 *AC:* property tests (B rows sum to 1; N ≥ 0; t finite; C monotone in c); golden numbers
-on default config (P(a1|s2) ≈ 0.73, P(a1|s0) ≈ 0.92).
+on default config (P(a1|s2) ≈ 0.72, P(a1|s0) ≈ 0.92).
 
 **F4 — Policy engine.** Ordered gate: budget → attempt cap → confidence threshold →
 transition. Fields: `min_confidence` (0.40), `max_attempts` (3), `max_tokens` (200k),

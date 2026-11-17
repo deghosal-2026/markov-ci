@@ -50,5 +50,6 @@ baseline that `recompute` (spec 0007) later compares against actuals.
 
 ## 5. Worked example (golden numbers, default priors)
 
-With default priors and `unit_assertion`: P(a1 | s2) ≈ 0.73, P(a1 | s0) ≈ 0.92.
-These are golden-test values; docs and tutorials must not drift from them.
+With the default structural edges (`s2→s3 = 0.95`) and the shipped cap
+`max_attempts = 3`: **P(a1 | s2) ≈ 0.72**, **P(a1 | s0) ≈ 0.92** (the uncapped limit is
+0.729). These are golden-test values; docs and tutorials must not drift from them.

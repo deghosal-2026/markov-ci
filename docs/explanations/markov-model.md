@@ -93,9 +93,11 @@ P(a1|s2) = 0.55575 / (1 − 0.2375) = 0.55575 / 0.7625 ≈ 0.729
 P(a1|s0) = 0.82 + 0.18 · 0.75 · 0.729 ≈ 0.918
 ```
 
-These are the golden values `0.73` and `0.92` asserted across the test suite, docs, and
-tutorials. Per-category priors (spec 0001 §4) modulate the `s2→s3` edge; the method is
-identical.
+Those are the **uncapped** values. Because the shipped default caps at
+`max_attempts: 3`, the assembled chain gives P(a1 | s2) ≈ **0.72** and P(a1 | s0) ≈
+**0.92**; as the attempt cap grows the first converges to 0.729. These — `0.72` and
+`0.92` — are the golden values asserted across the test suite, docs, and tutorials.
+Per-category priors (spec 0001 §4) modulate the `s2→s3` edge; the method is identical.
 
 ## 6. Uncertainty: Dirichlet posteriors
 
