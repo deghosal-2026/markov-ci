@@ -22,6 +22,8 @@ transitions:
   - { from: s0_deterministic_verify, to: s1_failure_triage,        probability: 0.18 }
   - { from: s1_failure_triage,       to: s2_agent_reasoning,       probability: 0.75 }
   - { from: s1_failure_triage,       to: a2_escalate_to_author,    probability: 0.25 }
+  # the agent's patch is only as likely as the prior for the category
+  - { from: s2_agent_reasoning,      to: s3_sandbox_validation,    prior_driven: true, per_attempt: true }
   - { from: s3_sandbox_validation,   to: s4_regression_check,      probability: 0.65 }
   - { from: s3_sandbox_validation,   to: s2_agent_reasoning,       probability: 0.25, per_attempt: true }
   - { from: s3_sandbox_validation,   to: a2_escalate_to_author,    probability: 0.10 }
@@ -64,8 +66,22 @@ telemetry:
 5. `per_attempt: true` edges require a matching prior (they consume `success[k]`).
 6. Row sums are validated after assembly (spec 0002 §1.4), not at parse time.
 7. `priors` must resolve for every (adapter, category) pair actually used.
+8. A `prior_driven: true` edge **must not** set `probability` — its probability comes
+   from `priors[adapter][category].success[k]`. Such an edge must also be
+   `per_attempt: true`. (This is how `s2 -> s3` is expressed.)
 
-## 3. Defaults
+## 3. Conventions
+
+- **Escalation sink.** Any remainder probability in a transient row is routed to the
+  *escalation* absorbing state — the absorbing state whose id names escalation
+  (`a2_escalate_to_author`); if none matches, the first absorbing state. This is what
+  produces `s2#k -> a2 = 1 - success[k]` and the final-attempt renormalization
+  (spec 0002 §1.3).
+- **Default category.** When a command is run without `--category`, the category
+  `default` is used. The packaged config ships a `default` curve
+  (spec 0001 §4) so the worked example reproduces with zero configuration.
+
+## 4. Defaults
 
 The packaged default (above) ships in the wheel (`markov_ci.data.default`) so that
 zero-config `analyze` and `validate` work out of the box (PRD F11). User configs may

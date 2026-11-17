@@ -59,6 +59,7 @@ use has been observed to vary ~70×). Priors are therefore two-dimensional, with
 ```yaml
 priors:
   default:                        # adapter "*" — the shipped conservative priors
+    default:        { success: [0.95, 0.95, 0.95], cost_weight: 1.0 }
     lint_error:     { success: [0.92, 0.65, 0.20], cost_weight: 1.0 }
     type_mismatch:  { success: [0.85, 0.55, 0.25], cost_weight: 1.5 }
     unit_assertion: { success: [0.74, 0.45, 0.15], cost_weight: 2.5 }

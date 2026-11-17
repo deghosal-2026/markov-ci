@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from markov_ci.policy import Policy
 
@@ -26,8 +26,22 @@ class TransitionConfig(BaseModel):
 
     source: str = Field(alias="from")
     target: str = Field(alias="to")
-    probability: float
+    probability: float | None = Field(default=None, ge=0.0, le=1.0)
     per_attempt: bool = False
+    # `prior_driven` edges take their probability from
+    # `priors[adapter][category].success[k]` (e.g. s2 -> s3). They must not
+    # declare a static `probability`.
+    prior_driven: bool = False
+
+    @model_validator(mode="after")
+    def _validate_probability(self) -> TransitionConfig:
+        if self.prior_driven and self.probability is not None:
+            raise ValueError("a prior_driven transition must not set 'probability'")
+        if not self.prior_driven and self.probability is None:
+            raise ValueError(
+                "a transition needs 'probability' unless prior_driven is true",
+            )
+        return self
 
 
 class PolicyConfig(BaseModel):
