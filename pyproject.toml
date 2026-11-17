@@ -63,7 +63,7 @@ Issues = "https://github.com/deghosal-2026/markov-ci/issues"
 packages = ["src/markov_ci"]
 
 [tool.hatch.build.targets.sdist]
-include = ["src/markov_ci", "tests", "docs", "README.md", "LICENSE"]
+include = ["src/markov_ci", "tests", "docs", "schemas", "README.md", "LICENSE"]
 
 [tool.ruff]
 line-length = 100
@@ -81,6 +81,10 @@ select = ["E", "F", "I", "UP", "B", "SIM"]
 strict = true
 files = ["src", "tests"]
 python_version = "3.11"
+
+[[tool.mypy.overrides]]
+module = "jsonschema.*"
+ignore_missing_imports = true
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]

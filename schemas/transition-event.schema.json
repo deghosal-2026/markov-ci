@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/deghosal-2026/markov-ci/schemas/transition-event.schema.json",
+  "title": "markov-ci transition event",
+  "description": "One structured state-transition record, emitted as JSONL. See docs/spec/0007-telemetry-events.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "event",
+    "run_id",
+    "commit_sha",
+    "pr_number",
+    "from_state",
+    "to_state",
+    "duration_ms",
+    "tokens_used",
+    "failure_category",
+    "attempt",
+    "adapter",
+    "ts"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1,
+      "description": "Event contract version; bumped only on breaking change."
+    },
+    "event": {
+      "enum": ["transition", "absorbed", "guardrail"]
+    },
+    "run_id": { "type": "string", "minLength": 1 },
+    "commit_sha": { "type": "string" },
+    "pr_number": { "type": ["integer", "null"], "minimum": 1 },
+    "from_state": { "type": "string", "minLength": 1 },
+    "to_state": { "type": "string", "minLength": 1 },
+    "duration_ms": { "type": "integer", "minimum": 0 },
+    "tokens_used": { "type": "integer", "minimum": 0 },
+    "failure_category": { "type": "string", "minLength": 1 },
+    "attempt": { "type": "integer", "minimum": 1 },
+    "adapter": { "type": "string", "minLength": 1 },
+    "ts": { "type": "string", "minLength": 1 }
+  }
+}
