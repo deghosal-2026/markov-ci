@@ -55,6 +55,9 @@ Rules:
 - Packaging: `pip install markov-ci[harness]`. Core stays importable with zero LLM
   dependencies.
 - This repo's CI never exercises a live harness — offline contract tests only.
+- Each template records the harness CLI version it was authored/verified against
+  (`tested_versions`). Until a maintainer runs it against a live CLI it is marked
+  `unverified`; live verification is deliberately out of this repo's CI (spec 0012 §4).
 
 ## 4. Calibration across harnesses
 
