@@ -1,0 +1,337 @@
+=== 1. build ===
+ Image markov-ci-examples-demo-01 Building 
+ Image markov-ci-examples-demo-02 Building 
+ Image markov-ci-examples-demo-03 Building 
+ Image markov-ci-examples-demo-04 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.01kB done
+#1 DONE 0.0s
+
+#2 [demo-03 internal] load build definition from Dockerfile
+#2 DONE 0.0s
+
+#2 [demo-02 internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.54kB done
+#2 DONE 0.0s
+
+#3 [demo-01] resolve image config for docker-image://docker.io/docker/dockerfile:1
+#3 DONE 0.4s
+
+#4 [demo-04] docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#4 resolve docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e done
+#4 CACHED
+
+#5 [demo-02 internal] load metadata for docker.io/library/python:3.12-slim
+#5 DONE 0.3s
+
+#6 [demo-01 internal] load .dockerignore
+#6 transferring context: 239B done
+#6 DONE 0.0s
+
+#7 [demo-01 1/9] FROM docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#7 resolve docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b done
+#7 DONE 0.0s
+
+#8 [demo-01 internal] load build context
+#8 transferring context: 9.13kB done
+#8 DONE 0.0s
+
+#9 [demo-04 2/9] RUN apt-get update     && apt-get install -y --no-install-recommends git     && rm -rf /var/lib/apt/lists/*
+#9 CACHED
+
+#10 [demo-04 4/9] COPY pyproject.toml README.md ./
+#10 CACHED
+
+#11 [demo-04 3/9] WORKDIR /app
+#11 CACHED
+
+#12 [demo-02 5/9] COPY src ./src
+#12 CACHED
+
+#13 [demo-04 6/9] RUN pip install --no-cache-dir . pytest
+#13 0.564 Processing /app
+#13 0.565   Installing build dependencies: started
+#13 1.728   Installing build dependencies: finished with status 'done'
+#13 1.729   Getting requirements to build wheel: started
+#13 1.757   Getting requirements to build wheel: finished with status 'done'
+#13 1.757   Preparing metadata (pyproject.toml): started
+#13 1.809   Preparing metadata (pyproject.toml): finished with status 'done'
+#13 1.927 Collecting pytest
+#13 1.999   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+#13 2.040 Collecting jsonschema>=4 (from markov-ci==0.1.0.dev0)
+#13 2.077   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#13 2.386 Collecting numpy>=1.26 (from markov-ci==0.1.0.dev0)
+#13 2.408   Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (6.6 kB)
+#13 2.542 Collecting pydantic>=2 (from markov-ci==0.1.0.dev0)
+#13 2.559   Downloading pydantic-2.14.3-py3-none-any.whl.metadata (141 kB)
+#13 2.687 Collecting pyyaml>=6 (from markov-ci==0.1.0.dev0)
+#13 2.702   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.4 kB)
+#13 2.750 Collecting rich>=13 (from markov-ci==0.1.0.dev0)
+#13 2.768   Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+#13 2.815 Collecting typer>=0.12 (from markov-ci==0.1.0.dev0)
+#13 2.833   Downloading typer-0.29.1-py3-none-any.whl.metadata (16 kB)
+#13 2.858 Collecting iniconfig>=2 (from pytest)
+#13 2.874   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+#13 2.902 Collecting packaging>=24 (from pytest)
+#13 2.916   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#13 2.943 Collecting pluggy<2,>=1.6 (from pytest)
+#13 2.958   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+#13 2.993 Collecting pygments>=2.15 (from pytest)
+#13 3.008   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#13 3.048 Collecting attrs>=22.2.0 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#13 3.070   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#13 3.105 Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#13 3.120   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#13 3.158 Collecting referencing>=0.28.4 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#13 3.176   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#13 3.466 Collecting rpds-py>=0.25.0 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#13 3.485   Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.1 kB)
+#13 3.505 Collecting annotated-types>=0.6.0 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#13 3.520   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#13 4.142 Collecting pydantic-core==2.50.4 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#13 4.156   Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (6.6 kB)
+#13 4.181 Collecting typing-extensions>=4.16.0 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#13 4.195   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#13 4.220 Collecting typing-inspection>=0.4.4 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#13 4.242   Downloading typing_inspection-0.4.5-py3-none-any.whl.metadata (2.6 kB)
+#13 4.267 Collecting markdown-it-py>=2.2.0 (from rich>=13->markov-ci==0.1.0.dev0)
+#13 4.282   Downloading markdown_it_py-4.3.0-py3-none-any.whl.metadata (7.9 kB)
+#13 4.315 Collecting shellingham>=1.3.0 (from typer>=0.12->markov-ci==0.1.0.dev0)
+#13 4.332   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+#13 4.357 Collecting annotated-doc>=0.0.2 (from typer>=0.12->markov-ci==0.1.0.dev0)
+#13 4.374   Downloading annotated_doc-0.0.6-py3-none-any.whl.metadata (6.5 kB)
+#13 4.391 Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=13->markov-ci==0.1.0.dev0)
+#13 4.408   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+#13 4.433 Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+#13 4.625 Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+#13 4.650 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+#13 4.698 Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (15.3 MB)
+#13 7.233    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.3/15.3 MB 6.2 MB/s eta 0:00:00
+#13 7.253 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#13 7.286 Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+#13 7.305 Downloading pydantic-2.14.3-py3-none-any.whl (494 kB)
+#13 7.371 Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (2.1 MB)
+#13 7.604    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 9.2 MB/s eta 0:00:00
+#13 7.627 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#13 7.761    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 9.7 MB/s eta 0:00:00
+#13 7.785 Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (775 kB)
+#13 7.869    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 775.1/775.1 kB 9.3 MB/s eta 0:00:00
+#13 7.888 Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+#13 7.937 Downloading typer-0.29.1-py3-none-any.whl (121 kB)
+#13 7.970 Downloading annotated_doc-0.0.6-py3-none-any.whl (5.3 kB)
+#13 7.989 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#13 8.005 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#13 8.033 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+#13 8.061 Downloading markdown_it_py-4.3.0-py3-none-any.whl (96 kB)
+#13 8.086 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+#13 8.107 Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (373 kB)
+#13 8.160 Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+#13 8.177 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#13 8.196 Downloading typing_inspection-0.4.5-py3-none-any.whl (14 kB)
+#13 8.223 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+#13 8.263 Building wheels for collected packages: markov-ci
+#13 8.266   Building wheel for markov-ci (pyproject.toml): started
+#13 8.283   Building wheel for markov-ci (pyproject.toml): finished with status 'done'
+#13 8.283   Created wheel for markov-ci: filename=markov_ci-0.1.0.dev0-py3-none-any.whl size=56311 sha256=7bdd45da153f69fababeb581f28eff7ca394dce537dddbe1ac05c887491e437d
+#13 8.283   Stored in directory: /tmp/pip-ephem-wheel-cache-p5spndft/wheels/54/1b/b7/aa63e25c8f14f4f2ae7b04e6097bdecb770e455c5c1ee0a600
+#13 8.284 Successfully built markov-ci
+#13 8.301 Installing collected packages: typing-extensions, shellingham, rpds-py, pyyaml, pygments, pluggy, packaging, numpy, mdurl, iniconfig, attrs, annotated-types, annotated-doc, typing-inspection, referencing, pytest, pydantic-core, markdown-it-py, rich, pydantic, jsonschema-specifications, typer, jsonschema, markov-ci
+#13 9.896 Successfully installed annotated-doc-0.0.6 annotated-types-0.8.0 attrs-26.1.0 iniconfig-2.3.1 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.3.0 markov-ci-0.1.0.dev0 mdurl-0.1.2 numpy-2.5.5 packaging-26.3 pluggy-1.7.0 pydantic-2.14.3 pydantic-core-2.50.4 pygments-2.21.0 pytest-9.2.0 pyyaml-6.0.3 referencing-0.37.0 rich-15.0.0 rpds-py-2026.9.1 shellingham-1.5.4 typer-0.29.1 typing-extensions-4.16.0 typing-inspection-0.4.5
+#13 9.896 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#13 10.02 
+#13 10.02 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#13 10.02 [notice] To update, run: pip install --upgrade pip
+#13 DONE 10.2s
+
+#14 [demo-03 7/9] COPY examples /examples
+#14 DONE 0.0s
+
+#15 [demo-01 8/9] RUN set -eux;     for repo in /examples/*/repo; do         git -C "$repo" init -q;         git -C "$repo" config user.email demo@example.com;         git -C "$repo" config user.name "markov-ci demo";         git -C "$repo" add -A;         git -C "$repo" commit -qm "demo baseline";     done
+#15 0.068 + git -C /examples/01-lint-error/repo init -q
+#15 0.071 + git -C /examples/01-lint-error/repo config user.email demo@example.com
+#15 0.072 + git -C /examples/01-lint-error/repo config user.name markov-ci demo
+#15 0.072 + git -C /examples/01-lint-error/repo add -A
+#15 0.073 + git -C /examples/01-lint-error/repo commit -qm demo baseline
+#15 0.075 + git -C /examples/02-unit-assertion-decay/repo init -q
+#15 0.078 + git -C /examples/02-unit-assertion-decay/repo config user.email demo@example.com
+#15 0.078 + git -C /examples/02-unit-assertion-decay/repo config user.name markov-ci demo
+#15 0.079 + git -C /examples/02-unit-assertion-decay/repo add -A
+#15 0.080 + git -C /examples/02-unit-assertion-decay/repo commit -qm demo baseline
+#15 0.082 + git -C /examples/06-adversarial-runaway/repo init -q
+#15 0.084 + git -C /examples/06-adversarial-runaway/repo config user.email demo@example.com
+#15 0.085 + git -C /examples/06-adversarial-runaway/repo config user.name markov-ci demo
+#15 0.085 + git -C /examples/06-adversarial-runaway/repo add -A
+#15 0.086 + git -C /examples/06-adversarial-runaway/repo commit -qm demo baseline
+#15 0.088 + git -C /examples/07-cheating-agent/repo init -q
+#15 0.091 + git -C /examples/07-cheating-agent/repo config user.email demo@example.com
+#15 0.091 + git -C /examples/07-cheating-agent/repo config user.name markov-ci demo
+#15 0.091 + git -C /examples/07-cheating-agent/repo add -A
+#15 0.092 + git -C /examples/07-cheating-agent/repo commit -qm demo baseline
+#15 DONE 0.1s
+
+#16 [demo-01] exporting to image
+#16 exporting layers
+#16 exporting layers 1.5s done
+#16 exporting manifest sha256:17d9c7de63fecae8def46e4fe5040af9ab8be08f6e2b72e874acc542ac843208 0.0s done
+#16 exporting config sha256:1a5a7a5ca8ee4384964762e14372561c5ccc9eac62e4f01e6c9a23323af82d61 0.0s done
+#16 exporting attestation manifest sha256:fa3b06392e34e86612a8b811b8de7d5ade7b8c219c6cce6932897ce84c613235 0.0s done
+#16 exporting manifest list sha256:2da1120d0b3b6681d1c0d6b0af2bd5aeb9b0f0f0db97223ab655bd23610ded12
+#16 exporting manifest list sha256:2da1120d0b3b6681d1c0d6b0af2bd5aeb9b0f0f0db97223ab655bd23610ded12 0.0s done
+#16 naming to docker.io/library/markov-ci-examples-demo-01:latest done
+#16 unpacking to docker.io/library/markov-ci-examples-demo-01:latest
+#16 unpacking to docker.io/library/markov-ci-examples-demo-01:latest 1.3s done
+#16 DONE 2.9s
+
+#17 [demo-03] exporting to image
+#17 exporting layers 1.5s done
+#17 exporting manifest sha256:3f9942cc0ccdb639687b25dc177d537b3e9fb5a8891194a28d79f726d059fc83 0.0s done
+#17 exporting config sha256:4c0cb912c3309c243805cdb9efd941a1adb09dd3dad70ebfa778f071edcdc010 0.0s done
+#17 exporting attestation manifest sha256:d053599dd1f7f044ac4571cb4ae45598808e2272688f12e793217273ac1a14a9 0.0s done
+#17 exporting manifest list sha256:cc56f5d762bed3378db28ebf2d13923f50966064a7c52c8e1c6a1a7d179c6a5b 0.0s done
+#17 naming to docker.io/library/markov-ci-examples-demo-03:latest done
+#17 unpacking to docker.io/library/markov-ci-examples-demo-03:latest 1.3s done
+#17 DONE 2.9s
+
+#18 [demo-02] exporting to image
+#18 exporting layers 1.5s done
+#18 exporting manifest sha256:c2fe111d095f79fdc34e16a36242e3622c70d53e9baeffa74e78bafd8935a279 0.0s done
+#18 exporting config sha256:15d30f6c4a382e73035eb22cbe9d211d1b0a720d1a302b41b27fff277f2b8176 0.0s done
+#18 exporting attestation manifest sha256:976044f4b1f8f9d7344d08db369237cbf14663c8827e4ba0fc795491ef29f9bc 0.0s done
+#18 exporting manifest list sha256:33e8dad4b328dff550b2ab1bfd3f3dfe7c81ebfcc660e43558aea2a71472b11a 0.0s done
+#18 naming to docker.io/library/markov-ci-examples-demo-02:latest done
+#18 unpacking to docker.io/library/markov-ci-examples-demo-02:latest 1.3s done
+#18 DONE 2.9s
+
+#19 [demo-04] exporting to image
+#19 exporting layers 1.5s done
+#19 exporting manifest sha256:317f842ef8f2f7bbfeed6a748c337f01f686a340471fe8bd7490fbc2b691f70a 0.0s done
+#19 exporting config sha256:1f6e41f897db60631b6ab30cba42cf94a5d4f5b3830b9c5f2df527659578849a 0.0s done
+#19 exporting attestation manifest sha256:8a9b4da28a7e50795ff2dd388fa46e9fbeaec6bb8d5bee4f3a9de6ff5cdd135d 0.0s done
+#19 exporting manifest list sha256:d508a61c25e21376ca9776dbd82cf6deceea3bc01af0d47b1fb35627adc46216 0.0s done
+#19 naming to docker.io/library/markov-ci-examples-demo-04:latest done
+#19 unpacking to docker.io/library/markov-ci-examples-demo-04:latest 1.3s done
+#19 DONE 2.9s
+
+#20 [demo-03] resolving provenance for metadata file
+#20 DONE 0.0s
+
+#21 [demo-04] resolving provenance for metadata file
+#21 DONE 0.0s
+
+#22 [demo-02] resolving provenance for metadata file
+#22 DONE 0.0s
+
+#23 [demo-01] resolving provenance for metadata file
+#23 DONE 0.0s
+ Image markov-ci-examples-demo-01 Built 
+ Image markov-ci-examples-demo-02 Built 
+ Image markov-ci-examples-demo-03 Built 
+ Image markov-ci-examples-demo-04 Built 
+build_exit=0
+=== 2. compose acceptance (exit-code assertions via run-demo.sh) ===
+ Container markov-ci-examples-demo-01-run-6c54523c6542 Creating 
+ Container markov-ci-examples-demo-01-run-6c54523c6542 Created 
+absorbed: a1_ready_for_human_review · tokens 0 · 212 ms · branch ai-fix/local-e390358b
+OK: markov-ci run /examples/01-lint-error/config.yaml --junit /examples/01-lint-error/report.xml --repo /examples/01-lint-error/repo --seed 42 exited 0
+demo-01 wrapper_exit=0
+ Container markov-ci-examples-demo-02-run-0c9da495e130 Creating 
+ Container markov-ci-examples-demo-02-run-0c9da495e130 Created 
+absorbed: a2_escalate_to_author · tokens 0 · 180 ms · branch ai-fix/local-0714a2f3
+OK: markov-ci run /examples/02-unit-assertion-decay/config.yaml --junit /examples/02-unit-assertion-decay/report.xml --repo /examples/02-unit-assertion-decay/repo --seed 42 exited 2
+demo-02 wrapper_exit=0
+ Container markov-ci-examples-demo-03-run-6dc1f6d86d79 Creating 
+ Container markov-ci-examples-demo-03-run-6dc1f6d86d79 Created 
+infra_timeout: matched 'timeouterror' → infra_timeout — escalating (a2)
+OK: markov-ci run /examples/03-infra-timeout/config.yaml --junit /examples/03-infra-timeout/report.xml --seed 42 exited 2
+demo-03 wrapper_exit=0
+ Container markov-ci-examples-demo-04-run-3136e0768363 Creating 
+ Container markov-ci-examples-demo-04-run-3136e0768363 Created 
+{
+  "c": 5,
+  "human_share": 0.6,
+  "mu": 30.0,
+  "pools": {
+    "agent": {
+      "c": 2,
+      "lambda": 48.0,
+      "mean_wait": 0.05925925925925927,
+      "p95_wait": 0.22123380721528307,
+      "p_wait": 0.7111111111111112,
+      "rho": 0.8,
+      "simulation": {
+        "mean_wait": 0.057615882413601556,
+        "p50_wait": 0.025938542903531925,
+        "p95_wait": 0.21534198487696443,
+        "p99_wait": 0.41803155606430664,
+        "p_wait": 0.7016470391014626
+      }
+    },
+    "human": {
+      "c": 3,
+      "lambda": 72.0,
+      "mean_wait": 0.03595505617977527,
+      "p95_wait": 0.14225658175131642,
+      "p_wait": 0.6471910112359549,
+      "rho": 0.7999999999999999,
+      "simulation": {
+        "mean_wait": 0.03501717729889868,
+        "p50_wait": 0.014008750302309636,
+        "p95_wait": 0.13853282145538515,
+        "p99_wait": 0.2272675058279674,
+        "p_wait": 0.6447731017960755
+      }
+    }
+  }
+}
+OK: markov-ci queue --lambda 120 --mu 30 --c 5 --simulate --json exited 0
+demo-04 wrapper_exit=0
+=== 3. image environment ===
+ Container markov-ci-examples-demo-01-run-89e97c9277a5 Creating 
+ Container markov-ci-examples-demo-01-run-89e97c9277a5 Created 
+Python 3.12.16
+git version 2.47.3
+pytest 9.2.0
+IMPORTS_OK
+No broken requirements found.
+=== 4. deep demo-01: evidence, repo untouched, determinism ===
+/private/var/folders/1y/8cvcsmv53m7c2gzqb6gp09p40000gn/T/opencode/m9-deep-validate.sh: line 28: {e[to_state]} for e in es])
+PY
+  echo "REPO_DIRTY_LINES=$(git -C /examples/01-lint-error/repo status --porcelain | wc -l)"
+  markov-ci run /examples/01-lint-error/config.yaml --junit /examples/01-lint-error/report.xml --repo /examples/01-lint-error/repo --seed 42 --json > /tmp/r2.json
+  python3 <<PY
+import json
+a = json.load(open("/tmp/r1.json"))
+b = json.load(open("/tmp/r2.json"))
+keys = ("absorbing_state", "visits", "tokens_used")
+same = all(a[k] == b[k] for k in keys)
+print("DETERMINISM", "IDENTICAL" if same else "DRIFT")
+PY
+: No such file or directory
+=== 5. deep demo-02: decay -> a2, five events, no third attempt ===
+ Container markov-ci-examples-demo-02-run-47f676b3a91d Creating 
+ Container markov-ci-examples-demo-02-run-47f676b3a91d Created 
+run_exit=2
+ABSORBING a2_escalate_to_author
+VISITS ['a2_escalate_to_author', 's1_failure_triage', 's2_agent_reasoning#1', 's2_agent_reasoning#2', 's3_sandbox_validation#1', 's3_sandbox_validation#2']
+HAS_S2_3 False
+EVENTS 5
+CATS ['unit_assertion']
+=== 6. deep demo-03: triage short-circuit, zero events ===
+ Container markov-ci-examples-demo-03-run-5a6b6f38d9d7 Creating 
+ Container markov-ci-examples-demo-03-run-5a6b6f38d9d7 Created 
+infra_timeout: matched 'timeouterror' → infra_timeout — escalating (a2)
+run_exit=2
+NO_EVENTS_DIR
+=== 7. deep demo-04: queue report shape ===
+ Container markov-ci-examples-demo-04-run-a1d948cf3f04 Creating 
+ Container markov-ci-examples-demo-04-run-a1d948cf3f04 Created 
+POOLS ['agent', 'human']
+AGENT_RHO 0.8
+AGENT_SIM_KEYS ['mean_wait', 'p50_wait', 'p95_wait', 'p99_wait', 'p_wait']
+ERLANG_P95_MIN 13.27
+SIM_P95_MIN 12.92
+=== 8. host: static docker-contract test against the fixed Dockerfile ===
+....                                                                     [100%]
+4 passed in 0.05s
+pytest_exit=0
+=== done ===

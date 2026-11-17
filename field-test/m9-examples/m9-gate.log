@@ -1,0 +1,111 @@
+python3 -m ruff check .
+All checks passed!
+python3 -m mypy
+Success: no issues found in 87 source files
+python3 -m pytest --cov=markov_ci --cov-report=term-missing --cov-fail-under=95
+============================= test session starts ==============================
+platform darwin -- Python 3.14.5, pytest-9.0.3, pluggy-1.6.0
+benchmark: 5.3.0 (defaults: timer=time.perf_counter disable_gc=False min_rounds=5 min_time=0.000005 max_time=1.0 calibration_precision=10 warmup=False warmup_iterations=100000)
+rootdir: /Users/deghosal/Desktop/code/github/markov-ci
+configfile: pyproject.toml
+testpaths: tests
+plugins: snapshot-0.9.0, hypothesis-6.168.3, cov-7.1.0, logfire-4.39.0, xdist-3.8.0, devtools-0.12.2, asyncio-1.4.0, benchmark-5.3.0, langsmith-0.9.3, httpx-0.36.2, mock-3.14.0, requests-mock-1.12.1, anyio-4.13.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 458 items
+
+tests/e2e/test_adversarial_runaway.py .                                  [  0%]
+tests/e2e/test_examples.py .....................                         [  4%]
+tests/integration/test_run_cli.py ..                                     [  5%]
+tests/integration/test_sandbox.py ........                               [  6%]
+tests/unit/agents/test_harness.py ............                           [  9%]
+tests/unit/agents/test_local_llm.py ...........                          [ 12%]
+tests/unit/agents/test_protocol.py ...........                           [ 14%]
+tests/unit/agents/test_simulated.py ...........                          [ 16%]
+tests/unit/agents/test_templates.py ............................         [ 22%]
+tests/unit/cli/test_cli.py ..........................                    [ 28%]
+tests/unit/config/test_default.py ........                               [ 30%]
+tests/unit/config/test_loader.py ............                            [ 32%]
+tests/unit/docs/test_docs_are_tests.py ........                          [ 34%]
+tests/unit/docs/test_integration_docs.py .......                         [ 36%]
+tests/unit/engine/test_loop.py ..............                            [ 39%]
+tests/unit/guardrails/test_allowlist.py ................                 [ 42%]
+tests/unit/guardrails/test_branches.py ..........                        [ 44%]
+tests/unit/guardrails/test_tmr.py ...........                            [ 47%]
+tests/unit/model/test_assemble.py ..........                             [ 49%]
+tests/unit/model/test_augment.py ............                            [ 52%]
+tests/unit/model/test_golden.py ...                                      [ 52%]
+tests/unit/model/test_math.py .........                                  [ 54%]
+tests/unit/model/test_montecarlo.py .......                              [ 56%]
+tests/unit/model/test_posterior.py .............                         [ 59%]
+tests/unit/model/test_properties.py .....                                [ 60%]
+tests/unit/model/test_state.py ............                              [ 62%]
+tests/unit/model/test_validate.py ........                               [ 64%]
+tests/unit/policy/test_gate.py ...............                           [ 67%]
+tests/unit/queueing/test_erlang.py ...............                       [ 71%]
+tests/unit/queueing/test_simulate.py .......                             [ 72%]
+tests/unit/telemetry/test_events.py .........                            [ 74%]
+tests/unit/telemetry/test_recompute.py .......                           [ 76%]
+tests/unit/telemetry/test_schema.py ......................               [ 81%]
+tests/unit/test_ci_workflows.py ........                                 [ 82%]
+tests/unit/test_community_files.py ......                                [ 84%]
+tests/unit/test_docker.py ....                                           [ 84%]
+tests/unit/test_docs_site.py .....                                       [ 86%]
+tests/unit/test_makefile.py ......                                       [ 87%]
+tests/unit/test_package_layout.py .....                                  [ 88%]
+tests/unit/test_packaging.py ...........                                 [ 90%]
+tests/unit/test_security_workflow.py ....                                [ 91%]
+tests/unit/triage/test_classify.py ..................                    [ 95%]
+tests/unit/triage/test_junit.py ..........                               [ 97%]
+tests/unit/triage/test_minimize.py ..........                            [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform darwin, python 3.14.5-final-0 _______________
+
+Name                                    Stmts   Miss  Cover   Missing
+---------------------------------------------------------------------
+src/markov_ci/__init__.py                   2      0   100%
+src/markov_ci/agents/__init__.py            6      0   100%
+src/markov_ci/agents/base.py               30      0   100%
+src/markov_ci/agents/harness.py            50      1    98%   54
+src/markov_ci/agents/local_llm.py          41      1    98%   103
+src/markov_ci/agents/simulated.py          21      0   100%
+src/markov_ci/agents/templates.py          16      0   100%
+src/markov_ci/cli/__init__.py               3      0   100%
+src/markov_ci/cli/app.py                  143     10    93%   79-81, 112, 184-189
+src/markov_ci/cli/report.py                56      4    93%   20, 60, 121-122
+src/markov_ci/config/__init__.py            5      0   100%
+src/markov_ci/config/compile.py            41      6    85%   42, 44, 51, 67-69
+src/markov_ci/config/loader.py             53      3    94%   33, 75-76
+src/markov_ci/config/models.py             61      2    97%   39, 41
+src/markov_ci/data/__init__.py             10      0   100%
+src/markov_ci/engine/__init__.py            4      0   100%
+src/markov_ci/engine/loop.py               96      0   100%
+src/markov_ci/engine/sandbox.py            46      3    93%   60, 77-78
+src/markov_ci/guardrails/__init__.py        5      0   100%
+src/markov_ci/guardrails/allowlist.py      68      2    97%   69-70
+src/markov_ci/guardrails/branches.py       23      0   100%
+src/markov_ci/guardrails/tmr.py            57      1    98%   52
+src/markov_ci/model/__init__.py             9      0   100%
+src/markov_ci/model/assemble.py            60      4    93%   69, 89, 98, 106
+src/markov_ci/model/augment.py             70      5    93%   52-55, 95
+src/markov_ci/model/math.py                30      1    97%   57
+src/markov_ci/model/montecarlo.py          55      2    96%   32, 35
+src/markov_ci/model/posterior.py           52      2    96%   40-41
+src/markov_ci/model/state.py               53      0   100%
+src/markov_ci/model/validate.py            60      0   100%
+src/markov_ci/policy/__init__.py            3      0   100%
+src/markov_ci/policy/gate.py               39      0   100%
+src/markov_ci/queueing/__init__.py          4      0   100%
+src/markov_ci/queueing/erlang.py           39      1    97%   32
+src/markov_ci/queueing/simulate.py         63      1    98%   32
+src/markov_ci/telemetry/__init__.py         4      0   100%
+src/markov_ci/telemetry/events.py          55      0   100%
+src/markov_ci/telemetry/recompute.py       53      2    96%   26, 46
+src/markov_ci/triage/__init__.py            5      0   100%
+src/markov_ci/triage/classify.py           34      0   100%
+src/markov_ci/triage/junit.py              56      2    96%   56, 70
+src/markov_ci/triage/minimize.py           42      0   100%
+---------------------------------------------------------------------
+TOTAL                                    1623     53    97%
+Required test coverage of 95% reached. Total coverage: 96.73%
+============================= 458 passed in 19.19s =============================

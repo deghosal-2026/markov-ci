@@ -1,0 +1,63 @@
+python3 -m mkdocs build --strict
+
+[31m │  ⚠  Warning from the Material for MkDocs team[0m
+[31m │[0m
+[31m │[0m  MkDocs 2.0, the underlying framework of Material for MkDocs,
+[31m │[0m  will introduce backward-incompatible changes, including:
+[31m │[0m
+[31m │  × [0mAll plugins will stop working – the plugin system has been removed
+[31m │  × [0mAll theme overrides will break – the theming system has been rewritten
+[31m │  × [0mNo migration path exists – existing projects cannot be upgraded
+[31m │  × [0mClosed contribution model – community members can't report bugs
+[31m │  × [0mCurrently unlicensed – unsuitable for production use
+[31m │[0m
+[31m │[0m  Our full analysis:
+[31m │[0m
+[31m │[0m  [4mhttps://squidfunk.github.io/mkdocs-material/blog/2026/02/18/mkdocs-2.0/[0m
+[0m
+INFO    -  Cleaning site directory
+INFO    -  Building documentation to directory: /Users/deghosal/Desktop/code/github/markov-ci/site
+INFO    -  The following pages exist in the docs directory, but are not included in the "nav" configuration:
+  - WBS.md
+  - adr/README.md
+  - adr/0001-absorbing-markov-model.md
+  - adr/0002-step-augmented-states.md
+  - adr/0003-simulated-agent-default.md
+  - adr/0004-hard-caps-guarantee-absorption.md
+  - adr/0005-telemetry-versioned-contract.md
+  - adr/0006-src-layout-strict-typing.md
+  - adr/0007-harness-adapters-not-raw-sdks.md
+  - adr/0008-deterministic-triage-before-agents.md
+  - adr/0009-guardrails-enforced-in-code.md
+  - adr/0010-dual-queueing-model.md
+  - adr/0011-local-llms-via-openai-compatible-endpoints.md
+  - adr/template.md
+  - prd/README.md
+  - prd/00-principles.md
+  - prd/01-summary-and-vision.md
+  - prd/02-problem-and-why-markov.md
+  - prd/03-goals-and-metrics.md
+  - prd/04-users-and-stories.md
+  - prd/05-critical-user-journeys.md
+  - prd/06-features-must.md
+  - prd/07-harness-compatibility.md
+  - prd/08-features-should-could-wont.md
+  - prd/09-cli-ux-docs-quality.md
+  - prd/10-release-and-constraints.md
+  - prd/11-risks-competitive-questions.md
+  - prd/12-launch-and-gtm.md
+  - prd/13-appendices.md
+  - spec/README.md
+  - spec/0001-state-model.md
+  - spec/0002-matrix-assembly.md
+  - spec/0003-config-format.md
+  - spec/0004-policy-engine.md
+  - spec/0005-guardrails.md
+  - spec/0006-agent-adapters.md
+  - spec/0007-telemetry-events.md
+  - spec/0008-cli-contract.md
+  - spec/0009-queueing.md
+  - spec/0010-triage.md
+  - spec/0011-engine-runtime.md
+  - spec/0012-engineering-baseline.md
+INFO    -  Documentation built in 0.34 seconds

@@ -1,0 +1,636 @@
+=== docker version ===
+client 29.5.2 / server 29.9.2
+=== docker compose build ===
+ Image markov-ci-examples-demo-02 Building 
+ Image markov-ci-examples-demo-03 Building 
+ Image markov-ci-examples-demo-04 Building 
+ Image markov-ci-examples-demo-01 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.01kB done
+#1 DONE 0.0s
+
+#2 [demo-03 internal] load build definition from Dockerfile
+#2 transferring dockerfile: 1.57kB done
+#2 DONE 0.0s
+
+#3 [demo-01] resolve image config for docker-image://docker.io/docker/dockerfile:1
+#3 ...
+
+#4 [auth] docker/dockerfile:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [demo-01] resolve image config for docker-image://docker.io/docker/dockerfile:1
+#3 DONE 1.2s
+
+#5 [demo-04] docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#5 resolve docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e 0.0s done
+#5 sha256:c3fba84503b044ce5cd182dd0150892f3b0eff1350c4c5d7f5ca2066da594550 0B / 13.13MB 0.2s
+#5 sha256:c3fba84503b044ce5cd182dd0150892f3b0eff1350c4c5d7f5ca2066da594550 4.19MB / 13.13MB 0.3s
+#5 sha256:c3fba84503b044ce5cd182dd0150892f3b0eff1350c4c5d7f5ca2066da594550 13.13MB / 13.13MB 0.5s
+#5 sha256:c3fba84503b044ce5cd182dd0150892f3b0eff1350c4c5d7f5ca2066da594550 13.13MB / 13.13MB 0.5s done
+#5 extracting sha256:c3fba84503b044ce5cd182dd0150892f3b0eff1350c4c5d7f5ca2066da594550 0.1s done
+#5 DONE 0.6s
+
+#6 [demo-03 internal] load metadata for docker.io/library/python:3.12-slim
+#6 ...
+
+#7 [auth] library/python:pull token for registry-1.docker.io
+#7 DONE 0.0s
+
+#6 [demo-02 internal] load metadata for docker.io/library/python:3.12-slim
+#6 DONE 0.5s
+
+#8 [demo-03 internal] load .dockerignore
+#8 transferring context: 239B done
+#8 DONE 0.0s
+
+#9 [demo-03 1/9] FROM docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b
+#9 resolve docker.io/library/python:3.12-slim@sha256:5e2bdb1b0d542d5039cffb8181c65930093949194a65c365dfb1b0fe13a4fa5b done
+#9 CACHED
+
+#10 [demo-03 internal] load build context
+#10 transferring context: 368.31kB 0.0s done
+#10 DONE 0.0s
+
+#11 [demo-01 2/9] RUN apt-get update     && apt-get install -y --no-install-recommends git     && rm -rf /var/lib/apt/lists/*
+#11 0.201 Hit:1 http://deb.debian.org/debian trixie InRelease
+#11 0.280 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#11 0.385 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#11 0.448 Get:4 http://deb.debian.org/debian trixie/main arm64 Packages [9614 kB]
+#11 1.458 Get:5 http://deb.debian.org/debian trixie-updates/main arm64 Packages [1108 B]
+#11 1.493 Get:6 http://deb.debian.org/debian-security trixie-security/main arm64 Packages [306 kB]
+#11 1.975 Fetched 10.0 MB in 2s (5350 kB/s)
+#11 1.975 Reading package lists...
+#11 2.190 Reading package lists...
+#11 2.412 Building dependency tree...
+#11 2.464 Reading state information...
+#11 2.547 The following additional packages will be installed:
+#11 2.547   git-man libbrotli1 libcom-err2 libcurl3t64-gnutls liberror-perl libexpat1
+#11 2.547   libgdbm-compat4t64 libgnutls30t64 libgssapi-krb5-2 libidn2-0 libk5crypto3
+#11 2.547   libkeyutils1 libkrb5-3 libkrb5support0 libldap2 libnghttp2-14 libnghttp3-9
+#11 2.547   libngtcp2-16 libngtcp2-crypto-gnutls8 libp11-kit0 libperl5.40 libpsl5t64
+#11 2.548   librtmp1 libsasl2-2 libsasl2-modules-db libssh2-1t64 libtasn1-6
+#11 2.548   libunistring5 perl perl-modules-5.40
+#11 2.548 Suggested packages:
+#11 2.548   gettext-base git-doc git-email git-gui gitk gitweb git-cvs git-mediawiki
+#11 2.548   git-svn gnutls-bin krb5-doc krb5-user sensible-utils perl-doc
+#11 2.548   libterm-readline-gnu-perl | libterm-readline-perl-perl make
+#11 2.548   libtap-harness-archive-perl
+#11 2.548 Recommended packages:
+#11 2.548   patch less ssh-client krb5-locales libldap-common publicsuffix
+#11 2.548   libsasl2-modules
+#11 2.644 The following NEW packages will be installed:
+#11 2.644   git git-man libbrotli1 libcom-err2 libcurl3t64-gnutls liberror-perl
+#11 2.644   libexpat1 libgdbm-compat4t64 libgnutls30t64 libgssapi-krb5-2 libidn2-0
+#11 2.644   libk5crypto3 libkeyutils1 libkrb5-3 libkrb5support0 libldap2 libnghttp2-14
+#11 2.644   libnghttp3-9 libngtcp2-16 libngtcp2-crypto-gnutls8 libp11-kit0 libperl5.40
+#11 2.645   libpsl5t64 librtmp1 libsasl2-2 libsasl2-modules-db libssh2-1t64 libtasn1-6
+#11 2.645   libunistring5 perl perl-modules-5.40
+#11 2.695 0 upgraded, 31 newly installed, 0 to remove and 1 not upgraded.
+#11 2.695 Need to get 23.0 MB of archives.
+#11 2.695 After this operation, 122 MB of additional disk space will be used.
+#11 2.695 Get:1 http://deb.debian.org/debian-security trixie-security/main arm64 libexpat1 arm64 2.9.0-1~deb13u1 [114 kB]
+#11 2.757 Get:2 http://deb.debian.org/debian trixie/main arm64 perl-modules-5.40 all 5.40.1-6+deb13u1 [3014 kB]
+#11 3.148 Get:3 http://deb.debian.org/debian trixie/main arm64 libgdbm-compat4t64 arm64 1.24-2 [50.3 kB]
+#11 3.153 Get:4 http://deb.debian.org/debian trixie/main arm64 libperl5.40 arm64 5.40.1-6+deb13u1 [4138 kB]
+#11 3.686 Get:5 http://deb.debian.org/debian trixie/main arm64 perl arm64 5.40.1-6+deb13u1 [268 kB]
+#11 3.722 Get:6 http://deb.debian.org/debian-security trixie-security/main arm64 libbrotli1 arm64 1.1.0-2+deb13u1 [294 kB]
+#11 3.757 Get:7 http://deb.debian.org/debian trixie/main arm64 libunistring5 arm64 1.3-2 [453 kB]
+#11 3.820 Get:8 http://deb.debian.org/debian trixie/main arm64 libidn2-0 arm64 2.3.8-2 [107 kB]
+#11 3.832 Get:9 http://deb.debian.org/debian trixie/main arm64 libp11-kit0 arm64 0.25.5-3 [409 kB]
+#11 3.882 Get:10 http://deb.debian.org/debian trixie/main arm64 libtasn1-6 arm64 4.20.0-2+deb13u1 [47.3 kB]
+#11 3.903 Get:11 http://deb.debian.org/debian trixie/main arm64 libgnutls30t64 arm64 3.8.9-3+deb13u4 [1379 kB]
+#11 4.069 Get:12 http://deb.debian.org/debian trixie/main arm64 libkrb5support0 arm64 1.21.3-5+deb13u1 [32.5 kB]
+#11 4.073 Get:13 http://deb.debian.org/debian trixie/main arm64 libcom-err2 arm64 1.47.2-3+b12 [24.9 kB]
+#11 4.075 Get:14 http://deb.debian.org/debian trixie/main arm64 libk5crypto3 arm64 1.21.3-5+deb13u1 [81.4 kB]
+#11 4.086 Get:15 http://deb.debian.org/debian trixie/main arm64 libkeyutils1 arm64 1.6.3-6 [9716 B]
+#11 4.224 Get:16 http://deb.debian.org/debian trixie/main arm64 libkrb5-3 arm64 1.21.3-5+deb13u1 [308 kB]
+#11 4.254 Get:17 http://deb.debian.org/debian trixie/main arm64 libgssapi-krb5-2 arm64 1.21.3-5+deb13u1 [128 kB]
+#11 4.266 Get:18 http://deb.debian.org/debian trixie/main arm64 libsasl2-modules-db arm64 2.1.28+dfsg1-9 [20.1 kB]
+#11 4.267 Get:19 http://deb.debian.org/debian trixie/main arm64 libsasl2-2 arm64 2.1.28+dfsg1-9 [55.6 kB]
+#11 4.275 Get:20 http://deb.debian.org/debian trixie/main arm64 libldap2 arm64 2.6.10+dfsg-1 [179 kB]
+#11 4.298 Get:21 http://deb.debian.org/debian trixie/main arm64 libnghttp2-14 arm64 1.64.0-1.1+deb13u1 [71.6 kB]
+#11 4.305 Get:22 http://deb.debian.org/debian trixie/main arm64 libnghttp3-9 arm64 1.8.0-1 [63.2 kB]
+#11 4.312 Get:23 http://deb.debian.org/debian trixie/main arm64 libngtcp2-16 arm64 1.11.0-1+deb13u1 [121 kB]
+#11 4.327 Get:24 http://deb.debian.org/debian trixie/main arm64 libngtcp2-crypto-gnutls8 arm64 1.11.0-1+deb13u1 [28.4 kB]
+#11 4.332 Get:25 http://deb.debian.org/debian trixie/main arm64 libpsl5t64 arm64 0.21.2-1.1+b1 [57.1 kB]
+#11 4.337 Get:26 http://deb.debian.org/debian trixie/main arm64 librtmp1 arm64 2.4+20151223.gitfa8646d.1-2+b5 [56.8 kB]
+#11 4.346 Get:27 http://deb.debian.org/debian trixie/main arm64 libssh2-1t64 arm64 1.11.1-1+deb13u2 [236 kB]
+#11 4.368 Get:28 http://deb.debian.org/debian-security trixie-security/main arm64 libcurl3t64-gnutls arm64 8.14.1-2+deb13u7 [354 kB]
+#11 4.484 Get:29 http://deb.debian.org/debian trixie/main arm64 liberror-perl all 0.17030-1 [26.9 kB]
+#11 4.486 Get:30 http://deb.debian.org/debian trixie/main arm64 git-man all 1:2.47.3-0+deb13u1 [2205 kB]
+#11 4.735 Get:31 http://deb.debian.org/debian trixie/main arm64 git arm64 1:2.47.3-0+deb13u1 [8666 kB]
+#11 5.854 debconf: unable to initialize frontend: Dialog
+#11 5.854 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#11 5.854 debconf: falling back to frontend: Readline
+#11 5.854 debconf: unable to initialize frontend: Readline
+#11 5.854 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/aarch64-linux-gnu/perl/5.40.1 /usr/local/share/perl/5.40.1 /usr/lib/aarch64-linux-gnu/perl5/5.40 /usr/share/perl5 /usr/lib/aarch64-linux-gnu/perl-base /usr/lib/aarch64-linux-gnu/perl/5.40 /usr/share/perl/5.40 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8, <STDIN> line 31.)
+#11 5.854 debconf: falling back to frontend: Teletype
+#11 5.855 debconf: unable to initialize frontend: Teletype
+#11 5.855 debconf: (This frontend requires a controlling tty.)
+#11 5.855 debconf: falling back to frontend: Noninteractive
+#11 6.276 Fetched 23.0 MB in 3s (7414 kB/s)
+#11 6.287 Selecting previously unselected package libexpat1:arm64.
+#11 6.287 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5655 files and directories currently installed.)
+#11 6.300 Preparing to unpack .../00-libexpat1_2.9.0-1~deb13u1_arm64.deb ...
+#11 6.301 Unpacking libexpat1:arm64 (2.9.0-1~deb13u1) ...
+#11 6.316 Selecting previously unselected package perl-modules-5.40.
+#11 6.316 Preparing to unpack .../01-perl-modules-5.40_5.40.1-6+deb13u1_all.deb ...
+#11 6.317 Unpacking perl-modules-5.40 (5.40.1-6+deb13u1) ...
+#11 6.466 Selecting previously unselected package libgdbm-compat4t64:arm64.
+#11 6.466 Preparing to unpack .../02-libgdbm-compat4t64_1.24-2_arm64.deb ...
+#11 6.467 Unpacking libgdbm-compat4t64:arm64 (1.24-2) ...
+#11 6.478 Selecting previously unselected package libperl5.40:arm64.
+#11 6.479 Preparing to unpack .../03-libperl5.40_5.40.1-6+deb13u1_arm64.deb ...
+#11 6.480 Unpacking libperl5.40:arm64 (5.40.1-6+deb13u1) ...
+#11 6.643 Selecting previously unselected package perl.
+#11 6.644 Preparing to unpack .../04-perl_5.40.1-6+deb13u1_arm64.deb ...
+#11 6.645 Unpacking perl (5.40.1-6+deb13u1) ...
+#11 6.664 Selecting previously unselected package libbrotli1:arm64.
+#11 6.665 Preparing to unpack .../05-libbrotli1_1.1.0-2+deb13u1_arm64.deb ...
+#11 6.666 Unpacking libbrotli1:arm64 (1.1.0-2+deb13u1) ...
+#11 6.688 Selecting previously unselected package libunistring5:arm64.
+#11 6.688 Preparing to unpack .../06-libunistring5_1.3-2_arm64.deb ...
+#11 6.689 Unpacking libunistring5:arm64 (1.3-2) ...
+#11 6.716 Selecting previously unselected package libidn2-0:arm64.
+#11 6.717 Preparing to unpack .../07-libidn2-0_2.3.8-2_arm64.deb ...
+#11 6.718 Unpacking libidn2-0:arm64 (2.3.8-2) ...
+#11 6.732 Selecting previously unselected package libp11-kit0:arm64.
+#11 6.732 Preparing to unpack .../08-libp11-kit0_0.25.5-3_arm64.deb ...
+#11 6.733 Unpacking libp11-kit0:arm64 (0.25.5-3) ...
+#11 6.755 Selecting previously unselected package libtasn1-6:arm64.
+#11 6.756 Preparing to unpack .../09-libtasn1-6_4.20.0-2+deb13u1_arm64.deb ...
+#11 6.756 Unpacking libtasn1-6:arm64 (4.20.0-2+deb13u1) ...
+#11 6.768 Selecting previously unselected package libgnutls30t64:arm64.
+#11 6.769 Preparing to unpack .../10-libgnutls30t64_3.8.9-3+deb13u4_arm64.deb ...
+#11 6.769 Unpacking libgnutls30t64:arm64 (3.8.9-3+deb13u4) ...
+#11 6.811 Selecting previously unselected package libkrb5support0:arm64.
+#11 6.811 Preparing to unpack .../11-libkrb5support0_1.21.3-5+deb13u1_arm64.deb ...
+#11 6.813 Unpacking libkrb5support0:arm64 (1.21.3-5+deb13u1) ...
+#11 6.821 Selecting previously unselected package libcom-err2:arm64.
+#11 6.822 Preparing to unpack .../12-libcom-err2_1.47.2-3+b12_arm64.deb ...
+#11 6.824 Unpacking libcom-err2:arm64 (1.47.2-3+b12) ...
+#11 6.832 Selecting previously unselected package libk5crypto3:arm64.
+#11 6.832 Preparing to unpack .../13-libk5crypto3_1.21.3-5+deb13u1_arm64.deb ...
+#11 6.834 Unpacking libk5crypto3:arm64 (1.21.3-5+deb13u1) ...
+#11 6.845 Selecting previously unselected package libkeyutils1:arm64.
+#11 6.845 Preparing to unpack .../14-libkeyutils1_1.6.3-6_arm64.deb ...
+#11 6.847 Unpacking libkeyutils1:arm64 (1.6.3-6) ...
+#11 6.856 Selecting previously unselected package libkrb5-3:arm64.
+#11 6.856 Preparing to unpack .../15-libkrb5-3_1.21.3-5+deb13u1_arm64.deb ...
+#11 6.858 Unpacking libkrb5-3:arm64 (1.21.3-5+deb13u1) ...
+#11 6.880 Selecting previously unselected package libgssapi-krb5-2:arm64.
+#11 6.881 Preparing to unpack .../16-libgssapi-krb5-2_1.21.3-5+deb13u1_arm64.deb ...
+#11 6.882 Unpacking libgssapi-krb5-2:arm64 (1.21.3-5+deb13u1) ...
+#11 6.893 Selecting previously unselected package libsasl2-modules-db:arm64.
+#11 6.893 Preparing to unpack .../17-libsasl2-modules-db_2.1.28+dfsg1-9_arm64.deb ...
+#11 6.894 Unpacking libsasl2-modules-db:arm64 (2.1.28+dfsg1-9) ...
+#11 6.904 Selecting previously unselected package libsasl2-2:arm64.
+#11 6.904 Preparing to unpack .../18-libsasl2-2_2.1.28+dfsg1-9_arm64.deb ...
+#11 6.905 Unpacking libsasl2-2:arm64 (2.1.28+dfsg1-9) ...
+#11 6.916 Selecting previously unselected package libldap2:arm64.
+#11 6.917 Preparing to unpack .../19-libldap2_2.6.10+dfsg-1_arm64.deb ...
+#11 6.917 Unpacking libldap2:arm64 (2.6.10+dfsg-1) ...
+#11 6.933 Selecting previously unselected package libnghttp2-14:arm64.
+#11 6.934 Preparing to unpack .../20-libnghttp2-14_1.64.0-1.1+deb13u1_arm64.deb ...
+#11 6.935 Unpacking libnghttp2-14:arm64 (1.64.0-1.1+deb13u1) ...
+#11 6.946 Selecting previously unselected package libnghttp3-9:arm64.
+#11 6.947 Preparing to unpack .../21-libnghttp3-9_1.8.0-1_arm64.deb ...
+#11 6.947 Unpacking libnghttp3-9:arm64 (1.8.0-1) ...
+#11 6.960 Selecting previously unselected package libngtcp2-16:arm64.
+#11 6.961 Preparing to unpack .../22-libngtcp2-16_1.11.0-1+deb13u1_arm64.deb ...
+#11 6.962 Unpacking libngtcp2-16:arm64 (1.11.0-1+deb13u1) ...
+#11 6.974 Selecting previously unselected package libngtcp2-crypto-gnutls8:arm64.
+#11 6.974 Preparing to unpack .../23-libngtcp2-crypto-gnutls8_1.11.0-1+deb13u1_arm64.deb ...
+#11 6.975 Unpacking libngtcp2-crypto-gnutls8:arm64 (1.11.0-1+deb13u1) ...
+#11 6.987 Selecting previously unselected package libpsl5t64:arm64.
+#11 6.987 Preparing to unpack .../24-libpsl5t64_0.21.2-1.1+b1_arm64.deb ...
+#11 6.988 Unpacking libpsl5t64:arm64 (0.21.2-1.1+b1) ...
+#11 7.000 Selecting previously unselected package librtmp1:arm64.
+#11 7.001 Preparing to unpack .../25-librtmp1_2.4+20151223.gitfa8646d.1-2+b5_arm64.deb ...
+#11 7.002 Unpacking librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+#11 7.014 Selecting previously unselected package libssh2-1t64:arm64.
+#11 7.014 Preparing to unpack .../26-libssh2-1t64_1.11.1-1+deb13u2_arm64.deb ...
+#11 7.015 Unpacking libssh2-1t64:arm64 (1.11.1-1+deb13u2) ...
+#11 7.031 Selecting previously unselected package libcurl3t64-gnutls:arm64.
+#11 7.031 Preparing to unpack .../27-libcurl3t64-gnutls_8.14.1-2+deb13u7_arm64.deb ...
+#11 7.034 Unpacking libcurl3t64-gnutls:arm64 (8.14.1-2+deb13u7) ...
+#11 7.053 Selecting previously unselected package liberror-perl.
+#11 7.053 Preparing to unpack .../28-liberror-perl_0.17030-1_all.deb ...
+#11 7.055 Unpacking liberror-perl (0.17030-1) ...
+#11 7.062 Selecting previously unselected package git-man.
+#11 7.063 Preparing to unpack .../29-git-man_1%3a2.47.3-0+deb13u1_all.deb ...
+#11 7.064 Unpacking git-man (1:2.47.3-0+deb13u1) ...
+#11 7.115 Selecting previously unselected package git.
+#11 7.116 Preparing to unpack .../30-git_1%3a2.47.3-0+deb13u1_arm64.deb ...
+#11 7.119 Unpacking git (1:2.47.3-0+deb13u1) ...
+#11 7.310 Setting up libexpat1:arm64 (2.9.0-1~deb13u1) ...
+#11 7.314 Setting up libkeyutils1:arm64 (1.6.3-6) ...
+#11 7.316 Setting up libgdbm-compat4t64:arm64 (1.24-2) ...
+#11 7.319 Setting up libbrotli1:arm64 (1.1.0-2+deb13u1) ...
+#11 7.322 Setting up libnghttp2-14:arm64 (1.64.0-1.1+deb13u1) ...
+#11 7.325 Setting up libcom-err2:arm64 (1.47.2-3+b12) ...
+#11 7.327 Setting up libkrb5support0:arm64 (1.21.3-5+deb13u1) ...
+#11 7.330 Setting up libsasl2-modules-db:arm64 (2.1.28+dfsg1-9) ...
+#11 7.333 Setting up libp11-kit0:arm64 (0.25.5-3) ...
+#11 7.336 Setting up libunistring5:arm64 (1.3-2) ...
+#11 7.340 Setting up libk5crypto3:arm64 (1.21.3-5+deb13u1) ...
+#11 7.342 Setting up libsasl2-2:arm64 (2.1.28+dfsg1-9) ...
+#11 7.345 Setting up libnghttp3-9:arm64 (1.8.0-1) ...
+#11 7.348 Setting up perl-modules-5.40 (5.40.1-6+deb13u1) ...
+#11 7.351 Setting up libtasn1-6:arm64 (4.20.0-2+deb13u1) ...
+#11 7.354 Setting up git-man (1:2.47.3-0+deb13u1) ...
+#11 7.357 Setting up libngtcp2-16:arm64 (1.11.0-1+deb13u1) ...
+#11 7.359 Setting up libkrb5-3:arm64 (1.21.3-5+deb13u1) ...
+#11 7.362 Setting up libssh2-1t64:arm64 (1.11.1-1+deb13u2) ...
+#11 7.366 Setting up libldap2:arm64 (2.6.10+dfsg-1) ...
+#11 7.367 Setting up libidn2-0:arm64 (2.3.8-2) ...
+#11 7.371 Setting up libperl5.40:arm64 (5.40.1-6+deb13u1) ...
+#11 7.376 Setting up perl (5.40.1-6+deb13u1) ...
+#11 7.382 Setting up libgssapi-krb5-2:arm64 (1.21.3-5+deb13u1) ...
+#11 7.386 Setting up libgnutls30t64:arm64 (3.8.9-3+deb13u4) ...
+#11 7.388 Setting up libpsl5t64:arm64 (0.21.2-1.1+b1) ...
+#11 7.391 Setting up liberror-perl (0.17030-1) ...
+#11 7.395 Setting up librtmp1:arm64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+#11 7.399 Setting up libngtcp2-crypto-gnutls8:arm64 (1.11.0-1+deb13u1) ...
+#11 7.402 Setting up libcurl3t64-gnutls:arm64 (8.14.1-2+deb13u7) ...
+#11 7.404 Setting up git (1:2.47.3-0+deb13u1) ...
+#11 7.410 Processing triggers for libc-bin (2.41-12+deb13u4) ...
+#11 DONE 7.6s
+
+#12 [demo-04 3/9] WORKDIR /app
+#12 DONE 0.0s
+
+#13 [demo-01 4/9] COPY pyproject.toml README.md ./
+#13 DONE 0.0s
+
+#14 [demo-03 5/9] COPY src ./src
+#14 DONE 0.0s
+
+#15 [demo-03 6/9] RUN pip install --no-cache-dir .
+#15 0.642 Processing /app
+#15 0.643   Installing build dependencies: started
+#15 1.648   Installing build dependencies: finished with status 'done'
+#15 1.649   Getting requirements to build wheel: started
+#15 1.677   Getting requirements to build wheel: finished with status 'done'
+#15 1.677   Preparing metadata (pyproject.toml): started
+#15 1.732   Preparing metadata (pyproject.toml): finished with status 'done'
+#15 1.865 Collecting jsonschema>=4 (from markov-ci==0.1.0.dev0)
+#15 2.006   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+#15 2.308 Collecting numpy>=1.26 (from markov-ci==0.1.0.dev0)
+#15 2.328   Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl.metadata (6.6 kB)
+#15 2.457 Collecting pydantic>=2 (from markov-ci==0.1.0.dev0)
+#15 2.475   Downloading pydantic-2.14.3-py3-none-any.whl.metadata (141 kB)
+#15 2.559 Collecting pyyaml>=6 (from markov-ci==0.1.0.dev0)
+#15 2.582   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl.metadata (2.4 kB)
+#15 2.628 Collecting rich>=13 (from markov-ci==0.1.0.dev0)
+#15 2.643   Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+#15 2.706 Collecting typer>=0.12 (from markov-ci==0.1.0.dev0)
+#15 2.732   Downloading typer-0.29.1-py3-none-any.whl.metadata (16 kB)
+#15 2.761 Collecting attrs>=22.2.0 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#15 2.777   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+#15 2.806 Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#15 2.825   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+#15 2.862 Collecting referencing>=0.28.4 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#15 2.880   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+#15 3.164 Collecting rpds-py>=0.25.0 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+#15 3.190   Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (4.1 kB)
+#15 3.217 Collecting annotated-types>=0.6.0 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#15 3.249   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+#15 3.893 Collecting pydantic-core==2.50.4 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#15 4.226   Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl.metadata (6.6 kB)
+#15 4.254 Collecting typing-extensions>=4.16.0 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#15 4.307   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#15 4.331 Collecting typing-inspection>=0.4.4 (from pydantic>=2->markov-ci==0.1.0.dev0)
+#15 4.391   Downloading typing_inspection-0.4.5-py3-none-any.whl.metadata (2.6 kB)
+#15 4.426 Collecting markdown-it-py>=2.2.0 (from rich>=13->markov-ci==0.1.0.dev0)
+#15 4.482   Downloading markdown_it_py-4.3.0-py3-none-any.whl.metadata (7.9 kB)
+#15 4.515 Collecting pygments<3.0.0,>=2.13.0 (from rich>=13->markov-ci==0.1.0.dev0)
+#15 4.541   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+#15 4.568 Collecting shellingham>=1.3.0 (from typer>=0.12->markov-ci==0.1.0.dev0)
+#15 4.596   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+#15 4.624 Collecting annotated-doc>=0.0.2 (from typer>=0.12->markov-ci==0.1.0.dev0)
+#15 4.657   Downloading annotated_doc-0.0.6-py3-none-any.whl.metadata (6.5 kB)
+#15 4.681 Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=13->markov-ci==0.1.0.dev0)
+#15 4.716   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+#15 4.773 Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+#15 4.826 Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_aarch64.manylinux_2_28_aarch64.whl (15.3 MB)
+#15 6.683    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.3/15.3 MB 8.3 MB/s eta 0:00:00
+#15 6.749 Downloading pydantic-2.14.3-py3-none-any.whl (494 kB)
+#15 6.828 Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.whl (2.1 MB)
+#15 7.071    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 8.9 MB/s eta 0:00:00
+#15 7.095 Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl (775 kB)
+#15 7.173    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 775.1/775.1 kB 10.3 MB/s eta 0:00:00
+#15 7.188 Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+#15 7.256 Downloading typer-0.29.1-py3-none-any.whl (121 kB)
+#15 7.299 Downloading annotated_doc-0.0.6-py3-none-any.whl (5.3 kB)
+#15 7.320 Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+#15 7.339 Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+#15 7.371 Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+#15 7.392 Downloading markdown_it_py-4.3.0-py3-none-any.whl (96 kB)
+#15 7.528 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+#15 7.665    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 8.7 MB/s eta 0:00:00
+#15 7.685 Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+#15 7.713 Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (373 kB)
+#15 7.778 Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+#15 7.799 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#15 7.826 Downloading typing_inspection-0.4.5-py3-none-any.whl (14 kB)
+#15 7.845 Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+#15 7.883 Building wheels for collected packages: markov-ci
+#15 7.886   Building wheel for markov-ci (pyproject.toml): started
+#15 7.902   Building wheel for markov-ci (pyproject.toml): finished with status 'done'
+#15 7.902   Created wheel for markov-ci: filename=markov_ci-0.1.0.dev0-py3-none-any.whl size=56311 sha256=7bdd45da153f69fababeb581f28eff7ca394dce537dddbe1ac05c887491e437d
+#15 7.902   Stored in directory: /tmp/pip-ephem-wheel-cache-dwtqms4w/wheels/54/1b/b7/aa63e25c8f14f4f2ae7b04e6097bdecb770e455c5c1ee0a600
+#15 7.904 Successfully built markov-ci
+#15 7.919 Installing collected packages: typing-extensions, shellingham, rpds-py, pyyaml, pygments, numpy, mdurl, attrs, annotated-types, annotated-doc, typing-inspection, referencing, pydantic-core, markdown-it-py, rich, pydantic, jsonschema-specifications, typer, jsonschema, markov-ci
+#15 9.357 Successfully installed annotated-doc-0.0.6 annotated-types-0.8.0 attrs-26.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.3.0 markov-ci-0.1.0.dev0 mdurl-0.1.2 numpy-2.5.5 pydantic-2.14.3 pydantic-core-2.50.4 pygments-2.21.0 pyyaml-6.0.3 referencing-0.37.0 rich-15.0.0 rpds-py-2026.9.1 shellingham-1.5.4 typer-0.29.1 typing-extensions-4.16.0 typing-inspection-0.4.5
+#15 9.357 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#15 9.539 
+#15 9.539 [notice] A new release of pip is available: 25.0.1 -> 26.3
+#15 9.539 [notice] To update, run: pip install --upgrade pip
+#15 DONE 9.7s
+
+#16 [demo-02 7/9] COPY examples /examples
+#16 DONE 0.0s
+
+#17 [demo-02 8/9] RUN set -eux;     for repo in /examples/*/repo; do         git -C "$repo" init -q;         git -C "$repo" config user.email demo@example.com;         git -C "$repo" config user.name "markov-ci demo";         git -C "$repo" add -A;         git -C "$repo" commit -qm "demo baseline";     done
+#17 0.065 + git -C /examples/01-lint-error/repo init -q
+#17 0.069 + git -C /examples/01-lint-error/repo config user.email demo@example.com
+#17 0.069 + git -C /examples/01-lint-error/repo config user.name markov-ci demo
+#17 0.070 + git -C /examples/01-lint-error/repo add -A
+#17 0.071 + git -C /examples/01-lint-error/repo commit -qm demo baseline
+#17 0.073 + git -C /examples/02-unit-assertion-decay/repo init -q
+#17 0.076 + git -C /examples/02-unit-assertion-decay/repo config user.email demo@example.com
+#17 0.076 + git -C /examples/02-unit-assertion-decay/repo config user.name markov-ci demo
+#17 0.077 + git -C /examples/02-unit-assertion-decay/repo add -A
+#17 0.078 + git -C /examples/02-unit-assertion-decay/repo commit -qm demo baseline
+#17 0.080 + git -C /examples/06-adversarial-runaway/repo init -q
+#17 0.083 + git -C /examples/06-adversarial-runaway/repo config user.email demo@example.com
+#17 0.083 + git -C /examples/06-adversarial-runaway/repo config user.name markov-ci demo
+#17 0.083 + git -C /examples/06-adversarial-runaway/repo add -A
+#17 0.084 + git -C /examples/06-adversarial-runaway/repo commit -qm demo baseline
+#17 0.086 + git -C /examples/07-cheating-agent/repo init -q
+#17 0.089 + git -C /examples/07-cheating-agent/repo config user.email demo@example.com
+#17 0.090 + git -C /examples/07-cheating-agent/repo config user.name markov-ci demo
+#17 0.090 + git -C /examples/07-cheating-agent/repo add -A
+#17 0.091 + git -C /examples/07-cheating-agent/repo commit -qm demo baseline
+#17 DONE 0.1s
+
+#18 [demo-03] exporting to image
+#18 exporting layers
+#18 exporting layers 1.6s done
+#18 exporting manifest sha256:fb994773e1539926b10dab812b7140dc23973b426e5dd77107b30a81345572d1 0.0s done
+#18 exporting config sha256:56d61439492a13503124686e22d0ac9882a2f510a53ec012f62e7c8736859445 0.0s done
+#18 exporting attestation manifest sha256:3adabb5612b5363bd9a2cc4e9a8133e8f9e37cb29f3d7217707f5f758de4abcd 0.0s done
+#18 exporting manifest list sha256:bc8255d575ae6805756da1b51b018016696289f918834243b46c6a6956c7320d done
+#18 naming to docker.io/library/markov-ci-examples-demo-03:latest done
+#18 unpacking to docker.io/library/markov-ci-examples-demo-03:latest
+#18 unpacking to docker.io/library/markov-ci-examples-demo-03:latest 2.5s done
+#18 DONE 4.2s
+
+#19 [demo-02] exporting to image
+#19 exporting layers 1.6s done
+#19 exporting manifest sha256:41ba11c89baaa74e169e10e84f6d98384eb91e782001e59a3ea8ea115349fc63 0.0s done
+#19 exporting config sha256:9629e37cf5462c95e8796681368ac51cfb77e45146c873ed404178dc37c25263 0.0s done
+#19 exporting attestation manifest sha256:a3e00dc5950d5aa55b57e00f531e5f2668fe45189667c0c02db426c4b067cc96 0.0s done
+#19 exporting manifest list sha256:a709701cdda272b55a576101e013015c424be086459fb52a1b535a9f515c381b done
+#19 naming to docker.io/library/markov-ci-examples-demo-02:latest done
+#19 unpacking to docker.io/library/markov-ci-examples-demo-02:latest 2.5s done
+#19 DONE 4.2s
+
+#20 [demo-01] exporting to image
+#20 exporting layers 1.6s done
+#20 exporting manifest sha256:e39df71002b7c3edff2e13a85637ff4f28ca14996c65a5cda4cc502013ad21c3 0.0s done
+#20 exporting config sha256:beb4f7077ce3f0cb2d7d142100ad0f729a3ae01abf538e319fe000853eead1d9 0.0s done
+#20 exporting attestation manifest sha256:5df221a567391dde03d635e105504fc912420b93bf08ee8d064073dff9c9a1b7 0.0s done
+#20 exporting manifest list sha256:38abd0509134d9f7d15f98a1d850ec757259f2e2e5d2d4b71ac0aaa4f57b7d24 done
+#20 naming to docker.io/library/markov-ci-examples-demo-01:latest done
+#20 unpacking to docker.io/library/markov-ci-examples-demo-01:latest 2.5s done
+#20 DONE 4.2s
+
+#21 [demo-04] exporting to image
+#21 exporting layers 1.6s done
+#21 exporting manifest sha256:22d6a578f160d1a6d22905d8f928a5fb011785725befa621e16fa44c6b0ae132 0.0s done
+#21 exporting config sha256:14d5cc00045079a1efbe68fe53817a564ec9b5bfcff515bc01676713ec3414e1 0.0s done
+#21 exporting attestation manifest sha256:02a56150b1529eddd690b3334feffd9ce39f94755b6354dbeaadd86797e67218 0.0s done
+#21 exporting manifest list sha256:247d566119cfde27613b14b39bb724952c81c0e9a8241326094550b860a59156 done
+#21 naming to docker.io/library/markov-ci-examples-demo-04:latest done
+#21 unpacking to docker.io/library/markov-ci-examples-demo-04:latest 2.5s done
+#21 DONE 4.2s
+
+#22 [demo-02] resolving provenance for metadata file
+#22 DONE 0.0s
+
+#23 [demo-04] resolving provenance for metadata file
+#23 DONE 0.0s
+
+#24 [demo-01] resolving provenance for metadata file
+#24 DONE 0.0s
+
+#25 [demo-03] resolving provenance for metadata file
+#25 DONE 0.0s
+ Image markov-ci-examples-demo-03 Built 
+ Image markov-ci-examples-demo-04 Built 
+ Image markov-ci-examples-demo-01 Built 
+ Image markov-ci-examples-demo-02 Built 
+build_exit=0
+=== demo-01 ===
+ Container markov-ci-examples-demo-01-run-63405360fd86 Creating 
+ Container markov-ci-examples-demo-01-run-63405360fd86 Created 
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /usr/local/lib/python3.12/site-packages/markov_ci/cli/app.py:173 in run      │
+│                                                                              │
+│   170 │   sandbox = Sandbox(repo)                                            │
+│   171 │   context = minimize(list(report.failures)).text                     │
+│   172 │   try:                                                               │
+│ ❱ 173 │   │   result = run_loop(                                             │
+│   174 │   │   │   adapter=_build_adapter(resolved, category, seed),          │
+│   175 │   │   │   category=triage.category,                                  │
+│   176 │   │   │   context=context,                                           │
+│                                                                              │
+│ /usr/local/lib/python3.12/site-packages/markov_ci/engine/loop.py:167 in      │
+│ run_loop                                                                     │
+│                                                                              │
+│   164 │   │   emit(sandbox_state, attempt)                                   │
+│   165 │   │   _bump(visits, sandbox_state)                                   │
+│   166 │   │                                                                  │
+│ ❱ 167 │   │   validation = sandbox.apply_and_test(proposal.diff,             │
+│       config.failing_command)                                                │
+│   168 │   │   if not validation.applied:                                     │
+│   169 │   │   │   absorbing = A2                                             │
+│   170 │   │   │   emit(A2, attempt)                                          │
+│                                                                              │
+│ /usr/local/lib/python3.12/site-packages/markov_ci/engine/sandbox.py:69 in    │
+│ apply_and_test                                                               │
+│                                                                              │
+│   66 │   │   │   │   return SandboxResult(False, False, f"patch did not      │
+│      apply: {apply.stderr}")                                                 │
+│   67 │   │   │                                                               │
+│   68 │   │   │   try:                                                        │
+│ ❱ 69 │   │   │   │   completed = subprocess.run(                             │
+│   70 │   │   │   │   │   list(command),                                      │
+│   71 │   │   │   │   │   cwd=worktree,                                       │
+│   72 │   │   │   │   │   capture_output=True,                                │
+│                                                                              │
+│ /usr/local/lib/python3.12/subprocess.py:548 in run                           │
+│                                                                              │
+│    545 │   │   kwargs['stdout'] = PIPE                                       │
+│    546 │   │   kwargs['stderr'] = PIPE                                       │
+│    547 │                                                                     │
+│ ❱  548 │   with Popen(*popenargs, **kwargs) as process:                      │
+│    549 │   │   try:                                                          │
+│    550 │   │   │   stdout, stderr = process.communicate(input,               │
+│        timeout=timeout)                                                      │
+│    551 │   │   except TimeoutExpired as exc:                                 │
+│                                                                              │
+│ /usr/local/lib/python3.12/subprocess.py:1026 in __init__                     │
+│                                                                              │
+│   1023 │   │   │   │   │   self.stderr = io.TextIOWrapper(self.stderr,       │
+│   1024 │   │   │   │   │   │   │   encoding=encoding, errors=errors)         │
+│   1025 │   │   │                                                             │
+│ ❱ 1026 │   │   │   self._execute_child(args, executable, preexec_fn,         │
+│        close_fds,                                                            │
+│   1027 │   │   │   │   │   │   │   │   pass_fds, cwd, env,                   │
+│   1028 │   │   │   │   │   │   │   │   startupinfo, creationflags, shell,    │
+│   1029 │   │   │   │   │   │   │   │   p2cread, p2cwrite,                    │
+│                                                                              │
+│ /usr/local/lib/python3.12/subprocess.py:1955 in _execute_child               │
+│                                                                              │
+│   1952 │   │   │   │   │   if errno_num != 0:                                │
+│   1953 │   │   │   │   │   │   err_msg = os.strerror(errno_num)              │
+│   1954 │   │   │   │   │   if err_filename is not None:                      │
+│ ❱ 1955 │   │   │   │   │   │   raise child_exception_type(errno_num,         │
+│        err_msg, err_filename)                                                │
+│   1956 │   │   │   │   │   else:                                             │
+│   1957 │   │   │   │   │   │   raise child_exception_type(errno_num,         │
+│        err_msg)                                                              │
+│   1958 │   │   │   │   raise child_exception_type(err_msg)                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+FileNotFoundError: [Errno 2] No such file or directory: 'pytest'
+FAIL: expected exit 0, got 1 — markov-ci run /examples/01-lint-error/config.yaml --junit /examples/01-lint-error/report.xml --repo /examples/01-lint-error/repo --seed 42
+
+demo-01 exit=1
+=== demo-02 ===
+ Container markov-ci-examples-demo-02-run-b51abdb15442 Creating 
+ Container markov-ci-examples-demo-02-run-b51abdb15442 Created 
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /usr/local/lib/python3.12/site-packages/markov_ci/cli/app.py:173 in run      │
+│                                                                              │
+│   170 │   sandbox = Sandbox(repo)                                            │
+│   171 │   context = minimize(list(report.failures)).text                     │
+│   172 │   try:                                                               │
+│ ❱ 173 │   │   result = run_loop(                                             │
+│   174 │   │   │   adapter=_build_adapter(resolved, category, seed),          │
+│   175 │   │   │   category=triage.category,                                  │
+│   176 │   │   │   context=context,                                           │
+│                                                                              │
+│ /usr/local/lib/python3.12/site-packages/markov_ci/engine/loop.py:167 in      │
+│ run_loop                                                                     │
+│                                                                              │
+│   164 │   │   emit(sandbox_state, attempt)                                   │
+│   165 │   │   _bump(visits, sandbox_state)                                   │
+│   166 │   │                                                                  │
+│ ❱ 167 │   │   validation = sandbox.apply_and_test(proposal.diff,             │
+│       config.failing_command)                                                │
+│   168 │   │   if not validation.applied:                                     │
+│   169 │   │   │   absorbing = A2                                             │
+│   170 │   │   │   emit(A2, attempt)                                          │
+│                                                                              │
+│ /usr/local/lib/python3.12/site-packages/markov_ci/engine/sandbox.py:69 in    │
+│ apply_and_test                                                               │
+│                                                                              │
+│   66 │   │   │   │   return SandboxResult(False, False, f"patch did not      │
+│      apply: {apply.stderr}")                                                 │
+│   67 │   │   │                                                               │
+│   68 │   │   │   try:                                                        │
+│ ❱ 69 │   │   │   │   completed = subprocess.run(                             │
+│   70 │   │   │   │   │   list(command),                                      │
+│   71 │   │   │   │   │   cwd=worktree,                                       │
+│   72 │   │   │   │   │   capture_output=True,                                │
+│                                                                              │
+│ /usr/local/lib/python3.12/subprocess.py:548 in run                           │
+│                                                                              │
+│    545 │   │   kwargs['stdout'] = PIPE                                       │
+│    546 │   │   kwargs['stderr'] = PIPE                                       │
+│    547 │                                                                     │
+│ ❱  548 │   with Popen(*popenargs, **kwargs) as process:                      │
+│    549 │   │   try:                                                          │
+│    550 │   │   │   stdout, stderr = process.communicate(input,               │
+│        timeout=timeout)                                                      │
+│    551 │   │   except TimeoutExpired as exc:                                 │
+│                                                                              │
+│ /usr/local/lib/python3.12/subprocess.py:1026 in __init__                     │
+│                                                                              │
+│   1023 │   │   │   │   │   self.stderr = io.TextIOWrapper(self.stderr,       │
+│   1024 │   │   │   │   │   │   │   encoding=encoding, errors=errors)         │
+│   1025 │   │   │                                                             │
+│ ❱ 1026 │   │   │   self._execute_child(args, executable, preexec_fn,         │
+│        close_fds,                                                            │
+│   1027 │   │   │   │   │   │   │   │   pass_fds, cwd, env,                   │
+│   1028 │   │   │   │   │   │   │   │   startupinfo, creationflags, shell,    │
+│   1029 │   │   │   │   │   │   │   │   p2cread, p2cwrite,                    │
+│                                                                              │
+│ /usr/local/lib/python3.12/subprocess.py:1955 in _execute_child               │
+│                                                                              │
+│   1952 │   │   │   │   │   if errno_num != 0:                                │
+│   1953 │   │   │   │   │   │   err_msg = os.strerror(errno_num)              │
+│   1954 │   │   │   │   │   if err_filename is not None:                      │
+│ ❱ 1955 │   │   │   │   │   │   raise child_exception_type(errno_num,         │
+│        err_msg, err_filename)                                                │
+│   1956 │   │   │   │   │   else:                                             │
+│   1957 │   │   │   │   │   │   raise child_exception_type(errno_num,         │
+│        err_msg)                                                              │
+│   1958 │   │   │   │   raise child_exception_type(err_msg)                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+FileNotFoundError: [Errno 2] No such file or directory: 'pytest'
+FAIL: expected exit 2, got 1 — markov-ci run /examples/02-unit-assertion-decay/config.yaml --junit /examples/02-unit-assertion-decay/report.xml --repo /examples/02-unit-assertion-decay/repo --seed 42
+
+demo-02 exit=1
+=== demo-03 ===
+ Container markov-ci-examples-demo-03-run-15c0d2408d63 Creating 
+ Container markov-ci-examples-demo-03-run-15c0d2408d63 Created 
+infra_timeout: matched 'timeouterror' → infra_timeout — escalating (a2)
+OK: markov-ci run /examples/03-infra-timeout/config.yaml --junit /examples/03-infra-timeout/report.xml --seed 42 exited 2
+demo-03 exit=0
+=== demo-04 ===
+ Container markov-ci-examples-demo-04-run-2b86ff751ab7 Creating 
+ Container markov-ci-examples-demo-04-run-2b86ff751ab7 Created 
+{
+  "c": 5,
+  "human_share": 0.6,
+  "mu": 30.0,
+  "pools": {
+    "agent": {
+      "c": 2,
+      "lambda": 48.0,
+      "mean_wait": 0.05925925925925927,
+      "p95_wait": 0.22123380721528307,
+      "p_wait": 0.7111111111111112,
+      "rho": 0.8,
+      "simulation": {
+        "mean_wait": 0.057615882413601556,
+        "p50_wait": 0.025938542903531925,
+        "p95_wait": 0.21534198487696443,
+        "p99_wait": 0.41803155606430664,
+        "p_wait": 0.7016470391014626
+      }
+    },
+    "human": {
+      "c": 3,
+      "lambda": 72.0,
+      "mean_wait": 0.03595505617977527,
+      "p95_wait": 0.14225658175131642,
+      "p_wait": 0.6471910112359549,
+      "rho": 0.7999999999999999,
+      "simulation": {
+        "mean_wait": 0.03501717729889868,
+        "p50_wait": 0.014008750302309636,
+        "p95_wait": 0.13853282145538515,
+        "p99_wait": 0.2272675058279674,
+        "p_wait": 0.6447731017960755
+      }
+    }
+  }
+}
+OK: markov-ci queue --lambda 120 --mu 30 --c 5 --simulate --json exited 0
+demo-04 exit=0

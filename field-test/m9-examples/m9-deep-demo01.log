@@ -1,0 +1,14 @@
+=== 4. deep demo-01: evidence, repo untouched, determinism ===
+ Container markov-ci-examples-demo-01-run-5c666ffec95a Creating 
+ Container markov-ci-examples-demo-01-run-5c666ffec95a Created 
+run_exit=0
+ABSORBING a1_ready_for_human_review
+VISITS ['a1_ready_for_human_review', 's1_failure_triage', 's2_agent_reasoning#1', 's3_sandbox_validation#1', 's4_regression_check']
+TOKENS 0
+EVENTS 4
+CATS ['lint_error']
+ADAPTERS ['simulated']
+HOPS ['s1_failure_triage>s2_agent_reasoning#1', 's2_agent_reasoning#1>s3_sandbox_validation#1', 's3_sandbox_validation#1>s4_regression_check', 's4_regression_check>a1_ready_for_human_review']
+REPO_DIRTY_LINES=0
+DETERMINISM IDENTICAL
+R2_ABSORBING a1_ready_for_human_review
