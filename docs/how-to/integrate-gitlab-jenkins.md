@@ -17,12 +17,14 @@ markov-govern:
     - pip install markov-ci
     - pytest tests/unit --junitxml=report.xml || true
     - |
-      markov-ci run .markov-ci/config.yaml --junit report.xml --seed 42
-      code=$?
-      if [ $code -eq 2 ]; then
-        echo "Escalated to author — check the job log for diagnostics"; exit 1
-      fi
-      exit $code
+      code=0
+      markov-ci run .markov-ci/config.yaml --junit report.xml --seed 42 || code=$?
+      case $code in
+        0) echo "a1: ready for human review" ;;
+        2) echo "a2: escalated to author"; exit 1 ;;
+        3) echo "a3: budget exceeded"; exit 1 ;;
+        4) echo "invalid config"; exit 1 ;;
+      esac
   artifacts:
     paths: [.markov-ci/events.jsonl]
 ```
