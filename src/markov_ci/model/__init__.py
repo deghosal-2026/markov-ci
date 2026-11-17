@@ -15,18 +15,22 @@ from markov_ci.model.state import (
     StateSpace,
     StateType,
 )
+from markov_ci.model.validate import Finding, ValidationResult, validate
 
 __all__ = [
     "AugmentedEdge",
     "AugmentedSpace",
     "Chain",
     "EdgeWeight",
+    "Finding",
     "InvalidStateSpace",
     "State",
     "StateSpace",
     "StateType",
     "TransitionEdge",
+    "ValidationResult",
     "assemble",
     "augment",
+    "validate",
 ]
 
