@@ -15,12 +15,11 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends git \
     && rm -rf /var/lib/apt/lists/*
 
-# Install the package. Core carries no LLM/harness SDK (ADR-0007): the default
-# agent is the offline simulated agent.
+# Install the package plus pytest (the offline demos' sandbox runs `pytest -q`).
 WORKDIR /app
 COPY pyproject.toml README.md ./
 COPY src ./src
-RUN pip install --no-cache-dir .
+RUN pip install --no-cache-dir . pytest
 
 # The demos, each made a real git repository (the sandbox creates git worktrees).
 COPY examples /examples
