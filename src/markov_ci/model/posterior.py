@@ -25,7 +25,7 @@ class Posterior:
     upper: tuple[float, ...]
 
 
-def _norm_ppf(p: float) -> float:
+def norm_ppf(p: float) -> float:
     """Inverse standard-normal CDF (Acklam's rational approximation)."""
     a = (-3.969683028665376e01, 2.209460984245205e02, -2.759285104469687e02,
          1.383577518672690e02, -3.066479806614716e01, 2.506628277459239e00)
@@ -82,7 +82,7 @@ def posterior(
     means: list[float] = []
     lowers: list[float] = []
     uppers: list[float] = []
-    z = _norm_ppf(1 - (1 - level) / 2)
+    z = norm_ppf(1 - (1 - level) / 2)
 
     for concentration_j, count in zip(concentration, counts, strict=True):
         a = concentration_j + count

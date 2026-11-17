@@ -104,6 +104,31 @@ def test_run_infra_failure_escalates_without_tokens(tmp_path: Path) -> None:
     assert result.exit_code == 2  # a2, zero tokens spent
 
 
+def test_simulate_json_matches_the_analytic_forecast() -> None:
+    result = RUNNER.invoke(app, ["simulate", "--runs", "20000", "--seed", "3", "--json"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["runs"] == 20000
+    assert payload["absorption_probabilities"]["a1_ready_for_human_review"] == \
+        pytest.approx(0.92, abs=0.03)
+
+
+def test_simulate_human_output() -> None:
+    result = RUNNER.invoke(app, ["simulate", "--runs", "500"])
+    assert result.exit_code == 0
+    assert "mean steps" in result.stdout
+
+
+def test_simulate_invalid_category_exits_four() -> None:
+    result = RUNNER.invoke(app, ["simulate", "--category", "nope"])
+    assert result.exit_code == 4
+
+
+def test_simulate_zero_runs_exits_four() -> None:
+    result = RUNNER.invoke(app, ["simulate", "--runs", "0"])
+    assert result.exit_code == 4
+
+
 def test_queue_reports_both_pools() -> None:
     result = RUNNER.invoke(app, ["queue", "--lambda", "120", "--mu", "30", "--c", "10"])
     assert result.exit_code == 0

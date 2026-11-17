@@ -29,6 +29,7 @@ from markov_ci.config import (
 from markov_ci.data import load_default_config
 from markov_ci.engine import A1, A2, A3, LoopConfig, Sandbox, run_loop
 from markov_ci.guardrails import patch_branch
+from markov_ci.model import monte_carlo
 from markov_ci.model import validate as validate_chain
 from markov_ci.telemetry import JsonlSink
 from markov_ci.triage import classify, minimize, parse_junit
@@ -200,6 +201,45 @@ def run(  # noqa: PLR0913
             f"{result.wall_clock_ms} ms · branch {result.patch_branch}",
         )
     raise typer.Exit(code=_EXIT_CODES.get(result.absorbing_state or A2, EXIT_A2))
+
+
+@app.command()
+def simulate(
+    config: Path | None = typer.Argument(None, help="config YAML (default: packaged)"),
+    category: str = typer.Option("default", "--category", "-c"),
+    runs: int = typer.Option(10_000, "--runs"),
+    seed: int = typer.Option(0, "--seed"),
+    json_output: bool = typer.Option(False, "--json", help="machine-readable output"),
+) -> None:
+    """Monte-Carlo cross-check of the analytic forecast."""
+    try:
+        resolved = _resolve_config(config)
+        chain = chain_from_config(resolved, category=category)
+        result = monte_carlo(chain, runs=runs, seed=seed)
+    except (OSError, ConfigCompileError, ValueError) as exc:
+        _fail(str(exc))
+
+    payload = {
+        "category": category,
+        "runs": result.runs,
+        "absorption_probabilities": dict(result.absorption),
+        "mean_steps": result.mean_steps,
+        "steps_ci": list(result.steps_ci),
+        "mean_cost": result.mean_cost,
+        "cost_ci": list(result.cost_ci),
+    }
+    if json_output:
+        typer.echo(json.dumps(payload, indent=2, sort_keys=True))
+    else:
+        _console.print(
+            f"simulate — category={category} · runs={result.runs}",
+        )
+        for state_id, probability in sorted(result.absorption.items()):
+            _console.print(f"  {state_id:<32} {probability:.3f}", markup=False)
+        _console.print(
+            f"mean steps: {result.mean_steps:.3f} "
+            f"(95% CI {result.steps_ci[0]:.3f}–{result.steps_ci[1]:.3f})",
+        )
 
 
 @app.command()

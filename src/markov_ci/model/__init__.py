@@ -16,7 +16,8 @@ from markov_ci.model.math import (
     split,
     steps_to_absorb,
 )
-from markov_ci.model.posterior import Posterior, posterior
+from markov_ci.model.montecarlo import MonteCarloResult, monte_carlo
+from markov_ci.model.posterior import Posterior, norm_ppf, posterior
 from markov_ci.model.state import (
     InvalidStateSpace,
     State,
@@ -32,9 +33,10 @@ __all__ = [
     "EdgeWeight",
     "Finding",
     "InvalidStateSpace",
+    "MonteCarloResult",
+    "Posterior",
     "State",
     "StateSpace",
-    "Posterior",
     "StateType",
     "TransitionEdge",
     "ValidationResult",
@@ -43,6 +45,8 @@ __all__ = [
     "augment",
     "expected_cost",
     "fundamental",
+    "monte_carlo",
+    "norm_ppf",
     "posterior",
     "split",
     "steps_to_absorb",
