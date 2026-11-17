@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import yaml
 
@@ -15,7 +15,8 @@ PLANNING_PREFIXES = ("prd/", "spec/", "adr/", "WBS")
 
 
 def _config() -> dict[str, Any]:
-    return yaml.safe_load(MKDOCS.read_text(encoding="utf-8"))
+    loaded = yaml.safe_load(MKDOCS.read_text(encoding="utf-8"))
+    return cast("dict[str, Any]", loaded)
 
 
 def _nav_files(node: Any) -> list[str]:
