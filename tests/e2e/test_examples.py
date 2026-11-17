@@ -1,11 +1,16 @@
 """M9.1 (#41) — the example proof-suite enforcer (docs/WBS.md M9 convention).
 
 Every ``examples/<NN>-<name>/`` directory ships a ``README.md`` carrying the run
-command, the expected exit code, the expected event stream, and the two proof
-sections — **"What this proves"** and **"Forecast vs. actual"**. The documented
-run command is executed here verbatim (docs-are-tests): its exit code is checked
-against the README's declaration, and its deterministic result is asserted stable
-across two identical seeded runs (same seed → same outcome).
+command, the expected output/event stream, the expected exit code, and the two
+proof sections — **"What this proves"** and **"Forecast vs. actual"**.
+
+Examples come in two shapes:
+
+* **CLI demos** — the README's ``markov-ci <subcommand>`` command is executed here
+  verbatim (docs-are-tests): its exit code is checked against the declaration, and
+  its deterministic result is asserted stable across two identical seeded runs.
+* **Workflow demos** (e.g. 05-github-actions-e2e) — a *live* GitHub Actions example;
+  it ships a workflow that uses the Action and is exercised on a real PR, not offline.
 
 The demo trees are made real git repositories once per session by
 ``tests/conftest.py`` (the sandbox applies patches in git worktrees).
@@ -32,18 +37,36 @@ EXAMPLES = ROOT / "examples"
 RUNNER = CliRunner()
 
 _EXIT_LINE = re.compile(r"exit code to expect:\*\*\s*`(\d+)`", re.IGNORECASE)
-_CMD_LINE = re.compile(r"^markov-ci [a-z][a-z-]*\b.*")
+_CMD_LINE = re.compile(r"^markov-ci [a-z][a-z-]*\b.*", re.MULTILINE)
 _EXPECTED_SECTION = re.compile(r"^## Expected (event stream|output)\b", re.MULTILINE)
+_ACTION_USE = re.compile(r"uses:\s*(\./|deghosal-2026/markov-ci)")
 
 
 def _example_dirs() -> list[Path]:
     return sorted(p for p in EXAMPLES.glob("[0-9][0-9]-*") if p.is_dir())
 
 
-def _readme(example: Path) -> str:
+def _readme_text(example: Path) -> str:
     readme = example / "README.md"
-    assert readme.is_file(), f"{example.name} is missing README.md"
-    return readme.read_text(encoding="utf-8")
+    return readme.read_text(encoding="utf-8") if readme.is_file() else ""
+
+
+def _readme(example: Path) -> str:
+    text = _readme_text(example)
+    assert text, f"{example.name} is missing README.md"
+    return text
+
+
+def _workflow_files(example: Path) -> list[Path]:
+    return sorted(p for p in example.glob("*.y*ml"))
+
+
+def _cli_examples() -> list[Path]:
+    return [p for p in _example_dirs() if _CMD_LINE.search(_readme_text(p))]
+
+
+def _workflow_examples() -> list[Path]:
+    return [p for p in _example_dirs() if not _CMD_LINE.search(_readme_text(p))]
 
 
 def _run_tokens(readme: str) -> list[str]:
@@ -80,15 +103,24 @@ def test_every_example_readme_carries_both_proof_sections(example: Path) -> None
     assert _declared_exit_code(text) in {0, 2, 3}
 
 
-@pytest.mark.parametrize("example", _example_dirs(), ids=lambda p: p.name)
-def test_example_run_reproduces_its_declared_exit_code(example: Path) -> None:
+def test_every_example_is_a_cli_demo_or_a_workflow_demo() -> None:
+    for example in _example_dirs():
+        has_command = bool(_CMD_LINE.search(_readme_text(example)))
+        has_workflow = bool(_workflow_files(example))
+        assert has_command or has_workflow, (
+            f"{example.name} ships neither a `markov-ci` command nor a workflow"
+        )
+
+
+@pytest.mark.parametrize("example", _cli_examples(), ids=lambda p: p.name)
+def test_cli_example_run_reproduces_its_declared_exit_code(example: Path) -> None:
     readme = _readme(example)
     result = RUNNER.invoke(app, _run_tokens(readme))
     assert result.exit_code == _declared_exit_code(readme), result.stdout
 
 
-@pytest.mark.parametrize("example", _example_dirs(), ids=lambda p: p.name)
-def test_example_run_is_deterministic_under_seed(example: Path) -> None:
+@pytest.mark.parametrize("example", _cli_examples(), ids=lambda p: p.name)
+def test_cli_example_run_is_deterministic_under_seed(example: Path) -> None:
     readme = _readme(example)
     tokens = [*_run_tokens(readme), "--json"]
 
@@ -109,6 +141,16 @@ def test_example_run_is_deterministic_under_seed(example: Path) -> None:
         return {key: data[key] for key in ("absorbing_state", "visits", "tokens_used")}
 
     assert _stable(first.stdout) == _stable(second.stdout)
+
+
+@pytest.mark.parametrize("example", _workflow_examples(), ids=lambda p: p.name)
+def test_workflow_example_ships_a_workflow_using_the_action(example: Path) -> None:
+    files = _workflow_files(example)
+    assert files, f"{example.name} is a workflow demo but ships no workflow file"
+    text = "\n".join(path.read_text(encoding="utf-8") for path in files)
+    assert _ACTION_USE.search(text), (
+        f"{example.name}'s workflow must use the Action (`uses: ./` or the published ref)"
+    )
 
 
 def _example_scripts() -> list[Path]:

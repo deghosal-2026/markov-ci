@@ -1,0 +1,43 @@
+# Example 05 — save this as `.github/workflows/markov-ci.yml` in your repository.
+# The production wiring (docs/how-to/integrate-github-actions.md): a pull-request
+# workflow runs your fast checks, then hands the JUnit report to the composite
+# Action. markov-ci governs the failure; a human still merges.
+name: markov-ci
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write        # patch branch only — markov-ci never merges
+  pull-requests: write   # the review summary lands on the PR
+
+jobs:
+  verify-then-govern:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: s0 — fast checks (produce the JUnit report)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+          pytest tests/unit --junitxml=report.xml || true
+
+      - name: Govern the failure
+        id: markov
+        uses: deghosal-2026/markov-ci@v0.2.0
+        with:
+          config: .markov-ci/config.yaml
+          junit: report.xml
+          seed: 42
+
+      - name: Explain an escalation
+        if: ${{ steps.markov.outputs.absorbing-state != 'a1_ready_for_human_review' }}
+        run: |
+          echo "escalated to ${{ steps.markov.outputs.absorbing-state }}"
+          echo "reason events: ${{ steps.markov.outputs.events-path }}"
