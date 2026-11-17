@@ -15,6 +15,7 @@ from typing import Annotated
 from uuid import uuid4
 
 import typer
+import yaml
 from rich.console import Console
 
 from markov_ci.agents import HarnessAgent, HarnessError, HarnessSpec, HarnessTimeout, SimulatedAgent
@@ -32,6 +33,7 @@ from markov_ci.guardrails import patch_branch
 from markov_ci.model import monte_carlo
 from markov_ci.model import validate as validate_chain
 from markov_ci.telemetry import JsonlSink
+from markov_ci.telemetry import recompute as recompute_priors
 from markov_ci.triage import classify, minimize, parse_junit
 
 EXIT_OK = 0
@@ -201,6 +203,25 @@ def run(  # noqa: PLR0913
             f"{result.wall_clock_ms} ms · branch {result.patch_branch}",
         )
     raise typer.Exit(code=_EXIT_CODES.get(result.absorbing_state or A2, EXIT_A2))
+
+
+@app.command()
+def recompute(
+    events: Path = typer.Argument(..., help="events.jsonl from a run"),
+    json_output: bool = typer.Option(False, "--json", help="machine-readable output"),
+) -> None:
+    """Rebuild empirical priors from a telemetry event stream."""
+    try:
+        lines = Path(events).read_text(encoding="utf-8").splitlines()
+        parsed = [json.loads(line) for line in lines if line.strip()]
+    except (OSError, json.JSONDecodeError) as exc:
+        _fail(str(exc))
+
+    priors = recompute_priors(parsed)
+    if json_output:
+        typer.echo(json.dumps(priors, indent=2, sort_keys=True))
+    else:
+        typer.echo(yaml.safe_dump(priors, sort_keys=True))
 
 
 @app.command()

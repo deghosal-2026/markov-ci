@@ -104,6 +104,40 @@ def test_run_infra_failure_escalates_without_tokens(tmp_path: Path) -> None:
     assert result.exit_code == 2  # a2, zero tokens spent
 
 
+def _events_file(tmp_path: Path) -> Path:
+    event = {
+        "schema_version": 1, "event": "transition", "run_id": "r", "commit_sha": "a",
+        "pr_number": 1, "from_state": "s2_agent_reasoning#1",
+        "to_state": "s3_sandbox_validation#1", "duration_ms": 1, "tokens_used": 0,
+        "failure_category": "lint_error", "attempt": 1, "adapter": "simulated",
+        "ts": "2026-11-16T09:41:07Z",
+    }
+    success = dict(event, from_state="s3_sandbox_validation#1", to_state="s4_regression_check")
+    path = tmp_path / "events.jsonl"
+    path.write_text(
+        "\n".join(json.dumps(e) for e in (event, success)) + "\n", encoding="utf-8",
+    )
+    return path
+
+
+def test_recompute_emits_empirical_priors(tmp_path: Path) -> None:
+    result = RUNNER.invoke(app, ["recompute", str(_events_file(tmp_path)), "--json"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert payload["simulated"]["lint_error"]["source"] == "empirical"
+
+
+def test_recompute_yaml_output(tmp_path: Path) -> None:
+    result = RUNNER.invoke(app, ["recompute", str(_events_file(tmp_path))])
+    assert result.exit_code == 0
+    assert "empirical" in result.stdout
+
+
+def test_recompute_missing_file_exits_four(tmp_path: Path) -> None:
+    result = RUNNER.invoke(app, ["recompute", str(tmp_path / "nope.jsonl")])
+    assert result.exit_code == 4
+
+
 def test_simulate_json_matches_the_analytic_forecast() -> None:
     result = RUNNER.invoke(app, ["simulate", "--runs", "20000", "--seed", "3", "--json"])
     assert result.exit_code == 0
