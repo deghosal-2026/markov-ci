@@ -63,7 +63,7 @@ git clone https://github.com/deghosal-2026/markov-ci && cd markov-ci
 markov-ci run examples/01-lint-error/config.yaml \
     --junit examples/01-lint-error/report.xml \
     --repo examples/01-lint-error/repo --seed 42
-````
+```
 
 No API keys, no network — the default agent is a seeded, offline simulator. See the
 [quick start](docs/quick-start.md) for the full five-minute path.
