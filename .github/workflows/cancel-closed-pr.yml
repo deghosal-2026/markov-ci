@@ -1,0 +1,28 @@
+name: cancel-closed-pr
+
+on:
+  pull_request_target:
+    types: [closed]
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cancel:
+    name: cancel in-progress runs for the closed PR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const headSha = context.payload.pull_request.head.sha;
+            const runs = await github.paginate(
+              github.rest.actions.listWorkflowRunsForRepo,
+              { owner, repo, head_sha: headSha, status: "in_progress" },
+            );
+            for (const run of runs) {
+              await github.rest.actions.cancelWorkflowRun({ owner, repo, run_id: run.id });
+            }

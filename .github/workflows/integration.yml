@@ -1,0 +1,27 @@
+name: integration
+
+on:
+  pull_request:
+
+concurrency:
+  group: integration-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration:
+    name: integration tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+      - name: Integration tier
+        run: pytest tests/integration -q
+
+      # Offline demo coverage is added with M9 (#41–#44). Each demo run is
+      # checked against its expected absorbing state and golden event stream.
