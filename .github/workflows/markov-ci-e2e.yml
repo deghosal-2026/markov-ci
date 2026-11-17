@@ -1,0 +1,57 @@
+# Live end-to-end test of the composite Action (M9.5 / #45), run on GitHub's runner.
+#
+# It governs the bundled 01-lint-error demo: a failing test is produced, the
+# Action runs the governed loop with the offline simulated agent, and the run
+# absorbs in a1. Nothing is merged — a1 is a human decision by design.
+name: markov-ci e2e
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: write        # patch branch only — markov-ci never merges
+  pull-requests: write
+
+jobs:
+  govern:
+    name: govern the 01-lint-error demo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the demo's test runner
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Make the demo repo a real git repository
+        run: |
+          git -C examples/01-lint-error/repo init -q
+          git -C examples/01-lint-error/repo add -A
+          git -C examples/01-lint-error/repo \
+            -c user.email=demo@example.com -c user.name="markov-ci demo" \
+            commit -qm "demo baseline"
+
+      - name: Govern the failure
+        id: govern
+        uses: ./
+        with:
+          config: examples/01-lint-error/config.yaml
+          junit: examples/01-lint-error/report.xml
+          repo: examples/01-lint-error/repo
+          seed: "42"
+
+      - name: Assert the governed outcome
+        run: |
+          echo "absorbing-state=${{ steps.govern.outputs.absorbing-state }}"
+          echo "exit-code=${{ steps.govern.outputs.exit-code }}"
+          echo "run-id=${{ steps.govern.outputs.run-id }}"
+          echo "patch-branch=${{ steps.govern.outputs.patch-branch }}"
+          test "${{ steps.govern.outputs.absorbing-state }}" = "a1_ready_for_human_review"
+          test "${{ steps.govern.outputs.exit-code }}" = "0"
