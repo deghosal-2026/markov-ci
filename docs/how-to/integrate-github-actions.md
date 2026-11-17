@@ -10,6 +10,7 @@ This page is the input/output contract the Action must satisfy — the same cont
 |---|---|---|---|
 | `config` | no | packaged default | path to your markov-ci config YAML |
 | `junit` | yes | — | JUnit XML produced by your test step |
+| `repo` | no | `.` (the workspace) | repository to sandbox |
 | `seed` | no | `42` | seeded determinism |
 | `adapter` | no | `simulated` | `simulated` \| `harness` (opt-in extra) |
 | `max-tokens` / `wall-clock` | no | from config | per-run budget overrides |

@@ -13,6 +13,9 @@ if [ -n "${INPUT_CONFIG:-}" ]; then
     args+=("$INPUT_CONFIG")
 fi
 args+=(--junit "$INPUT_JUNIT" --seed "${INPUT_SEED:-42}")
+if [ -n "${INPUT_REPO:-}" ]; then
+    args+=(--repo "$INPUT_REPO")
+fi
 if [ -n "${INPUT_ADAPTER:-}" ]; then
     args+=(--adapter "$INPUT_ADAPTER")
 fi
