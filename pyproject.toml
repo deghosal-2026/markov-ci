@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "markov-ci"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "Markov-governed, self-healing CI/CD — governance for agentic pipelines"
 readme = "README.md"
 requires-python = ">=3.11"

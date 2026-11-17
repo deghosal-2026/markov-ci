@@ -62,8 +62,12 @@ No release is published — and the repository does not go public — until an a
 - **Static analysis** with `bandit` over `src/markov_ci` (no high-severity findings).
 - **License check** — all runtime dependencies permissive.
 - **SBOM** generated and attached to the release.
-- **Trusted Publishing** — PyPI releases are published via OIDC with PEP 740
-  attestations; no long-lived PyPI API token exists.
+- **PyPI publishing** — v0.1.0 is published with a scoped, revocable PyPI API token
+  stored **only** as an encrypted GitHub Actions secret (`PYPI_API_TOKEN`) — it appears
+  in no file, no log, and no workflow run output (GitHub masks secret values). PEP 740
+  attestations require Trusted Publishing; the follow-up is registering the PyPI
+  pending publisher and migrating to OIDC Trusted Publishing, at which point the token
+  is rotated out of existence.
 
 The gate is a required CI step on the release path; a release cannot publish while any
 scanner reports an unresolved finding.

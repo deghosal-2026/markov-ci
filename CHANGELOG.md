@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Notes
+
+- Post-v0.1.0 work lands here.
+
+## [0.1.0] - 2026-11-16
+
+The first tagged release: **absorption** — the math core, the governed runtime,
+the guardrails, the offline proof suite, and the composite GitHub Action.
+
 ### Added
 
 - **Forecast** — `markov-ci analyze` prints the fundamental matrix `N`, absorption
@@ -17,7 +26,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `ai-fix/*` branch isolation, and no force-push or auto-merge code path
   (`engine/`, `policy/`, `guardrails/`; spec 0004/0005/0011).
 - **Triage** — deterministic JUnit/log classification; infra and dependency failures
-  escalate with zero tokens (`triage/`, spec 0010).
+  escalate with zero tokens (`triage/`, spec 0010). JUnit parsing is hardened with
+  `defusedxml`.
 - **Agents** — the one-method adapter protocol, the seeded offline `SimulatedAgent`, and
   harness adapters for Claude Code / OpenCode / Aider, plus a stdlib-only
   OpenAI-compatible local-LLM adapter (`agents/`; spec 0006, ADR-0003/0007/0011).
@@ -30,7 +40,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   exit-code contract (`0/2/3/4`, spec 0008). `run` accepts `--repo`, `--adapter`,
   `--max-tokens`, and `--wall-clock` overrides.
 - The offline proof-suite demos (`examples/01-…` through `07-…`) and the Docker runner
-  (#61).
+  (#61): demos 01–04 run under `docker compose` with `--network none`, asserting their
+  documented exit codes.
 - The root composite **GitHub Action** (`action.yml`) wrapping the CLI, verified on a
   live GitHub runner (`.github/workflows/markov-ci-e2e.yml`).
 - Documentation set: `docs/OVERVIEW.md`, the `docs/prd/` sub-PRDs (incl. Critical User
@@ -42,12 +53,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   pytest), `Makefile`, CI workflows (`ci`, `integration`, `docs`, `security`,
   `cancel-closed-pr`, `markov-ci-e2e`).
 
-### Notes
+### Security
 
-- Pre-alpha; the public API is not yet stable. `v0.1.0` is the first tagged release
-  (M10.2, #47); the CLI, config, and telemetry contracts in `docs/spec/` are what it
-  satisfies. Field-test evidence for the shipped milestone runs lives under
-  `field-test/`.
+- Release gate (M10.8, #60): full-history secret scan (gitleaks + trufflehog),
+  `pip-audit`, `bandit` (0 medium/high findings), license check, and SBOM
+  generation — all green on the release commit, and re-run as a blocking stage of
+  the release workflow itself. v0.1.0 publishes via a scoped PyPI API token held
+  only as an encrypted GitHub Actions secret; Trusted Publishing (OIDC + PEP 740
+  attestations) is the follow-up.
 
 <!--
 Release entries follow Keep a Changelog sections: Added, Changed, Deprecated,
