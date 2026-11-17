@@ -1,0 +1,54 @@
+site_name: markov-ci
+site_description: Markov-governed, self-healing CI/CD — governance for agentic pipelines
+site_url: https://github.com/deghosal-2026/markov-ci
+repo_url: https://github.com/deghosal-2026/markov-ci
+repo_name: deghosal-2026/markov-ci
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - tables
+
+nav:
+  - Home: index.md
+  - Quick start: quick-start.md
+  - Architecture: architecture.md
+  - Explanations:
+      - The Markov model, derived: explanations/markov-model.md
+      - Queueing theory for runner fleets: explanations/queueing-theory.md
+      - Design review of the source article: explanations/design-review.md
+  - Tutorials:
+      - 01 — Lint error, first-pass fix: tutorials/01-lint-error-first-pass.md
+      - 02 — Assertion decay → escalation: tutorials/02-assertion-decay-escalation.md
+      - 03 — Infra timeout, zero tokens: tutorials/03-infra-timeout-no-tokens.md
+      - 04 — Runner pool sizing: tutorials/04-runner-pool-sizing.md
+      - 05 — GitHub Actions end-to-end: tutorials/05-github-actions-e2e.md
+  - How-to:
+      - Integrate with GitHub Actions: how-to/integrate-github-actions.md
+      - Integrate with GitLab / Jenkins: how-to/integrate-gitlab-jenkins.md
+  - Reference:
+      - Configuration: reference/configuration.md
+      - Telemetry events: reference/telemetry.md
+      - CLI: reference/cli.md
+  - About this project: OVERVIEW.md
+
+# Planning docs (prd/, spec/, adr/, WBS.md) live in the repo, not the site nav.

@@ -145,7 +145,8 @@ guardrails adapt to your actual agents, codebase, and models as they change.
 ## What you get
 
 - A reusable **library, CLI, and GitHub Action** (Apache-2.0)
-- **Five working demos**, all runnable offline with zero API keys
+- **Five working demos** — 01–04 run offline with zero API keys; 05 is a live
+  GitHub Actions walkthrough
 - **Complete docs**: tutorials, how-tos, math derivations, reference, ADRs
 - **3–4 published articles** (Dev.To + LinkedIn) explaining the model
 

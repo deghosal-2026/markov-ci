@@ -40,7 +40,7 @@ commits as `M<N>.<T>`.
 |---|---|---|
 | M2.1 | Policy dataclass + evaluation order | budgets → cap → confidence; unit tests incl. a3 on budget trip |
 | M2.2 | YAML loader (pydantic) | full schema, unknown-key rejection, helpful errors; unit tests |
-| M2.3 | Packaged default config | `markov_ci.data.default` = SPEC §2 defaults; loads+validates |
+| M2.3 | Packaged default config | `markov_ci.data.default` = spec/0001-state-model.md defaults; loads+validates |
 | M2.4 | `validate` + `analyze` CLI | exit codes 0/4; JSON output flag |
 
 ## M3 — Triage (`markov_ci.triage`)

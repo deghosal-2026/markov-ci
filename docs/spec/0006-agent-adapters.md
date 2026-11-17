@@ -32,6 +32,10 @@ sandbox validation (spec 0011) before any state advances.
 
 ## 3. HarnessAdapter (SHOULD — v0.2.0, opt-in extras)
 
+These are the adapter tiers defined in PRD 07: protocol-conformant agents
+(incl. `SimulatedAgent`) are **T1**; the named harness templates below are **T2**;
+the BYO command template is **T3**.
+
 Real agents run through coding-agent **harness CLIs in headless mode**:
 
 | Harness | Headless invocation | Notes |
