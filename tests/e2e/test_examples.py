@@ -14,8 +14,11 @@ The demo trees are made real git repositories once per session by
 from __future__ import annotations
 
 import json
+import os
 import re
 import shlex
+import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -29,7 +32,7 @@ EXAMPLES = ROOT / "examples"
 RUNNER = CliRunner()
 
 _EXIT_LINE = re.compile(r"exit code to expect:\*\*\s*`(\d+)`", re.IGNORECASE)
-_RUN_LINE = re.compile(r"^markov-ci run\b.*")
+_CMD_LINE = re.compile(r"^markov-ci [a-z][a-z-]*\b.*")
 
 
 def _example_dirs() -> list[Path]:
@@ -43,16 +46,16 @@ def _readme(example: Path) -> str:
 
 
 def _run_tokens(readme: str) -> list[str]:
-    """The first ``markov-ci run ...`` command in the README's bash blocks."""
+    """The first ``markov-ci <subcommand> ...`` command in the README's bash blocks."""
     lines = readme.splitlines()
     for index, line in enumerate(lines):
-        if _RUN_LINE.match(line.strip()):
+        if _CMD_LINE.match(line.strip()):
             command = line.strip()
             while command.endswith("\\") and index + 1 < len(lines):
                 index += 1
                 command = command[:-1].rstrip() + " " + lines[index].strip()
             return shlex.split(command)[1:]  # drop the `markov-ci` prefix
-    pytest.fail("README has no `markov-ci run` command to execute")
+    pytest.fail("README has no `markov-ci` command to execute")
 
 
 def _declared_exit_code(readme: str) -> int:
@@ -97,6 +100,23 @@ def test_example_run_is_deterministic_under_seed(example: Path) -> None:
             data = json.loads(payload)
         except json.JSONDecodeError:
             return payload  # a triage short-circuit prints a constant line
+        if "absorbing_state" not in data:
+            return data  # `queue` output is fully deterministic
         return {key: data[key] for key in ("absorbing_state", "visits", "tokens_used")}
 
     assert _stable(first.stdout) == _stable(second.stdout)
+
+
+def _example_scripts() -> list[Path]:
+    return sorted(EXAMPLES.glob("[0-9][0-9]-*/*.py"))
+
+
+@pytest.mark.parametrize("script", _example_scripts(), ids=lambda p: p.parent.name)
+def test_example_report_scripts_run(script: Path) -> None:
+    """A shipped example report script (e.g. the burst report) must run clean."""
+    env = {**os.environ, "PYTHONPATH": str(ROOT / "src")}
+    result = subprocess.run(
+        [sys.executable, str(script)], capture_output=True, text=True, env=env,
+    )
+    assert result.returncode == 0, result.stderr
+    assert result.stdout.strip(), "report script printed nothing"
