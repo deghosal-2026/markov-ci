@@ -82,9 +82,10 @@ the matrix — per failure category and per adapter.
 *AC:* JSON Schema in `schemas/` validates every emitted event; no secret ever in events;
 `adapter` present on every event so per-harness matrices fall out of `recompute`.
 
-**F10 — CLI surface.** `validate`, `analyze`, `run` + exit-code contract:
-0 = a1, 2 = a2, 3 = a3, 4 = invalid config. Global: `--config` (default: packaged),
-`--seed`, `--json`.
+**F10 — CLI surface.** `validate`, `analyze`, `run` (+ `simulate`, `queue`, `recompute`)
+with the exit-code contract: 0 = a1, 2 = a2, 3 = a3, 4 = invalid config. The config is a
+positional `[config]` argument (default: packaged); `--seed` on `run`/`simulate`;
+`--json` on every command except `validate`.
 *AC:* exit-code contract test; `--json` output stable enough for CI assertions.
 
 **F11 — Packaged defaults.** The literature-derived default state space + priors ship in
