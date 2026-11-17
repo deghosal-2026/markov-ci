@@ -16,6 +16,9 @@ pip-wheel-metadata/
 venv/
 ENV/
 
+# mkdocs build output
+site/
+
 # Tooling caches
 .pytest_cache/
 .mypy_cache/
