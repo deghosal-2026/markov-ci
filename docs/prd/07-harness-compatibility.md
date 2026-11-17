@@ -20,7 +20,7 @@
 | Tier | Meaning | Ships |
 |---|---|---|
 | **T1 — Protocol-conformant** | Any agent implementing `AgentAdapter.repair(ctx) -> PatchProposal` runs under full governance | v0.1.0 (simulated agent proves the seam) |
-| **T2 — Verified harness template** | markov-ci ships + tests a headless invocation pattern for a named harness, with token accounting and timeout enforcement | v0.2.0: Claude Code, OpenCode, Aider |
+| **T2 — Verified harness template** | markov-ci ships + tests a headless invocation pattern for a named harness, with token accounting and timeout enforcement | v0.2.0: Claude Code, OpenCode, Aider, **local-llm**, **aider-ollama** |
 | **T3 — BYO command** | Generic `command_template` adapter: any CLI that takes a prompt and produces a diff | v0.2.0 |
 
 ## 3. Supported harness matrix
@@ -31,6 +31,8 @@
 | Claude Code | T2 | `claude -p --output-format json "<prompt>"` | from JSON stream | v0.2.0 |
 | OpenCode | T2 | `opencode run "<prompt>"` | provider-reported, else estimate | v0.2.0 |
 | Aider | T2 | `aider --yes-always --message "<prompt>"` | commit-based estimate | v0.2.0 |
+| **Local model servers** (Ollama, Apple MLX, LM Studio, llama.cpp, vLLM) | T2 | `python3 -m markov_ci.agents.local_llm "%PROMPT%"` — any OpenAI-compatible endpoint (ADR-0011) | endpoint `usage` when reported | v0.2.0 (#64) |
+| Aider + Ollama | T2 | `aider --yes-always --model ollama_chat/<model> --message "%PROMPT%"` | commit-based estimate | v0.2.0 (#64) |
 | Codex CLI, Goose, OpenHands | T2/T3 | community templates (F28) | varies | v0.3.0 backlog |
 | Anything else | T3 | user-supplied `command_template` | estimate | v0.2.0 |
 

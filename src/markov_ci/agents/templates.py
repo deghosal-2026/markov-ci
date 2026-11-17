@@ -44,6 +44,20 @@ TEMPLATES: dict[str, HarnessTemplate] = {
         id="aider",
         command_template='aider --yes-always --message "%PROMPT%"',
     ),
+    # Local model stacks (ADR-0011): any OpenAI-compatible endpoint.
+    "local-llm": HarnessTemplate(
+        name="local-llm",
+        id="local-llm",
+        command_template='python3 -m markov_ci.agents.local_llm "%PROMPT%"',
+    ),
+    "aider-ollama": HarnessTemplate(
+        name="aider-ollama",
+        id="aider-ollama",
+        command_template=(
+            'aider --yes-always --model ollama_chat/qwen2.5-coder:7b '
+            '--message "%PROMPT%"'
+        ),
+    ),
 }
 
 

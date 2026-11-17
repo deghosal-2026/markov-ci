@@ -87,6 +87,7 @@ worked example · **≥95% coverage** · `ruff` + `mypy --strict` clean.
 | M4.2 | [#23](https://github.com/deghosal-2026/markov-ci/issues/23) | SimulatedAgent | seeded, fixture-driven, calibrated to priors; determinism + fit tests |
 | M4.3 | [#24](https://github.com/deghosal-2026/markov-ci/issues/24) | Harness adapter interface | headless CLI invocation per spec/0006; offline contract tests |
 | M4.4 | [#25](https://github.com/deghosal-2026/markov-ci/issues/25) | Harness templates T2/T3 + conformance | claude/opencode/aider templates + BYO command; one conformance suite |
+| M4.5 | [#64](https://github.com/deghosal-2026/markov-ci/issues/64) | Local-LLM adapter (ADR-0011) | stdlib-only client for any OpenAI-compatible endpoint (Ollama/MLX/LM Studio/llama.cpp/vLLM); `local-llm` + `aider-ollama` templates; stubbed-endpoint unit tests |
 
 **Gate:** simulated agent deterministic (same seed → identical) and χ²-calibrated;
 protocol conformance suite green · ≥95% coverage · `ruff` + `mypy --strict` clean.
@@ -148,17 +149,22 @@ golden test green · ≥95% coverage · `ruff` + `mypy --strict` clean.
 | M9.4 | [#44](https://github.com/deghosal-2026/markov-ci/issues/44) | `04-runner-pool-sizing` | Erlang-C + burst simulation report |
 | M9.5 | [#45](https://github.com/deghosal-2026/markov-ci/issues/45) | `05-github-actions-e2e` (live) | workflow runs on a real PR (opt-in secrets); depends on M10.1 |
 | M9.6 | [#61](https://github.com/deghosal-2026/markov-ci/issues/61) | Docker runner for the offline examples | pinned-python image + git; compose runs demos 01–04 under `--network none`; image scanned by [#60](https://github.com/deghosal-2026/markov-ci/issues/60) |
+| M9.7 | [#62](https://github.com/deghosal-2026/markov-ci/issues/62) | `06-adversarial-runaway` | success=[1,1,1] still absorbs at the cap — "termination is a theorem"; What-this-proves + Forecast-vs-actual README |
+| M9.8 | [#63](https://github.com/deghosal-2026/markov-ci/issues/63) | `07-cheating-agent` | assertion-deleting patch hard-stopped by TMR, `mandatory_review` surfaced — "green still means green" |
 
-**Convention:** every `examples/<NN>-<name>/` directory ships its own `README.md` (how to
-run it, the expected exit code, the expected event stream) and is covered by a tutorial in
-`docs/tutorials/`. The example READMEs and the tutorials are both linked from the root
-`README.md`. **The enforcing test is written (RED) in M9.1** as part of that ticket — there
-are no placeholder or skipped tests: an enforcement test is created with the artifact it
-guards.
+**Convention:** every `examples/<NN>-<name>/` directory ships its own `README.md` —
+run command, expected exit code, expected event stream — and two
+**world-class proof sections**: **"What this proves"** (the core guarantee the demo
+drives home) and **"Forecast vs. actual"** (the `analyze` prediction beside what the
+seeded run produced — the demo nobody else can run). Each example is covered by a
+tutorial in `docs/tutorials/`; examples and tutorials are linked from the root
+`README.md`. **The enforcing test is written (RED) in M9.1** with the first example —
+no placeholder or skipped tests.
 
-**Gate:** demos 01–04 byte-stable under `--seed` and match their tutorials; every example
-has a README; the Docker runner (#61) reproduces them under `--network none` ·
-≥95% coverage · `ruff` + `mypy --strict` clean.
+**Gate:** the offline demos (01–04, 06, 07) byte-stable under `--seed` and matching
+their tutorials; every example README carries both proof sections; the Docker runner
+(#61) reproduces them under `--network none` · ≥95% coverage · `ruff` + `mypy --strict`
+clean.
 
 ## M10 — Releases and articles · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/11)
 

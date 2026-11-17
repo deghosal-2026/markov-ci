@@ -24,6 +24,7 @@
 | 0.8 | 2026-11-16 | Gap review applied: **product principles** (00); NSM measurement resolution (03); **adoption ladder** (12 §6); APR + CI-observability competitive rows (11); sizing + dependency columns in the traceability matrix (13) |
 | 0.9 | 2026-11-16 | Traceability re-synced to the tracked WBS: F20→M8.4, F22→M1.8, F19→M4.3–M4.4, F23–F29→M11.x, plus a GitHub-issue column (13 Appendix B) |
 | 1.0 | 2026-11-16 | ADR chain completed (ADRs 0008–0010: triage-before-agents, guardrails-in-code, dual queueing); Appendix B gains an explicit **ADR** column so every feature is bound to its decision record |
+| 1.1 | 2026-11-16 | **Local-LLM support** (#64, ADR-0011): `local-llm` + `aider-ollama` templates over a stdlib-only OpenAI-compatible client — zero cloud tokens. **M9 elevated to a proof suite** (M9.7 #62 adversarial-runaway, M9.8 #63 cheating-agent); example READMEs gain "What this proves" + "Forecast vs. actual" |
 
 ## Sub-PRD index (read in order)
 

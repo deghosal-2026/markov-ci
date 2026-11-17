@@ -43,7 +43,26 @@ Real agents run through coding-agent **harness CLIs in headless mode**:
 | Claude Code | `claude -p --output-format json "<prompt>"` | tool list narrowed; JSON parsed for token usage |
 | OpenCode | `opencode run "<prompt>"` | provider key via secret; no TTY |
 | Aider | `aider --yes-always --message "<prompt>"` | git-native, reviewable commits |
+| Local — any OpenAI-compatible endpoint (Ollama, MLX, LM Studio, llama.cpp, vLLM) | `python3 -m markov_ci.agents.local_llm "%PROMPT%"` | stdlib-only client; tokens from endpoint `usage` (ADR-0011) |
+| Aider + Ollama | `aider --yes-always --model ollama_chat/<model> --message "%PROMPT%"` | full harness on a local model |
 | Any other | BYO command template | `agent.harness.command_template` in config (spec 0003) |
+
+### Local model servers (ADR-0011)
+
+`local-llm` targets **any OpenAI-compatible** chat-completions endpoint via a
+stdlib-only client — no SDK. Configuration is environment-driven:
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `LOCAL_LLM_BASE_URL` | `http://localhost:11434/v1` | endpoint base (Ollama's OpenAI port) |
+| `LOCAL_LLM_MODEL` | `qwen2.5-coder:7b` | model name |
+| `LOCAL_LLM_TIMEOUT` | `300` | request timeout (seconds) |
+
+Known-good servers: **Ollama** (`ollama serve` → `:11434/v1`), **Apple MLX**
+(`mlx_lm.server --model <model> --port 8080`), **LM Studio** (local server),
+**llama.cpp** (`llama-server`), **vLLM**. The model's reply must contain a
+```diff fence for the harness parser; tokens come from the endpoint's `usage`
+when it reports one.
 
 Rules:
 

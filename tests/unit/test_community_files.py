@@ -56,6 +56,7 @@ REQUIRED_DOC_LINKS = (
     "docs/how-to/integrate-github-actions.md",
     "docs/how-to/integrate-gitlab-jenkins.md",
     "docs/how-to/run-in-docker.md",
+    "docs/how-to/use-a-local-llm.md",
     "docs/reference/configuration.md",
     "docs/reference/telemetry.md",
     "docs/reference/cli.md",

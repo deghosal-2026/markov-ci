@@ -16,3 +16,4 @@ once accepted — supersede with a new ADR, never edit history. To add one: copy
 | [0008](0008-deterministic-triage-before-agents.md) | Deterministic triage before any agent runs | Accepted |
 | [0009](0009-guardrails-enforced-in-code.md) | Guardrails are enforced in code, never delegated | Accepted |
 | [0010](0010-dual-queueing-model.md) | Dual queueing model: Erlang-C estimate + DES | Accepted |
+| [0011](0011-local-llms-via-openai-compatible-endpoints.md) | Local LLMs via OpenAI-compatible endpoints, never a new SDK | Accepted |

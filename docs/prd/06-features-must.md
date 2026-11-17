@@ -20,7 +20,7 @@ spec contracts, and the CUJ traceability matrix (appendix 13).
 | F10 | CLI surface | validate/analyze/run + stable exit-code contract | all |
 | F11 | Packaged defaults | Zero-config `analyze` works out of the box | CUJ-1 |
 | F12 | Documentation set | Quick-start through math derivations; docs-are-tests | CUJ-1, CUJ-4 |
-| F13 | Offline demos 01–03 | First-pass green · decay→escalate · zero-token infra | CUJ-4 |
+| F13 | Offline proof-suite demos | First-pass green · decay→escalate · zero-token infra · adversarial runaway · cheating agent caught | CUJ-4 |
 | F14 | Self-hosted CI | This repo's own PRs run markov-ci's gates | CUJ-3 |
 
 ---
@@ -96,10 +96,14 @@ the wheel; zero-config `analyze` works out of the box.
 ADRs for the core decisions; mkdocs site builds in CI.
 *AC:* every code block in quick-start executed verbatim in CI (docs-are-tests).
 
-**F13 — Offline demos 01–03.** `01-lint-error` (first-pass green), `02-unit-assertion-decay`
-(decay → a2 with the math shown), `03-infra-timeout` (zero tokens, immediate a2).
+**F13 — Offline proof-suite demos.** `01-lint-error` (first-pass green),
+`02-unit-assertion-decay` (decay → a2 with the math shown), `03-infra-timeout`
+(zero tokens, immediate a2), `06-adversarial-runaway` (success=[1,1,1] still absorbs
+at the cap — **termination is a theorem**), `07-cheating-agent` (assertion-deleting
+patch hard-stopped by TMR — **green still means green**).
 *AC:* each runs in CI with no network; outputs byte-stable under `--seed`; tutorials
-match actual output.
+match actual output; every example README carries **"What this proves"** and
+**"Forecast vs. actual"**.
 
 **F14 — Self-hosted CI.** This repo's own PRs run markov-ci's gates (lint, typecheck,
 unit, integration, demos) — the product governs its own delivery from day one.

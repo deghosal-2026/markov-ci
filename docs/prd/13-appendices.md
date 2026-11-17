@@ -32,13 +32,13 @@
 | F10 CLI surface | S | F3 | all | [0006](../adr/0006-src-layout-strict-typing.md) | M2.4, M6.4 | #18, #32 |
 | F11 packaged defaults | S | F1 | 1 | — | M2.3 | #17 |
 | F12 documentation set | M | F10 | 1, 4 | [0006](../adr/0006-src-layout-strict-typing.md) | M8.3 | #39 |
-| F13 offline demos 01–03 | M | F6, F8 | 4 | [0003](../adr/0003-simulated-agent-default.md) | M9.1–M9.3 | #41, #42, #43 |
+| F13 offline proof-suite demos | M | F6, F8 | 4 | [0003](../adr/0003-simulated-agent-default.md) | M9.1–M9.3, M9.7–M9.8 | #41, #42, #43, #62, #63 |
 | F14 self-hosted CI | S | F10, F13 | 3 | — | M0.4 | #4 |
 | F15 GitHub Action | S | F10 | 1 | — | M10.1 | #46 |
 | F16 queueing module | M | — | 3 | [0010](../adr/0010-dual-queueing-model.md) | M7.1–M7.3 | #34, #35, #36 |
 | F17 Monte-Carlo simulate | S | F3 | 1, 5 | — | M8.1 | #37 |
 | F18 demos 04–05 | M | F16, F15 | 3 | [0010](../adr/0010-dual-queueing-model.md) | M9.4–M9.5 | #44, #45 |
-| F19 harness adapters | M | F6 | 4 | [0007](../adr/0007-harness-adapters-not-raw-sdks.md) | M4.3–M4.4 | #24, #25 |
+| F19 harness adapters | M | F6 | 4 | [0007](../adr/0007-harness-adapters-not-raw-sdks.md), [0011](../adr/0011-local-llms-via-openai-compatible-endpoints.md) | M4.3–M4.5 | #24, #25, #64 |
 | F20 GitLab/Jenkins how-tos | S | F10 | 1 | — | M8.4 | #40 |
 | F21 recompute pipeline | M | F9 | 4, 5 | [0005](../adr/0005-telemetry-versioned-contract.md) | M8.2 | #38 |
 | F22 property-based hardening | M | F3, F5, F7 | 2, 6 | [0004](../adr/0004-hard-caps-guarantee-absorption.md) | M1.8 | #14 |
