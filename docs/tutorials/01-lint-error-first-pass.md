@@ -9,8 +9,14 @@ branch for human review — all offline, all deterministic.
 ## Run it
 
 ```bash
+# one-time: the demo repo must be a real git repository (the sandbox uses git worktrees)
+git -C examples/01-lint-error/repo init -q && \
+  git -C examples/01-lint-error/repo add -A && \
+  git -C examples/01-lint-error/repo commit -qm "demo baseline"
+
 markov-ci run examples/01-lint-error/config.yaml \
-  --junit examples/01-lint-error/report.xml --seed 42
+  --junit examples/01-lint-error/report.xml \
+  --repo examples/01-lint-error/repo --seed 42
 echo $?
 ```
 
@@ -18,22 +24,21 @@ echo $?
 
 | Hop | State | What occurred |
 |---|---|---|
-| 1 | `s0 → s1` | lint check fails (fixture JUnit) |
-| 2 | `s1 → s2#1` | triage classifies `lint_error`; log minimized to ≤ 200 lines |
-| 3 | `s2#1 → s3#1` | agent patch passes the policy gates — prior P(success) = **0.92** ≥ 0.40, attempt 1 of 3 |
-| 4 | `s3#1 → s4` | patch applied in isolated worktree; failing test passes |
-| 5 | `s4 → a1` | regression suite clean → **absorbed: ready for human review** |
+| 1 | `s1 → s2#1` | triage classifies `lint_error`; log minimized to ≤ 200 lines |
+| 2 | `s2#1 → s3#1` | agent patch passes the policy gates — prior P(success) = **0.92** ≥ 0.40, attempt 1 of 3 |
+| 3 | `s3#1 → s4` | patch applied in isolated worktree; failing test passes |
+| 4 | `s4 → a1` | regression suite clean → **absorbed: ready for human review** |
 
-Exit code `0` = absorbed in `a1`. The patch sits on `ai-fix/pr-<n>` — never your branch,
-never auto-merged (spec 0005).
+Exit code `0` = absorbed in `a1`. The patch sits on `ai-fix/local-<run_id>` — never
+your branch, never auto-merged (spec 0005).
 
 ## Read the evidence
 
 ```bash
-cat .markov-ci/events.jsonl
+cat examples/01-lint-error/.markov-ci/events.jsonl
 ```
 
-Five events, one per hop — each carries `failure_category: lint_error`,
+Four events, one per hop — each carries `failure_category: lint_error`,
 `attempt`, and `adapter: simulated` (see [telemetry reference](../reference/telemetry.md)).
 The run's `RunResult` (absorbing state, visit counts, tokens, guardrail report) is the
 same evidence a human reviewer sees on the PR.

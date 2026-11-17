@@ -1,0 +1,7 @@
+<testsuites>
+  <testsuite name="lint" tests="1" failures="1">
+    <testcase name="test_style" classname="pkg.style">
+      <failure message="E501 line too long (101 > 100)" type="lint">src/example.py:1: E501 line too long (101 &gt; 100)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

@@ -58,12 +58,18 @@ markov-ci validate config.yaml        # exit 0 = matrix valid, 4 = invalid (with
 ## 5. Run a governed demo — still offline
 
 ```bash
-markov-ci run examples/01-lint-error/config.yaml --junit examples/01-lint-error/report.xml --seed 42
+git -C examples/01-lint-error/repo init -q && \
+  git -C examples/01-lint-error/repo add -A && \
+  git -C examples/01-lint-error/repo commit -qm "demo baseline"
+
+markov-ci run examples/01-lint-error/config.yaml \
+  --junit examples/01-lint-error/report.xml \
+  --repo examples/01-lint-error/repo --seed 42
 echo $?    # 0 = absorbed in a1 (ready for human review)
 ```
 
 The simulated agent is the default adapter — no keys, byte-stable under `--seed`.
-The event stream lands in `.markov-ci/events.jsonl` (see
+The event stream lands in `examples/01-lint-error/.markov-ci/events.jsonl` (see
 [reference/telemetry](reference/telemetry.md)).
 
 ## Where next?

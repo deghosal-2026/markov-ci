@@ -42,3 +42,7 @@ reports/
 # Local secrets / environment
 .env
 .env.*
+
+# Example demo run artifacts (the sandbox and telemetry, not source)
+examples/*/repo/.git/
+examples/*/.markov-ci/
