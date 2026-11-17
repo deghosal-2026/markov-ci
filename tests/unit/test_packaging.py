@@ -71,3 +71,10 @@ def test_ruff_targets_py311() -> None:
 
 def test_version_matches_package() -> None:
     assert _config()["project"]["version"] == markov_ci.__version__
+
+
+def test_coverage_gate_is_95_percent() -> None:
+    report = _config()["tool"]["coverage"]["report"]
+    assert report["fail_under"] == 95
+    run = _config()["tool"]["coverage"]["run"]
+    assert run["source"] == ["markov_ci"]

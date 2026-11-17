@@ -48,3 +48,21 @@ Runtime dependencies are pinned, minimal, and permissively licensed: `numpy`,
 `pydantic≥2`, `PyYAML`, `typer`, `rich`, `jsonschema`. There are no post-install hooks.
 The core package carries **no** LLM or agent-harness SDK dependency; harness adapters
 live in the optional `markov-ci[harness]` extra.
+
+### Release security gate (blocking)
+
+No release is published — and the repository does not go public — until an automated,
+**blocking** gate is green (tracked as issue #60):
+
+- **Secret scan over the working tree *and full git history*** with `trufflehog`
+  (verified findings) and `gitleaks`. History matters: a secret in an old commit is
+  still a secret in every clone.
+- **Dependency audit** with `pip-audit` against the shipped dependency set.
+- **Static analysis** with `bandit` over `src/markov_ci` (no high-severity findings).
+- **License check** — all runtime dependencies permissive.
+- **SBOM** generated and attached to the release.
+- **Trusted Publishing** — PyPI releases are published via OIDC with PEP 740
+  attestations; no long-lived PyPI API token exists.
+
+The gate is a required CI step on the release path; a release cannot publish while any
+scanner reports an unresolved finding.

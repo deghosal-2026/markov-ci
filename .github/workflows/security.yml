@@ -1,0 +1,79 @@
+name: security
+
+# Release security & supply-chain gate (issue #60 / M10.8).
+# This workflow must be green before a release is published and before the public flip.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # weekly, Monday 06:00 UTC
+
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  secret-scan:
+    name: secret scan (working tree + full history)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history — a leaked secret in an old commit still counts
+
+      - name: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: trufflehog (verified findings only)
+        uses: trufflesecurity/trufflehog@main
+        with:
+          extra_args: --results=verified,unknown
+
+  dependency-audit-and-sast:
+    name: dependency audit + SAST
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package + security tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install "pip-audit>=2" "bandit>=1.7"
+
+      - name: pip-audit (shipped dependencies)
+        run: pip-audit
+
+      - name: bandit (SAST, medium+ severity)
+        run: bandit -r src/markov_ci -ll
+
+  licenses-and-sbom:
+    name: license check + SBOM
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e . pip-licenses cyclonedx-bom
+      - name: License check (fail on copyleft in runtime deps)
+        run: pip-licenses --fail-on "GPL;AGPL"
+      - name: Generate SBOM
+        run: cyclonedx-py environment --output-format json --outfile sbom.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json

@@ -11,6 +11,13 @@
 Build order follows [../WBS.md](../WBS.md) (M0→M10); releases cut from the
 MUST→SHOULD→COULD priority order, not the build order.
 
+**Release security gate (blocking, every release — M10.8 / #60):** a release is not
+published (and the repo does not flip public) until a blocking CI gate is green — secret
+scan of the working tree **and full git history** (`trufflehog`, `gitleaks`),
+`pip-audit` on the shipped dependency set, `bandit` SAST with no high-severity findings,
+a permissive-only runtime-license check, and an SBOM attached to the release. Publishing
+uses PyPI Trusted Publishing (OIDC) with attestations; no stored API token.
+
 **Deprecation policy:** exit codes and event `schema_version` are stable API —
 breaking changes require a major bump and one minor-release deprecation window.
 `recompute` accepts all event versions ≤ current.

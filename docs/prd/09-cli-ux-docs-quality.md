@@ -56,6 +56,12 @@ runnable demo; publishing gated on the public flip (see [12-launch-and-gtm.md](1
    pull nothing beyond their named harness wrapper.
 5. **Patch provenance** — every patch is attributable to (run_id, adapter, attempt)
    in the event stream; the guardrail report travels with the RunResult.
+6. **Release security gate (blocking).** No release is published and the repo does not
+   flip public until a blocking gate passes: secret scan over the working tree **and
+   full git history** (`trufflehog` + `gitleaks`), dependency audit (`pip-audit`),
+   static analysis (`bandit`), runtime-dependency license check, and an SBOM attached
+   to the release. Publishing uses PyPI **Trusted Publishing** (OIDC) with PEP 740
+   attestations — no long-lived API token. Tracked as M10.8 (#60).
 
 ## 5. Privacy requirements
 

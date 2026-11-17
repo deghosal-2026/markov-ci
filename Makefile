@@ -2,7 +2,7 @@
 
 PY ?= python3
 
-.PHONY: help test lint typecheck cov docs build clean
+.PHONY: help test lint typecheck cov gate docs build clean
 
 help:
 	@echo "markov-ci make targets:"
@@ -10,7 +10,8 @@ help:
 	@echo "  test       run the test suite"
 	@echo "  lint       ruff check"
 	@echo "  typecheck  mypy --strict"
-	@echo "  cov        run tests with coverage"
+	@echo "  cov        run tests with coverage (fails under 95%)"
+	@echo "  gate       lint + typecheck + cov (milestone gate)"
 	@echo "  docs       build the mkdocs site (strict)"
 	@echo "  build      build sdist + wheel"
 	@echo "  clean      remove caches and build artifacts"
@@ -25,7 +26,10 @@ typecheck:
 	$(PY) -m mypy
 
 cov:
-	$(PY) -m pytest --cov=markov_ci --cov-report=term-missing
+	$(PY) -m pytest --cov=markov_ci --cov-report=term-missing --cov-fail-under=95
+
+# The milestone gate: lint + strict types + >=95% coverage (docs/WBS.md).
+gate: lint typecheck cov
 
 docs:
 	$(PY) -m mkdocs build --strict
