@@ -21,6 +21,7 @@ import json
 import os
 import sys
 import urllib.error
+import urllib.parse
 import urllib.request
 
 DEFAULT_BASE_URL = "http://localhost:11434/v1"
@@ -28,6 +29,19 @@ DEFAULT_MODEL = "qwen2.5-coder:7b"
 DEFAULT_TIMEOUT = 300
 
 EXIT_INVALID = 4
+
+
+def validate_base_url(url: str) -> str:
+    """Return the URL if its scheme is http(s); raise ValueError otherwise.
+
+    The endpoint is operator-configured (env var or --base-url); restricting it
+    to http/https keeps urlopen from being pointed at other schemes (file:, ftp:,
+    data:) — the request is never sent for anything else.
+    """
+    scheme = urllib.parse.urlsplit(url).scheme.lower()
+    if scheme not in {"http", "https"}:
+        raise ValueError(f"base-url must be http(s), got scheme {scheme!r}")
+    return url
 
 
 def build_payload(*, model: str, prompt: str) -> str:
@@ -81,14 +95,21 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
+    try:
+        base_url = validate_base_url(args.base_url)
+    except ValueError as exc:
+        print(f"local_llm: {exc}", file=sys.stderr)
+        return EXIT_INVALID
+
     request = urllib.request.Request(
-        args.base_url.rstrip("/") + "/chat/completions",
+        base_url.rstrip("/") + "/chat/completions",
         data=build_payload(model=args.model, prompt=args.prompt).encode(),
         headers={"Content-Type": "application/json"},
         method="POST",
     )
     try:
-        with urllib.request.urlopen(request, timeout=args.timeout) as response:
+        # scheme validated above (validate_base_url) — operator's own local endpoint
+        with urllib.request.urlopen(request, timeout=args.timeout) as response:  # nosec B310
             content, tokens = parse_response(response.read().decode())
     except (urllib.error.URLError, OSError, ValueError) as exc:
         print(f"local_llm: endpoint call failed: {exc}", file=sys.stderr)

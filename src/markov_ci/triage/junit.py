@@ -8,9 +8,11 @@ warning — it never raises and never crashes the pipeline.
 from __future__ import annotations
 
 import re
-import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from typing import ClassVar
+
+import defusedxml.ElementTree as ET
+from defusedxml import DefusedXmlException
 
 _KINDS = ("failure", "error", "skipped")
 
@@ -44,7 +46,9 @@ def _localname(tag: str) -> str:
 
 
 def _from_element_tree(text: str) -> JUnitReport:
-    root = ET.fromstring(text)  # noqa: S314 - trusted CI artefact, hardened by fallback
+    # defusedxml: the JUnit text comes from the user's runner (untrusted) —
+    # DTDs/entities are refused outright (billion-laughs, internal-entity probes).
+    root = ET.fromstring(text)
     failures: list[TestFailure] = []
     for element in root.iter():
         if _localname(element.tag) != "testcase":
@@ -82,5 +86,9 @@ def parse_junit(text: str) -> JUnitReport:
         return JUnitReport(failures=(), warnings=("empty JUnit document",))
     try:
         return _from_element_tree(text)
+    except DefusedXmlException as exc:
+        # a DTD/entity payload: refused by the hardened parser — recover the
+        # failures from the raw text without expanding anything
+        return _from_regex(text, f"refused JUnit XML: {exc}")
     except ET.ParseError as exc:
         return _from_regex(text, f"malformed JUnit XML: {exc}")

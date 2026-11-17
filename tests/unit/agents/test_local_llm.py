@@ -133,6 +133,22 @@ def test_main_returns_four_on_endpoint_failure(
     assert "failed" in capsys.readouterr().err
 
 
+def test_main_rejects_non_http_schemes_before_any_request(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str],
+) -> None:
+    called: list[object] = []
+
+    def must_not_run(request: urllib.request.Request, timeout: int) -> _FakeResponse:
+        called.append(request)
+        raise AssertionError("urlopen must not be reached for a non-http scheme")
+
+    monkeypatch.setattr(urllib.request, "urlopen", must_not_run)
+    for scheme in ("file:///etc/passwd", "ftp://host/x", "gopher://host", "data:text/plain,x"):
+        assert main(["prompt", "--base-url", scheme]) == 4
+        assert "scheme" in capsys.readouterr().err
+    assert called == []
+
+
 def test_main_requires_a_prompt() -> None:
     with pytest.raises(SystemExit):
         main([])

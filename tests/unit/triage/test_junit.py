@@ -37,6 +37,15 @@ MALFORMED = (
     '<failure message="raw boom" type="AssertionError">trace</failure></testcase>\n'
 )
 
+ENTITY_ATTACK = """<?xml version="1.0"?>
+<!DOCTYPE testsuites [<!ENTITY xxe "expanded-secret">]>
+<testsuites>
+  <testcase name="test_entity">
+    <failure message="&xxe;" type="AssertionError">&xxe;</failure>
+  </testcase>
+</testsuites>
+"""
+
 
 def test_parses_failure_error_and_skipped() -> None:
     report = parse_junit(GOOD)
@@ -89,6 +98,18 @@ def test_empty_input_is_empty_and_warns() -> None:
     report = parse_junit("")
     assert report.failures == ()
     assert report.warnings
+
+
+def test_dtd_entities_are_never_expanded() -> None:
+    # The JUnit text comes from the user's runner, so it is untrusted input:
+    # a DOCTYPE entity must not be expanded by the parser (billion-laughs /
+    # internal-entity probing). defusedxml refuses the DTD; the regex fallback
+    # then recovers the failure from the raw text without expanding anything.
+    report = parse_junit(ENTITY_ATTACK)
+    assert isinstance(report, JUnitReport)
+    assert report.warnings
+    joined = " ".join(f.message for f in report.failures)
+    assert "expanded-secret" not in joined  # the entity never got expanded
 
 
 def test_is_deterministic() -> None:

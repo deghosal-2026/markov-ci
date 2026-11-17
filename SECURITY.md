@@ -45,7 +45,8 @@ violation as a security bug:
 ## Supply chain
 
 Runtime dependencies are pinned, minimal, and permissively licensed: `numpy`,
-`pydantic≥2`, `PyYAML`, `typer`, `rich`, `jsonschema`. There are no post-install hooks.
+`pydantic≥2`, `PyYAML`, `typer`, `rich`, `jsonschema`, `defusedxml` (hardened
+parsing of runner-produced JUnit XML). There are no post-install hooks.
 The core package carries **no** LLM or agent-harness SDK dependency; harness adapters
 live in the optional `markov-ci[harness]` extra.
 

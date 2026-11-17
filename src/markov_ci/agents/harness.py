@@ -56,9 +56,13 @@ def _build_prompt(ctx: RepairContext) -> str:
 
 
 def _default_runner(command: str, *, timeout: int) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(  # noqa: S602 - trusted template, quoted prompt
+    # shell=True is a recorded design decision (ADR-0007): the command template
+    # is trusted operator config (spec 0006 §3), and templates may use shell
+    # composition. Governance — allowlists, budgets, caps, sandbox — is enforced
+    # by the engine on the proposal, never delegated to the harness.
+    return subprocess.run(
         command,
-        shell=True,
+        shell=True,  # nosec B602 — trusted template (ADR-0007), engine-governed
         capture_output=True,
         text=True,
         timeout=timeout,

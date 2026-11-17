@@ -5,7 +5,8 @@
 ## 1. Packaging & compatibility
 
 - Python ≥ 3.11 (test 3.11/3.12/3.13); src layout `src/markov_ci/`; `py.typed`.
-- Runtime deps: `numpy`, `pydantic ≥ 2`, `PyYAML`, `typer`, `rich`, `jsonschema`.
+- Runtime deps: `numpy`, `pydantic ≥ 2`, `PyYAML`, `typer`, `rich`, `jsonschema`,
+  `defusedxml` (hardened parsing of the runner-produced JUnit XML).
 - **No runtime dependency on any LLM SDK or harness SDK in core** — harness adapters
   are extras (`markov-ci[harness]`).
 - Dev extras: `pytest`, `hypothesis`, `ruff`, `mypy`, `mkdocs-material`.
