@@ -9,6 +9,13 @@ from markov_ci.model.augment import (
     TransitionEdge,
     augment,
 )
+from markov_ci.model.math import (
+    absorption,
+    expected_cost,
+    fundamental,
+    split,
+    steps_to_absorb,
+)
 from markov_ci.model.state import (
     InvalidStateSpace,
     State,
@@ -29,8 +36,13 @@ __all__ = [
     "StateType",
     "TransitionEdge",
     "ValidationResult",
+    "absorption",
     "assemble",
     "augment",
+    "expected_cost",
+    "fundamental",
+    "split",
+    "steps_to_absorb",
     "validate",
 ]
 
