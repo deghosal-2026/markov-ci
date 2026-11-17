@@ -80,12 +80,12 @@ def check_test_modification(diff: str) -> TMRResult:
     reasons: list[str] = []
     if deletions:
         reasons.append(f"{deletions} assertion(s) deleted")
-    if ratio > _RATIO_LIMIT:
+    if src_lines == 0 and test_lines > 0:
+        reasons.append("pure test change with no source change")
+    elif ratio > _RATIO_LIMIT:
         reasons.append(
             f"test-modification ratio {ratio:.2f} exceeds {_RATIO_LIMIT:.1f}",
         )
-    elif src_lines == 0 and test_lines > 0:
-        reasons.append("pure test change with no source change")
 
     stop = bool(reasons)
     return TMRResult(

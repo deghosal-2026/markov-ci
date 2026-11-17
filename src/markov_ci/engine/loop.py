@@ -78,6 +78,7 @@ def run_loop(  # noqa: PLR0913
     tokens = 0
     visits: dict[str, int] = {}
     guardrail_report: list[str] = []
+    mandatory_review = False
     absorbing: str | None = None
     current = "s1_failure_triage"
     attempt = 1
@@ -147,6 +148,7 @@ def run_loop(  # noqa: PLR0913
         tmr = check_test_modification(proposal.diff)
         if tmr.stop:
             guardrail_report.append(tmr.reason)
+            mandatory_review = True
             absorbing = A2
             emit(A2, attempt)
             _bump(visits, A2)
@@ -187,6 +189,7 @@ def run_loop(  # noqa: PLR0913
         guardrail_report=tuple(guardrail_report),
         events_path=None,
         patch_branch=patch_branch,
+        mandatory_review=mandatory_review,
     )
 
 

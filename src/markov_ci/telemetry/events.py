@@ -94,6 +94,7 @@ class RunResult:
     guardrail_report: tuple[str, ...]
     events_path: str | None
     patch_branch: str | None
+    mandatory_review: bool = False
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -104,4 +105,5 @@ class RunResult:
             "guardrail_report": list(self.guardrail_report),
             "events_path": self.events_path,
             "patch_branch": self.patch_branch,
+            "mandatory_review": self.mandatory_review,
         }

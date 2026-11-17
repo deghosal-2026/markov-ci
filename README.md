@@ -95,8 +95,8 @@ Everything below also builds as a site — run `mkdocs serve`.
 
 **Guides**
 
-- Tutorials: [01 — lint fix](docs/tutorials/01-lint-error-first-pass.md) · [02 — decay → escalate](docs/tutorials/02-assertion-decay-escalation.md) · [03 — infra timeout](docs/tutorials/03-infra-timeout-no-tokens.md) · [04 — runner pools](docs/tutorials/04-runner-pool-sizing.md) · [05 — GitHub Actions](docs/tutorials/05-github-actions-e2e.md) · [06 — adversarial runaway](docs/tutorials/06-adversarial-runaway.md)
-- Examples (run offline, zero keys): [01 lint error](examples/01-lint-error/README.md) · [02 assertion decay](examples/02-unit-assertion-decay/README.md) · [03 infra timeout](examples/03-infra-timeout/README.md) · [04 runner pools](examples/04-runner-pool-sizing/README.md) · [06 adversarial runaway](examples/06-adversarial-runaway/README.md)
+- Tutorials: [01 — lint fix](docs/tutorials/01-lint-error-first-pass.md) · [02 — decay → escalate](docs/tutorials/02-assertion-decay-escalation.md) · [03 — infra timeout](docs/tutorials/03-infra-timeout-no-tokens.md) · [04 — runner pools](docs/tutorials/04-runner-pool-sizing.md) · [05 — GitHub Actions](docs/tutorials/05-github-actions-e2e.md) · [06 — adversarial runaway](docs/tutorials/06-adversarial-runaway.md) · [07 — cheating agent](docs/tutorials/07-cheating-agent.md)
+- Examples (run offline, zero keys): [01 lint error](examples/01-lint-error/README.md) · [02 assertion decay](examples/02-unit-assertion-decay/README.md) · [03 infra timeout](examples/03-infra-timeout/README.md) · [04 runner pools](examples/04-runner-pool-sizing/README.md) · [06 adversarial runaway](examples/06-adversarial-runaway/README.md) · [07 cheating agent](examples/07-cheating-agent/README.md)
 - How-to: [GitHub Actions](docs/how-to/integrate-github-actions.md) · [GitLab & Jenkins](docs/how-to/integrate-gitlab-jenkins.md) · [run the examples in Docker](docs/how-to/run-in-docker.md) · [use a local LLM](docs/how-to/use-a-local-llm.md)
 
 **Reference & explanations**

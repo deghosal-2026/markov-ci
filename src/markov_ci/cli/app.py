@@ -202,6 +202,11 @@ def run(  # noqa: PLR0913
             f"absorbed: {result.absorbing_state} · tokens {result.tokens_used} · "
             f"{result.wall_clock_ms} ms · branch {result.patch_branch}",
         )
+        if result.mandatory_review:
+            _console.print(
+                "[red]mandatory review:[/red] test-weakening guardrail tripped — "
+                f"{'; '.join(result.guardrail_report)}",
+            )
     raise typer.Exit(code=_EXIT_CODES.get(result.absorbing_state or A2, EXIT_A2))
 
 

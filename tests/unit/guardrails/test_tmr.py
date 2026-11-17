@@ -109,6 +109,12 @@ def test_pure_test_change_with_no_src_is_stopped() -> None:
     assert result.stop is True
 
 
+def test_pure_test_change_reason_is_readable() -> None:
+    result = check_test_modification(ASSERTION_MOVED)
+    assert "pure test change with no source change" in result.reason
+    assert "inf" not in result.reason
+
+
 def test_empty_diff_is_clean() -> None:
     result = check_test_modification("")
     assert result.ratio == 0.0

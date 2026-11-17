@@ -140,6 +140,17 @@ def test_test_weakening_absorbs_in_a2() -> None:
     assert any("assertion" in note for note in result.guardrail_report)
 
 
+def test_test_weakening_flags_mandatory_review() -> None:
+    deleting = "--- a/tests/test_a.py\n+++ b/tests/test_a.py\n@@\n-    assert value == 1\n"
+    result = _run(adapter=FakeAdapter(diff=deleting, files=("tests/test_a.py",)))
+    assert result.mandatory_review is True
+    assert result.as_dict()["mandatory_review"] is True
+
+
+def test_clean_run_does_not_flag_mandatory_review() -> None:
+    assert _run().mandatory_review is False
+
+
 def test_patch_that_does_not_apply_absorbs_in_a2() -> None:
     sandbox = FakeSandbox([SandboxResult(False, False, "no apply")])
     assert _run(sandbox=sandbox).absorbing_state == A2
