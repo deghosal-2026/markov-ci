@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from markov_ci.agents.base import AgentAdapter, PatchProposal, RepairContext
+from markov_ci.agents.simulated import SimulatedAgent
 
 __all__ = [
     "AgentAdapter",
     "PatchProposal",
     "RepairContext",
+    "SimulatedAgent",
 ]
 
