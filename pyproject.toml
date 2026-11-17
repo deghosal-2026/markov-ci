@@ -1,0 +1,76 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "markov-ci"
+version = "0.1.0.dev0"
+description = "Markov-governed, self-healing CI/CD — governance for agentic pipelines"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "deghosal-2026" }]
+keywords = ["ci-cd", "markov-chains", "ai-agents", "llm", "devops"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Build Tools",
+  "Typing :: Typed",
+]
+# Core carries NO LLM / agent-harness SDK (ADR-0007). See [harness] for those.
+dependencies = [
+  "numpy>=1.26",
+  "pydantic>=2",
+  "PyYAML>=6",
+  "typer>=0.12",
+  "rich>=13",
+  "jsonschema>=4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "hypothesis>=6",
+  "ruff>=0.6",
+  "mypy>=1.11",
+  "mkdocs-material>=9",
+]
+# Reserved for headless harness adapters (F19 / ADR-0007); populated in M4.3–M4.4.
+harness = []
+
+[project.scripts]
+markov-ci = "markov_ci.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/deghosal-2026/markov-ci"
+Repository = "https://github.com/deghosal-2026/markov-ci"
+Issues = "https://github.com/deghosal-2026/markov-ci/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/markov_ci"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/markov_ci", "tests", "docs", "README.md", "LICENSE"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+python_version = "3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra"
