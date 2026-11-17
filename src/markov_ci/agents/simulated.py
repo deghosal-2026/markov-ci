@@ -16,7 +16,7 @@ from markov_ci.agents.base import PatchProposal, RepairContext
 _PATCH_DIFF = (
     "--- a/src/example.py\n"
     "+++ b/src/example.py\n"
-    "@@ -1,3 +1,3 @@\n"
+    "@@ -1,2 +1,2 @@\n"
     " def broken():\n"
     "-    return 1\n"
     "+    return 2\n"

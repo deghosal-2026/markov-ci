@@ -73,6 +73,10 @@ src = ["src", "tests"]
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "SIM"]
 
+[tool.ruff.lint.per-file-ignores]
+# Typer's `= typer.Option(...)` / `= typer.Argument(...)` default pattern is required.
+"src/markov_ci/cli/app.py" = ["B008"]
+
 [tool.mypy]
 strict = true
 files = ["src", "tests"]

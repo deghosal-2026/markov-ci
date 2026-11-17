@@ -74,3 +74,31 @@ def test_analyze_invalid_config_exits_four(tmp_path: Path) -> None:
 def test_analyze_unknown_category_exits_four() -> None:
     result = RUNNER.invoke(app, ["analyze", "--category", "not_a_category"])
     assert result.exit_code == 4
+
+
+INFRA_JUNIT = (
+    '<testsuites><testsuite><testcase name="t">'
+    '<error message="TimeoutError: request timed out" type="TimeoutError"/>'
+    "</testcase></testsuite></testsuites>"
+)
+
+
+def test_run_missing_junit_exits_four() -> None:
+    result = RUNNER.invoke(app, ["run", "--junit", "/nonexistent/report.xml"])
+    assert result.exit_code == 4
+
+
+def test_run_invalid_config_exits_four(tmp_path: Path) -> None:
+    bad = tmp_path / "bad.yaml"
+    bad.write_text("version: 2\nstates: {}\ntransitions: []\n", encoding="utf-8")
+    junit = tmp_path / "report.xml"
+    junit.write_text(INFRA_JUNIT, encoding="utf-8")
+    result = RUNNER.invoke(app, ["run", str(bad), "--junit", str(junit)])
+    assert result.exit_code == 4
+
+
+def test_run_infra_failure_escalates_without_tokens(tmp_path: Path) -> None:
+    junit = tmp_path / "report.xml"
+    junit.write_text(INFRA_JUNIT, encoding="utf-8")
+    result = RUNNER.invoke(app, ["run", "--junit", str(junit)])
+    assert result.exit_code == 2  # a2, zero tokens spent

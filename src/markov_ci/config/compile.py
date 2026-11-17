@@ -30,6 +30,11 @@ class ConfigCompileError(ValueError):
     """Raised when a config cannot be compiled into a chain."""
 
 
+def success_curve(config: Config, adapter: str, category: str) -> tuple[float, ...]:
+    """Public accessor for the prior success curve of (adapter, category)."""
+    return _success_curve(config, adapter, category)
+
+
 def _success_curve(config: Config, adapter: str, category: str) -> tuple[float, ...]:
     # resolution: priors[adapter][category] -> priors["default"][category] -> error
     adapter_block = config.priors.get(adapter)
