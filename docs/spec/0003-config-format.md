@@ -44,7 +44,7 @@ priors:
     infra_timeout:  { success: [0.05, 0.01, 0.00], cost_weight: 5.0, source: prior }
 
 agent:
-  adapter: simulated            # simulated | harness | command
+  adapter: simulated            # simulated | harness (BYO command via harness.command_template)
   allow_write: ["src/**", "tests/**"]
   deny_write: []                # the always-denied set applies regardless (spec 0005)
   harness:                      # used when adapter: harness (spec 0006)

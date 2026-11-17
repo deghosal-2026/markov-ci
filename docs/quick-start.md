@@ -1,8 +1,7 @@
 # Quick start
 
-> **Pre-alpha contract.** The commands below are the exact v0.1.0 CLI contract
-> (spec 0008). Until the first tag, treat this page as the executable spec — CI runs
-> these blocks verbatim (docs-are-tests).
+> **Pre-alpha.** The commands below are the v0.1.0 CLI contract (spec 0008),
+> implemented and run verbatim in CI — docs-are-tests.
 
 Time to first forecast: **5 minutes. Zero API keys. Zero network.**
 

@@ -48,8 +48,8 @@ theorem, not a timeout — even under adversarial probabilities.
 
 ## Quick start
 
-> The commands below are the v0.1.0 contract. Docs-are-tests: CI will run them verbatim
-> once the CLI lands.
+> The commands below are the v0.1.0 contract. Docs-are-tests: CI runs them verbatim
+> (see `docs/quick-start.md`, executed by `tests/unit/docs/test_docs_are_tests.py`).
 
 ```bash
 git clone https://github.com/deghosal-2026/markov-ci && cd markov-ci
@@ -96,7 +96,7 @@ Everything below also builds as a site — run `mkdocs serve`.
 **Guides**
 
 - Tutorials: [01 — lint fix](docs/tutorials/01-lint-error-first-pass.md) · [02 — decay → escalate](docs/tutorials/02-assertion-decay-escalation.md) · [03 — infra timeout](docs/tutorials/03-infra-timeout-no-tokens.md) · [04 — runner pools](docs/tutorials/04-runner-pool-sizing.md) · [05 — GitHub Actions](docs/tutorials/05-github-actions-e2e.md) · [06 — adversarial runaway](docs/tutorials/06-adversarial-runaway.md) · [07 — cheating agent](docs/tutorials/07-cheating-agent.md)
-- Examples (run offline, zero keys): [01 lint error](examples/01-lint-error/README.md) · [02 assertion decay](examples/02-unit-assertion-decay/README.md) · [03 infra timeout](examples/03-infra-timeout/README.md) · [04 runner pools](examples/04-runner-pool-sizing/README.md) · [06 adversarial runaway](examples/06-adversarial-runaway/README.md) · [07 cheating agent](examples/07-cheating-agent/README.md)
+- Examples: [01 lint error](examples/01-lint-error/README.md) · [02 assertion decay](examples/02-unit-assertion-decay/README.md) · [03 infra timeout](examples/03-infra-timeout/README.md) · [04 runner pools](examples/04-runner-pool-sizing/README.md) · [05 GitHub Actions (live)](examples/05-github-actions-e2e/README.md) · [06 adversarial runaway](examples/06-adversarial-runaway/README.md) · [07 cheating agent](examples/07-cheating-agent/README.md)
 - How-to: [GitHub Actions](docs/how-to/integrate-github-actions.md) · [GitLab & Jenkins](docs/how-to/integrate-gitlab-jenkins.md) · [run the examples in Docker](docs/how-to/run-in-docker.md) · [use a local LLM](docs/how-to/use-a-local-llm.md)
 
 **Reference & explanations**

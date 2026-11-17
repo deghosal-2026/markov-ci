@@ -13,7 +13,7 @@ markov-ci ships nothing anywhere.
 | Field | Type | Notes |
 |---|---|---|
 | `schema_version` | int | currently `1`; `recompute` accepts all ≤ current |
-| `event` | str | `transition` \| `absorbed` \| `guardrail` |
+| `event` | str | v0.1 emits `transition` (one per hop); `absorbed`/`guardrail` are reserved |
 | `run_id` | str | UUID per run |
 | `commit_sha` | str | head of the run's branch |
 | `pr_number` | int \| null | null for local runs |
@@ -42,8 +42,8 @@ markov-ci ships nothing anywhere.
    category × adapter)*. `adapter` on every event is what makes per-harness matrices
    fall out of `recompute` (the ~70×-token-variance problem, made visible).
 3. **Crash-safe.** Append + flush per hop; an absent absorbing state is itself auditable.
-4. **Not optional** — unless the user explicitly passes `--no-telemetry`, which is
-   recorded in the RunResult.
+4. **On by default.** Telemetry is written to `telemetry.path` unless the config sets
+   `telemetry.sink: none`; the run's `events_path` records where it landed.
 
 ## Feeding it back
 

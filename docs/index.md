@@ -2,9 +2,9 @@
 
 **Markov-governed, self-healing CI/CD.**
 
-> **Status: pre-alpha.** The contracts on this site (CLI behavior, config format,
-> telemetry events, golden numbers) are the spec the v0.1.0 release must satisfy —
-> docs-are-tests. Commands land with the first tagged release.
+> **Status: pre-alpha.** The CLI, config, and telemetry contracts on this site
+> (golden numbers included) are implemented and executed in CI — docs-are-tests.
+> `v0.1.0` is the first tagged release; the public API is not yet stable.
 
 CI/CD pipelines have become probabilistic: ephemeral infrastructure flakes identical
 builds, and AI agents embedded in pipelines fix, loop, and regress probabilistically.

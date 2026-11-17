@@ -1,8 +1,9 @@
 # How-to: run the examples in Docker
 
-> **Status:** ships with **M9.6 ([#61](https://github.com/deghosal-2026/markov-ci/issues/61))**.
-> The commands below are the contract for the Docker runner and are exercised by
-> `tests/unit/test_docker.py`; the image is scanned by the release
+> **Status:** shipped in **M9.6 ([#61](https://github.com/deghosal-2026/markov-ci/issues/61))**
+> and verified by a live container run (see `field-test/m9-examples/`). The commands
+> below are the contract for the Docker runner, guarded by `tests/unit/test_docker.py`;
+> the image is scanned by the release
 > [security gate](https://github.com/deghosal-2026/markov-ci/issues/60).
 
 The offline demos (01–04) are designed to be deterministic and network-free. A

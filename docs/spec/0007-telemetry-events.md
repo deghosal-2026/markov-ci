@@ -38,8 +38,9 @@ generated against it).
 
 - **No secrets ever** — schema validation plus a scrub check in tests.
 - Events alone are sufficient to recompute the matrix, per *(category × adapter)*.
-- Emission is not optional: `run` with telemetry disabled is a config error unless the
-  user explicitly passes `--no-telemetry` (recorded in the RunResult).
+- Telemetry is on by default (`telemetry.path`); the only way to disable it is the
+  explicit `telemetry.sink: none` config, and the run's `events_path` then records the
+  absence.
 
 ## 4. Recompute
 

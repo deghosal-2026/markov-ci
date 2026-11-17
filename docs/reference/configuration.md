@@ -63,7 +63,7 @@ priors:
 
 ```yaml
 agent:
-  adapter: simulated            # simulated | harness | command
+  adapter: simulated            # simulated | harness (BYO command via harness.command_template)
   allow_write: ["src/**", "tests/**"]
   deny_write: []                # informational — the always-denied set applies regardless
   harness:
@@ -84,5 +84,5 @@ telemetry:
   path: .markov-ci/events.jsonl
 ```
 
-Local JSONL only — markov-ci phones home to no one. Disabling telemetry requires an
-explicit `--no-telemetry` recorded in the RunResult (spec 0007 §3).
+Local JSONL only — markov-ci phones home to no one. Disabling telemetry is the
+explicit `telemetry.sink: none` setting (spec 0007 §3); there is no CLI flag for it.

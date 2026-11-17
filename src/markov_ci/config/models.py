@@ -79,7 +79,7 @@ class HarnessConfig(BaseModel):
 class AgentConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    adapter: Literal["simulated", "harness", "command"] = "simulated"
+    adapter: Literal["simulated", "harness"] = "simulated"
     allow_write: list[str] = Field(default_factory=lambda: ["src/**", "tests/**"])
     deny_write: list[str] = Field(default_factory=list)
     harness: HarnessConfig | None = None

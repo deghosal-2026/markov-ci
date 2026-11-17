@@ -52,6 +52,14 @@ def test_policy_defaults_apply() -> None:
     assert config.policy.max_tokens == 200_000
 
 
+def test_the_redundant_command_adapter_value_is_rejected() -> None:
+    # spec 0006 §3: BYO commands go through `harness` + command_template, not a
+    # separate `command` adapter value (there is no such adapter in the engine).
+    broken = VALID + "\nagent:\n  adapter: command\n"
+    with pytest.raises(ConfigError):
+        parse_config(broken)
+
+
 def test_unknown_top_level_key_is_rejected_with_a_line() -> None:
     with pytest.raises(ConfigError) as excinfo:
         parse_config(VALID + "\nbogus_key: 1\n")

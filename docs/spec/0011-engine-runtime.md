@@ -48,7 +48,9 @@ Single-threaded; no side effects outside the isolated patch branch.
 | `visits` | per-state visit counts |
 | `tokens_used`, `wall_clock_ms` | totals |
 | `guardrail_report` | allowlist/TMR decisions + flags |
+| `mandatory_review` | `true` when a hard stop (e.g. assertion deletion) needs a human |
 | `events_path` | the JSONL evidence trail |
 | `patch_branch` | the isolated branch, if any patch applied |
+| `run_id` | correlates the result with the event stream (and the Action's run-id output) |
 
 The human reviewer receives the full evidence; nothing agent-produced is silent.
