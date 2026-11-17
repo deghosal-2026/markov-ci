@@ -19,8 +19,8 @@ Exit `0` valid · `4` invalid — with the exact offending row, never a shrug.
 
 ### `markov-ci analyze [config] [--category C] [--json]`
 Print `N` (expected visits), `B` (absorption probabilities), `t` (expected steps),
-`C` (expected cost) + credible intervals. Zero-config works out of the box and prints
-the golden worked example (P(a1|s0) ≈ 0.92).
+`C` (expected cost); credible intervals ship via `simulate`/`recompute`. Zero-config
+works out of the box and prints the golden worked example (P(a1|s0) ≈ 0.92).
 
 ### `markov-ci run [config] --junit X [--seed S]`
 Execute the governed remediation loop (spec 0011): triage → assemble → hop under the

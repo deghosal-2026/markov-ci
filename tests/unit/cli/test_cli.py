@@ -60,6 +60,23 @@ def test_analyze_json_is_machine_readable() -> None:
     )
 
 
+def test_analyze_exposes_the_fundamental_matrix() -> None:
+    result = RUNNER.invoke(app, ["analyze", "--json"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    visits = payload["expected_visits"]
+    # N covers the step-augmented states, starts at one, and t = N·1 (spec 0008 §1)
+    assert visits[payload["start_state"]] == pytest.approx(1.0)
+    assert "s2_agent_reasoning#1" in visits
+    assert sum(visits.values()) == pytest.approx(payload["expected_steps"])
+
+
+def test_analyze_human_output_prints_expected_visits() -> None:
+    result = RUNNER.invoke(app, ["analyze"])
+    assert result.exit_code == 0
+    assert "expected visits" in result.stdout.lower()
+
+
 def test_analyze_with_category() -> None:
     result = RUNNER.invoke(app, ["analyze", "--category", "unit_assertion"])
     assert result.exit_code == 0

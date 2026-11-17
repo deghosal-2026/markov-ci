@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from markov_ci.model import Chain, absorption, expected_cost, steps_to_absorb
+from markov_ci.model import Chain, absorption, expected_cost, fundamental, steps_to_absorb
 from markov_ci.queueing import (
     erlang_c,
     exponential_services,
@@ -22,6 +22,7 @@ def build_report(chain: Chain, category: str) -> dict[str, Any]:
     row = chain.transient.index(start)
 
     probabilities = absorption(chain)
+    visits = fundamental(chain.Q)
     steps = steps_to_absorb(chain)
     unit_costs = dict.fromkeys(chain.transient, 1.0)
     cost = expected_cost(chain, unit_costs)
@@ -34,6 +35,10 @@ def build_report(chain: Chain, category: str) -> dict[str, Any]:
         "absorption_probabilities": {
             state_id: float(probabilities[row, column])
             for column, state_id in enumerate(chain.absorbing)
+        },
+        "expected_visits": {
+            state_id: float(visits[row, column])
+            for column, state_id in enumerate(chain.transient)
         },
         "expected_steps": float(steps[row]),
         "expected_cost": float(cost[row]),
@@ -132,6 +137,10 @@ def render_human(report: dict[str, Any]) -> str:
     ]
     for state_id, probability in report["absorption_probabilities"].items():
         lines.append(f"  {state_id:<32} {probability:.3f}")
+    lines.append("")
+    lines.append("Expected visits per transient state (fundamental matrix row):")
+    for state_id, visit_count in report["expected_visits"].items():
+        lines.append(f"  {state_id:<32} {visit_count:.3f}")
     lines.append("")
     lines.append(f"expected steps to absorption: {report['expected_steps']:.3f}")
     lines.append(f"expected cost (unit weights):  {report['expected_cost']:.3f}")
