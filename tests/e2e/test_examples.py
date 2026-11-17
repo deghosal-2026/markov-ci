@@ -33,6 +33,7 @@ RUNNER = CliRunner()
 
 _EXIT_LINE = re.compile(r"exit code to expect:\*\*\s*`(\d+)`", re.IGNORECASE)
 _CMD_LINE = re.compile(r"^markov-ci [a-z][a-z-]*\b.*")
+_EXPECTED_SECTION = re.compile(r"^## Expected (event stream|output)\b", re.MULTILINE)
 
 
 def _example_dirs() -> list[Path]:
@@ -73,6 +74,9 @@ def test_every_example_readme_carries_both_proof_sections(example: Path) -> None
     text = _readme(example)
     assert "## What this proves" in text
     assert "## Forecast vs. actual" in text
+    assert _EXPECTED_SECTION.search(text), (
+        "README needs an '## Expected output' or '## Expected event stream' section"
+    )
     assert _declared_exit_code(text) in {0, 2, 3}
 
 

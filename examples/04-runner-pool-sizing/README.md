@@ -30,7 +30,7 @@ closed form; `--json` feeds a capacity dashboard directly.
 ## The burst reality check
 
 ```bash
-python examples/04-runner-pool-sizing/burst.py
+python3 examples/04-runner-pool-sizing/burst.py
 ```
 
 ```

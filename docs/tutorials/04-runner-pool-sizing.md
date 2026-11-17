@@ -26,7 +26,7 @@ Poisson arrivals are a polite fiction for agentic traffic; agents fan out. The
 discrete-event simulator takes the burst pattern instead — the demo drives it directly:
 
 ```bash
-python examples/04-runner-pool-sizing/burst.py
+python3 examples/04-runner-pool-sizing/burst.py
 ```
 
 Under Poisson input the DES converges to Erlang-C (11.1 vs 13.3 min p95, property-tested);

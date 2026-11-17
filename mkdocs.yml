@@ -42,6 +42,7 @@ nav:
       - 03 — Infra timeout, zero tokens: tutorials/03-infra-timeout-no-tokens.md
       - 04 — Runner pool sizing: tutorials/04-runner-pool-sizing.md
       - 05 — GitHub Actions end-to-end: tutorials/05-github-actions-e2e.md
+      - 06 — Adversarial runaway: tutorials/06-adversarial-runaway.md
   - How-to:
       - Integrate with GitHub Actions: how-to/integrate-github-actions.md
       - Integrate with GitLab / Jenkins: how-to/integrate-gitlab-jenkins.md

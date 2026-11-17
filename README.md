@@ -58,7 +58,8 @@ pip install -e ".[dev]"
 markov-ci analyze                                   # zero-config: prints the worked example
 markov-ci analyze --category unit_assertion         # per-attempt decay + expected cost
 markov-ci run examples/01-lint-error/config.yaml \
-    --junit examples/01-lint-error/report.xml --seed 42
+    --junit examples/01-lint-error/report.xml \
+    --repo examples/01-lint-error/repo --seed 42
 ```
 
 No API keys, no network — the default agent is a seeded, offline simulator. See the
@@ -94,7 +95,8 @@ Everything below also builds as a site — run `mkdocs serve`.
 
 **Guides**
 
-- Tutorials: [01 — lint fix](docs/tutorials/01-lint-error-first-pass.md) · [02 — decay → escalate](docs/tutorials/02-assertion-decay-escalation.md) · [03 — infra timeout](docs/tutorials/03-infra-timeout-no-tokens.md) · [04 — runner pools](docs/tutorials/04-runner-pool-sizing.md) · [05 — GitHub Actions](docs/tutorials/05-github-actions-e2e.md)
+- Tutorials: [01 — lint fix](docs/tutorials/01-lint-error-first-pass.md) · [02 — decay → escalate](docs/tutorials/02-assertion-decay-escalation.md) · [03 — infra timeout](docs/tutorials/03-infra-timeout-no-tokens.md) · [04 — runner pools](docs/tutorials/04-runner-pool-sizing.md) · [05 — GitHub Actions](docs/tutorials/05-github-actions-e2e.md) · [06 — adversarial runaway](docs/tutorials/06-adversarial-runaway.md)
+- Examples (run offline, zero keys): [01 lint error](examples/01-lint-error/README.md) · [02 assertion decay](examples/02-unit-assertion-decay/README.md) · [03 infra timeout](examples/03-infra-timeout/README.md) · [04 runner pools](examples/04-runner-pool-sizing/README.md) · [06 adversarial runaway](examples/06-adversarial-runaway/README.md)
 - How-to: [GitHub Actions](docs/how-to/integrate-github-actions.md) · [GitLab & Jenkins](docs/how-to/integrate-gitlab-jenkins.md) · [run the examples in Docker](docs/how-to/run-in-docker.md) · [use a local LLM](docs/how-to/use-a-local-llm.md)
 
 **Reference & explanations**
@@ -114,7 +116,7 @@ Everything below also builds as a site — run `mkdocs serve`.
 
 | Release | Theme | Highlights |
 |---|---|---|
-| **v0.1.0** | *Absorption* | Math core · policy engine · triage · simulated agent · guardrails · runtime · telemetry · CLI · demos 01–03 |
+| **v0.1.0** | *Absorption* | Math core · policy engine · triage · simulated agent · guardrails · runtime · telemetry · CLI · offline proof-suite demos 01–03, 06–07 |
 | **v0.2.0** | *Capacity & reach* | GitHub Action · queueing (Erlang-C + DES) · `simulate` · `recompute` · harness adapters (Claude Code, OpenCode, Aider) |
 | **v0.3.0** | *Live operations* | MCP governance server · currency cost model · drift alerts · community harness templates |
 
