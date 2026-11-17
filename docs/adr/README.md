@@ -13,3 +13,6 @@ once accepted — supersede with a new ADR, never edit history. To add one: copy
 | [0005](0005-telemetry-versioned-contract.md) | Telemetry is a schema-versioned JSONL contract | Accepted |
 | [0006](0006-src-layout-strict-typing.md) | src/ layout, `py.typed`, `mypy --strict` | Accepted |
 | [0007](0007-harness-adapters-not-raw-sdks.md) | Real agents via headless harness CLIs, never raw SDKs | Accepted |
+| [0008](0008-deterministic-triage-before-agents.md) | Deterministic triage before any agent runs | Accepted |
+| [0009](0009-guardrails-enforced-in-code.md) | Guardrails are enforced in code, never delegated | Accepted |
+| [0010](0010-dual-queueing-model.md) | Dual queueing model: Erlang-C estimate + DES | Accepted |
