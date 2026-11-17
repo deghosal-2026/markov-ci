@@ -143,9 +143,11 @@ golden test green · ≥95% coverage · `ruff` + `mypy --strict` clean.
 | M9.3 | [#43](https://github.com/deghosal-2026/markov-ci/issues/43) | `03-infra-timeout` | zero tokens, immediate a2 |
 | M9.4 | [#44](https://github.com/deghosal-2026/markov-ci/issues/44) | `04-runner-pool-sizing` | Erlang-C + burst simulation report |
 | M9.5 | [#45](https://github.com/deghosal-2026/markov-ci/issues/45) | `05-github-actions-e2e` (live) | workflow runs on a real PR (opt-in secrets); depends on M10.1 |
+| M9.6 | [#61](https://github.com/deghosal-2026/markov-ci/issues/61) | Docker runner for the offline examples | pinned-python image + git; compose runs demos 01–04 under `--network none`; image scanned by [#60](https://github.com/deghosal-2026/markov-ci/issues/60) |
 
-**Gate:** demos 01–04 byte-stable under `--seed` and match their tutorials · ≥95% coverage ·
-`ruff` + `mypy --strict` clean.
+**Gate:** demos 01–04 byte-stable under `--seed` and match their tutorials; the Docker
+runner reproduces them under `--network none` · ≥95% coverage · `ruff` + `mypy --strict`
+clean.
 
 ## M10 — Releases and articles · [milestone](https://github.com/deghosal-2026/markov-ci/milestone/11)
 

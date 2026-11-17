@@ -29,6 +29,10 @@ Single-threaded; no side effects outside the isolated patch branch.
 - Apply the patch in an isolated git worktree — never the PR branch, never `main`.
 - Run only the failing tests first (fast signal), then full suite at `s4`.
 - Revert on failure; the loop's next attempt starts from a clean tree.
+- **Not a container backend (v0.1).** The sandbox is a worktree by design — no
+  daemon dependency. Running the *examples* in Docker (#61) is demos/docs packaging,
+  not the sandbox; a container sandbox backend would be a separate architectural
+  change requiring its own ADR.
 
 ## 3. Crash-safety
 
