@@ -1,0 +1,363 @@
+govern the 01-lint-error demo	Set up job	﻿2026-11-17T02:11:19.2039101Z Current runner version: '2.338.2'
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2076629Z ##[group]Runner Image Provisioner
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2078331Z Hosted Compute Agent
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2079340Z Version: 20261103.629
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2080329Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2081446Z Build Date: 2026-11-03T17:26:59Z
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2082407Z Worker ID: {7d823180-cba8-421e-98c6-76514ee90bad}
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2083420Z Region: centralus
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2084306Z Cloud: Azure
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2085060Z ##[endgroup]
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2087252Z ##[group]Operating System
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2088391Z Ubuntu
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2089156Z 26.04.1
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2089946Z LTS
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2090710Z ##[endgroup]
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2091489Z ##[group]Runner Image
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2092329Z Image: ubuntu-26.04
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2093137Z Version: 20261111.196.1
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2094708Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261111.196/images/ubuntu/Ubuntu2604-Readme.md
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2097255Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261111.196
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2098954Z ##[endgroup]
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2100631Z ##[group]GITHUB_TOKEN Permissions
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2103538Z Contents: write
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2104980Z Metadata: read
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2105779Z PullRequests: write
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2106523Z ##[endgroup]
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2109900Z Secret source: Actions
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2111274Z Cache mode: write
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2112419Z Prepare workflow directory
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2689503Z Prepare all required actions
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.2824119Z Getting action download info
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.5741820Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.7257033Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+govern the 01-lint-error demo	Set up job	2026-11-17T02:11:19.9648757Z Complete job name: govern the 01-lint-error demo
+govern the 01-lint-error demo	Run actions/checkout@v4	﻿2026-11-17T02:11:20.0463037Z ##[group]Run actions/checkout@v4
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0463922Z with:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0464535Z   repository: deghosal-2026/markov-ci
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0468756Z   token: ***
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0469299Z   ssh-strict: true
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0469876Z   ssh-user: git
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0470436Z   persist-credentials: true
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0471016Z   clean: true
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0471534Z   sparse-checkout-cone-mode: true
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0472139Z   fetch-depth: 1
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0472673Z   fetch-tags: false
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0473194Z   show-progress: true
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0473714Z   lfs: false
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0474273Z   submodules: false
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0474823Z   set-safe-directory: true
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0475445Z   allow-unsafe-pr-checkout: false
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.0476232Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3315403Z Syncing repository: deghosal-2026/markov-ci
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3322444Z ##[group]Getting Git version info
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3324440Z Working directory is '/home/runner/work/markov-ci/markov-ci'
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3609037Z [command]/usr/bin/git version
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3612354Z git version 2.56.1
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3615758Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3634250Z Temporarily overriding HOME='/home/runner/work/_temp/95e74aa3-82fa-4797-bef3-37a07963a018' before making global git config changes
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3637018Z Adding repository directory to the temporary git global config as a safe directory
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3652619Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/markov-ci/markov-ci
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3655660Z Deleting the contents of '/home/runner/work/markov-ci/markov-ci'
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.3657634Z ##[group]Initializing the repository
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5082623Z [command]/usr/bin/git init /home/runner/work/markov-ci/markov-ci
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5094828Z hint: Using 'master' as the name for the initial branch. This default branch name
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5098816Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5101246Z hint: to use in all of your new repositories, which will suppress this warning,
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5102767Z hint: call:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5103721Z hint:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5104771Z hint: 	git config --global init.defaultBranch <name>
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5105985Z hint:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5107249Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5109426Z hint: 'development'. The just-created branch can be renamed via this command:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5122502Z hint:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5123763Z hint: 	git branch -m <name>
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5124789Z hint:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5125995Z hint: Disable this message with "git config set advice.defaultBranchName false"
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5128000Z Initialized empty Git repository in /home/runner/work/markov-ci/markov-ci/.git/
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5131535Z [command]/usr/bin/git remote add origin https://github.com/deghosal-2026/markov-ci
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5135290Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5136908Z ##[group]Disabling automatic garbage collection
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5138527Z [command]/usr/bin/git config --local gc.auto 0
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5141670Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5143142Z ##[group]Setting up auth
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5144469Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5148924Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5153188Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5157583Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5343238Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5373537Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5633277Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5675797Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5678119Z ##[group]Fetching the repository
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:20.5686775Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +8078ec91f5edbb802d461b7a6f9dc65c0035552d:refs/remotes/origin/main
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0093291Z From https://github.com/deghosal-2026/markov-ci
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0096180Z  * [new ref]         8078ec91f5edbb802d461b7a6f9dc65c0035552d -> origin/main
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0103882Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0106238Z ##[group]Determining the checkout info
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0109137Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0110846Z [command]/usr/bin/git sparse-checkout disable
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0114679Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0128841Z ##[group]Checking out the ref
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0140275Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0286455Z Switched to a new branch 'main'
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0300181Z branch 'main' set up to track 'origin/main'.
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0305594Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0353264Z [command]/usr/bin/git log -1 --format=%H
+govern the 01-lint-error demo	Run actions/checkout@v4	2026-11-17T02:11:21.0389950Z 8078ec91f5edbb802d461b7a6f9dc65c0035552d
+govern the 01-lint-error demo	Run actions/setup-python@v5	﻿2026-11-17T02:11:21.0799692Z ##[group]Run actions/setup-python@v5
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0801177Z with:
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0802231Z   python-version: 3.12
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0803387Z   check-latest: false
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0813306Z   token: ***
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0814485Z   update-environment: true
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0815759Z   allow-prereleases: false
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0817225Z   freethreaded: false
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.0818412Z ##[endgroup]
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.2426042Z ##[group]Installed versions
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.2542383Z (node:2175) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.2589779Z (Use `node --trace-deprecation ...` to show where the warning was created)
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.2592612Z Successfully set up CPython (3.12.16)
+govern the 01-lint-error demo	Run actions/setup-python@v5	2026-11-17T02:11:21.2603386Z ##[endgroup]
+govern the 01-lint-error demo	Install the demo's test runner	﻿2026-11-17T02:11:21.2882254Z ##[group]Run python -m pip install --upgrade pip
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2884682Z ^[[36;1mpython -m pip install --upgrade pip^[[0m
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2886749Z ^[[36;1mpip install pytest^[[0m
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2969116Z shell: /usr/bin/bash -e {0}
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2970918Z env:
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2972580Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2975433Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2978397Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2980938Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2983463Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2986000Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:21.2989125Z ##[endgroup]
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:24.6126472Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages (26.3)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:25.9059151Z Collecting pytest
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:25.9642546Z   Downloading pytest-9.2.0-py3-none-any.whl.metadata (7.9 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:25.9887067Z Collecting iniconfig>=2 (from pytest)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.0025077Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.0290779Z Collecting packaging>=24 (from pytest)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.0424994Z   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.0666261Z Collecting pluggy<2,>=1.6 (from pytest)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.0808217Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.1079588Z Collecting pygments>=2.15 (from pytest)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.1213546Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.1401723Z Downloading pytest-9.2.0-py3-none-any.whl (411 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.1990405Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.2148002Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.2318971Z Downloading packaging-26.3-py3-none-any.whl (129 kB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.2519678Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.2905585Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 32.3 MB/s  0:00:00
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:26.3289966Z Installing collected packages: pygments, pluggy, packaging, iniconfig, pytest
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:27.3578729Z 
+govern the 01-lint-error demo	Install the demo's test runner	2026-11-17T02:11:27.3580142Z Successfully installed iniconfig-2.3.1 packaging-26.3 pluggy-1.7.0 pygments-2.21.0 pytest-9.2.0
+govern the 01-lint-error demo	Make the demo repo a real git repository	﻿2026-11-17T02:11:27.4253757Z ##[group]Run git -C examples/01-lint-error/repo init -q
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4254387Z ^[[36;1mgit -C examples/01-lint-error/repo init -q^[[0m
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4254832Z ^[[36;1mgit -C examples/01-lint-error/repo add -A^[[0m
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4255277Z ^[[36;1mgit -C examples/01-lint-error/repo \^[[0m
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4255819Z ^[[36;1m  -c user.email=demo@example.com -c user.name="markov-ci demo" \^[[0m
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4256315Z ^[[36;1m  commit -qm "demo baseline"^[[0m
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4292934Z shell: /usr/bin/bash -e {0}
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4293336Z env:
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4293843Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4294414Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4294938Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4295465Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4296118Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4296739Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+govern the 01-lint-error demo	Make the demo repo a real git repository	2026-11-17T02:11:27.4297133Z ##[endgroup]
+govern the 01-lint-error demo	Govern the failure	﻿2026-11-17T02:11:27.4669869Z Prepare all required actions
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.4670701Z Getting action download info
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.5636586Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8333830Z ##[group]Run ./
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8334165Z with:
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8334566Z   config: examples/01-lint-error/config.yaml
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8334976Z   junit: examples/01-lint-error/report.xml
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8335408Z   repo: examples/01-lint-error/repo
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8335754Z   seed: 42
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8336015Z env:
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8336409Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8336931Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8337484Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8338310Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8338769Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8339376Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8339768Z ##[endgroup]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8405949Z ##[start-action display=Install markov-ci;id=govern.__run]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8658791Z ##[group]Run python3 -m pip install --disable-pip-version-check "/home/runner/work/markov-ci/markov-ci/./"
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8659684Z ^[[36;1mpython3 -m pip install --disable-pip-version-check "/home/runner/work/markov-ci/markov-ci/./"^[[0m
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8694942Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8695394Z env:
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8695826Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8696349Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8696885Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8697372Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8697917Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8698477Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:27.8698898Z ##[endgroup]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:28.4559873Z Processing ./.
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:28.4585159Z   Installing build dependencies: started
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:29.3424657Z   Installing build dependencies: finished with status 'done'
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:29.3449366Z   Getting requirements to build wheel: started
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:29.5056541Z   Getting requirements to build wheel: finished with status 'done'
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:29.5065505Z   Preparing metadata (pyproject.toml): started
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:29.7269768Z   Preparing metadata (pyproject.toml): finished with status 'done'
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:29.8180959Z Collecting jsonschema>=4 (from markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:29.8820657Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.2198955Z Collecting numpy>=1.26 (from markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.2370838Z   Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.3379112Z Collecting pydantic>=2 (from markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.3540984Z   Downloading pydantic-2.14.3-py3-none-any.whl.metadata (141 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.4278625Z Collecting pyyaml>=6 (from markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.4443645Z   Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.4814566Z Collecting rich>=13 (from markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.4990086Z   Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.5288677Z Collecting typer>=0.12 (from markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.5455382Z   Downloading typer-0.29.1-py3-none-any.whl.metadata (16 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.5708879Z Collecting attrs>=22.2.0 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.5875029Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.6117218Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.6280159Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.6574786Z Collecting referencing>=0.28.4 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.6740231Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.8960835Z Collecting rpds-py>=0.25.0 (from jsonschema>=4->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.9126814Z   Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.1 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.9363590Z Collecting annotated-types>=0.6.0 (from pydantic>=2->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:30.9524262Z   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.5390659Z Collecting pydantic-core==2.50.4 (from pydantic>=2->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.5562244Z   Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (6.6 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.5809765Z Collecting typing-extensions>=4.16.0 (from pydantic>=2->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.5977381Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.6202798Z Collecting typing-inspection>=0.4.4 (from pydantic>=2->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.6380816Z   Downloading typing_inspection-0.4.5-py3-none-any.whl.metadata (2.6 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.6659421Z Collecting markdown-it-py>=2.2.0 (from rich>=13->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.6832856Z   Downloading markdown_it_py-4.3.0-py3-none-any.whl.metadata (7.9 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.6901052Z Requirement already satisfied: pygments<3.0.0,>=2.13.0 in /opt/hostedtoolcache/Python/3.12.16/x64/lib/python3.12/site-packages (from rich>=13->markov-ci==0.1.0.dev0) (2.21.0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.7089404Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=13->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.7260128Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.7528333Z Collecting shellingham>=1.3.0 (from typer>=0.12->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.7698275Z   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.7919254Z Collecting annotated-doc>=0.0.2 (from typer>=0.12->markov-ci==0.1.0.dev0)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.8087569Z   Downloading annotated_doc-0.0.6-py3-none-any.whl.metadata (6.5 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.8304773Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.8543712Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.8747910Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:31.8942717Z Downloading numpy-2.5.5-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (15.7 MB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.1740497Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 15.7/15.7 MB 59.1 MB/s  0:00:00
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.1922931Z Downloading pydantic-2.14.3-py3-none-any.whl (494 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.2159399Z Downloading pydantic_core-2.50.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.3 MB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.2450562Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 77.8 MB/s  0:00:00
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.2609353Z Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.2793350Z Downloading pyyaml-6.0.3-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (807 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.2922438Z    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 807.9/807.9 kB 51.8 MB/s  0:00:00
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.3084552Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.3275367Z Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.3496205Z Downloading markdown_it_py-4.3.0-py3-none-any.whl (96 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.3693883Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.3882757Z Downloading rpds_py-2026.9.1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (371 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.4115120Z Downloading typer-0.29.1-py3-none-any.whl (121 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.4319677Z Downloading annotated_doc-0.0.6-py3-none-any.whl (5.3 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.4503672Z Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.4689305Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.4889576Z Downloading typing_inspection-0.4.5-py3-none-any.whl (14 kB)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.5561660Z Building wheels for collected packages: markov-ci
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.5569799Z   Building wheel for markov-ci (pyproject.toml): started
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.5886316Z   Building wheel for markov-ci (pyproject.toml): finished with status 'done'
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.5892244Z   Created wheel for markov-ci: filename=markov_ci-0.1.0.dev0-py3-none-any.whl size=61081 sha256=bbcb25cfcc4fb9ef58c549023a0a4e466362ee851f79fc147cf2721eb3d8b4ac
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.5894332Z   Stored in directory: /tmp/pip-ephem-wheel-cache-lq2qqis4/wheels/b4/6a/3c/89f28a7febc59ba3b4a0e9b49ed2512b41161a3f0025607a58
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.5919269Z Successfully built markov-ci
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:32.6392793Z Installing collected packages: typing-extensions, shellingham, rpds-py, pyyaml, numpy, mdurl, attrs, annotated-types, annotated-doc, typing-inspection, referencing, pydantic-core, markdown-it-py, rich, pydantic, jsonschema-specifications, typer, jsonschema, markov-ci
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.5248360Z 
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.5261475Z Successfully installed annotated-doc-0.0.6 annotated-types-0.8.0 attrs-26.1.0 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.3.0 markov-ci-0.1.0.dev0 mdurl-0.1.2 numpy-2.5.5 pydantic-2.14.3 pydantic-core-2.50.4 pyyaml-6.0.3 referencing-0.37.0 rich-15.0.0 rpds-py-2026.9.1 shellingham-1.5.4 typer-0.29.1 typing-extensions-4.16.0 typing-inspection-0.4.5
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6429198Z ##[end-action id=govern.__run;outcome=success;conclusion=success;duration_ms=7802]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6436329Z ##[start-action display=Govern the run;id=govern.govern]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6461888Z ##[group]Run bash "/home/runner/work/markov-ci/markov-ci/.//action/run.sh"
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6462486Z ^[[36;1mbash "/home/runner/work/markov-ci/markov-ci/.//action/run.sh"^[[0m
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6495280Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6495735Z env:
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6496104Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6496651Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6497188Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6497632Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6498342Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6498820Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6499333Z   INPUT_CONFIG: examples/01-lint-error/config.yaml
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6499784Z   INPUT_JUNIT: examples/01-lint-error/report.xml
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6500161Z   INPUT_REPO: examples/01-lint-error/repo
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6500766Z   INPUT_SEED: 42
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6501059Z   INPUT_ADAPTER: 
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6501361Z   INPUT_MAX_TOKENS: 
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6501700Z   INPUT_WALL_CLOCK: 
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:35.6502000Z ##[endgroup]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8021133Z ##[end-action id=govern.govern;outcome=success;conclusion=success;duration_ms=1158]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8026878Z ##[start-action display=Upload the event stream;id=govern.__actions_upload-artifact]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8081060Z ##[group]Run actions/upload-artifact@v4
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8081452Z with:
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8081844Z   name: markov-ci-events-68376f0d400b4c3fb6ab81f5cd790c98
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8082515Z   path: examples/01-lint-error/.markov-ci/events.jsonl
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8082912Z   if-no-files-found: warn
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8083290Z   compression-level: 6
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8083725Z   overwrite: false
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8084100Z   include-hidden-files: false
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8084455Z env:
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8084792Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8085342Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8085854Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8086330Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8086839Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8087312Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.8087995Z ##[endgroup]
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.9837280Z (node:2305) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.9839391Z (Use `node --trace-deprecation ...` to show where the warning was created)
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.9959760Z With the provided path, there will be 1 file uploaded
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.9973432Z Artifact name is valid!
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:36.9989475Z Root directory input is valid!
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.3807436Z Beginning upload of artifact content to blob storage
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.4544499Z (node:2305) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.5967976Z Uploaded bytes 441
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.6397443Z Finished uploading artifact content to blob storage!
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.6399308Z SHA256 digest of uploaded artifact zip is a7320691828946fbc73c10254ada1f8e5093c890a5c18116933cb656f50ad936
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.6414176Z Finalizing artifact upload
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.9787854Z Artifact markov-ci-events-68376f0d400b4c3fb6ab81f5cd790c98.zip successfully finalized. Artifact ID 14291683131
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.9788914Z Artifact markov-ci-events-68376f0d400b4c3fb6ab81f5cd790c98 has been successfully uploaded! Final size is 441 bytes. Artifact ID is 14291683131
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.9789933Z Artifact download URL: https://github.com/deghosal-2026/markov-ci/actions/runs/44001110296/artifacts/14291683131
+govern the 01-lint-error demo	Govern the failure	2026-11-17T02:11:37.9929493Z ##[end-action id=govern.__actions_upload-artifact;outcome=success;conclusion=success;duration_ms=1190]
+govern the 01-lint-error demo	Assert the governed outcome	﻿2026-11-17T02:11:38.0003744Z ##[group]Run echo "absorbing-state=a1_ready_for_human_review"
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0004288Z ^[[36;1mecho "absorbing-state=a1_ready_for_human_review"^[[0m
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0004784Z ^[[36;1mecho "exit-code=0"^[[0m
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0005174Z ^[[36;1mecho "run-id=68376f0d400b4c3fb6ab81f5cd790c98"^[[0m
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0005657Z ^[[36;1mecho "patch-branch=ai-fix/local-68376f0d"^[[0m
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0006125Z ^[[36;1mtest "a1_ready_for_human_review" = "a1_ready_for_human_review"^[[0m
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0006626Z ^[[36;1mtest "0" = "0"^[[0m
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0039646Z shell: /usr/bin/bash -e {0}
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0040168Z env:
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0040665Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0041339Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib/pkgconfig
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0041860Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0042318Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0042879Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.16/x64
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0043460Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.16/x64/lib
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0043878Z ##[endgroup]
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0101940Z absorbing-state=a1_ready_for_human_review
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0102679Z exit-code=0
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0103938Z run-id=68376f0d400b4c3fb6ab81f5cd790c98
+govern the 01-lint-error demo	Assert the governed outcome	2026-11-17T02:11:38.0105068Z patch-branch=ai-fix/local-68376f0d
+govern the 01-lint-error demo	Post Run actions/setup-python@v5	﻿2026-11-17T02:11:38.0194185Z Post job cleanup.
+govern the 01-lint-error demo	Post Run actions/setup-python@v5	2026-11-17T02:11:38.1478843Z (node:2319) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+govern the 01-lint-error demo	Post Run actions/setup-python@v5	2026-11-17T02:11:38.1480656Z (Use `node --trace-deprecation ...` to show where the warning was created)
+govern the 01-lint-error demo	Post Run actions/checkout@v4	﻿2026-11-17T02:11:38.1768301Z Post job cleanup.
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.2818985Z [command]/usr/bin/git version
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.2881585Z git version 2.56.1
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.2961781Z Temporarily overriding HOME='/home/runner/work/_temp/7558d045-0336-47ca-9f46-fc546e4a6f27' before making global git config changes
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.2963004Z Adding repository directory to the temporary git global config as a safe directory
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.2964062Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/markov-ci/markov-ci
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.3173170Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.3313340Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.4188070Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.4234499Z http.https://github.com/.extraheader
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.4285798Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.4410019Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.4890965Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+govern the 01-lint-error demo	Post Run actions/checkout@v4	2026-11-17T02:11:38.4961997Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+govern the 01-lint-error demo	Complete job	﻿2026-11-17T02:11:38.5476793Z Cleaning up orphan processes
+govern the 01-lint-error demo	Complete job	2026-11-17T02:11:38.5794131Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
