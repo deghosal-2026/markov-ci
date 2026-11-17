@@ -18,7 +18,7 @@ import typer
 from rich.console import Console
 
 from markov_ci.agents import HarnessAgent, HarnessError, HarnessSpec, HarnessTimeout, SimulatedAgent
-from markov_ci.cli.report import build_report, render_human
+from markov_ci.cli.report import build_queue_report, build_report, render_human, render_queue
 from markov_ci.config import (
     Config,
     ConfigCompileError,
@@ -200,6 +200,29 @@ def run(  # noqa: PLR0913
             f"{result.wall_clock_ms} ms · branch {result.patch_branch}",
         )
     raise typer.Exit(code=_EXIT_CODES.get(result.absorbing_state or A2, EXIT_A2))
+
+
+@app.command()
+def queue(  # noqa: PLR0913
+    lam: float = typer.Option(..., "--lambda", "--lam", help="arrival rate (per hour)"),
+    mu: float = typer.Option(..., "--mu", help="per-runner service rate (per hour)"),
+    c: int = typer.Option(..., "--c", help="total runners"),
+    human_share: float = typer.Option(0.6, "--human-share"),
+    simulate_pools: bool = typer.Option(False, "--simulate", help="run the burst simulator"),
+    json_output: bool = typer.Option(False, "--json", help="machine-readable output"),
+) -> None:
+    """Size the human and agent runner pools side by side."""
+    try:
+        report = build_queue_report(
+            lam=lam, mu=mu, c=c, human_share=human_share, simulate_pools=simulate_pools,
+        )
+    except ValueError as exc:
+        _fail(str(exc))
+
+    if json_output:
+        typer.echo(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        _console.print(render_queue(report), markup=False)
 
 
 if __name__ == "__main__":  # pragma: no cover

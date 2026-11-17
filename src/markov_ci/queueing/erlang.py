@@ -66,8 +66,9 @@ def erlang_c(
     p_wait = _erlang_c(offered_load, c)
     drain_rate = c * mu - lam
     mean_wait = p_wait / drain_rate
+    # when P_wait <= 1-level, fewer than `level` of arrivals wait at all → p95 = 0
     p95_wait = (
-        0.0 if p_wait <= 0.0
+        0.0 if p_wait <= (1.0 - level)
         else math.log(p_wait / (1.0 - level)) / drain_rate
     )
 

@@ -32,6 +32,8 @@ def test_low_utilisation_has_little_waiting() -> None:
     metrics = erlang_c(lam=10, mu=30, c=5)
     assert metrics.rho < 0.1
     assert metrics.p_wait < 0.01
+    # fewer than 95% wait → the 95th-percentile wait is zero, never negative
+    assert metrics.p95_wait == 0.0
 
 
 def test_single_server() -> None:

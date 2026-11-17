@@ -102,3 +102,40 @@ def test_run_infra_failure_escalates_without_tokens(tmp_path: Path) -> None:
     junit.write_text(INFRA_JUNIT, encoding="utf-8")
     result = RUNNER.invoke(app, ["run", "--junit", str(junit)])
     assert result.exit_code == 2  # a2, zero tokens spent
+
+
+def test_queue_reports_both_pools() -> None:
+    result = RUNNER.invoke(app, ["queue", "--lambda", "120", "--mu", "30", "--c", "10"])
+    assert result.exit_code == 0
+    assert "human" in result.stdout
+    assert "agent" in result.stdout
+
+
+def test_queue_json_is_machine_readable() -> None:
+    result = RUNNER.invoke(
+        app, ["queue", "--lambda", "120", "--mu", "30", "--c", "10", "--json"],
+    )
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert set(payload["pools"]) == {"human", "agent"}
+    assert "rho" in payload["pools"]["human"]
+
+
+def test_queue_simulate_adds_percentiles() -> None:
+    result = RUNNER.invoke(
+        app,
+        ["queue", "--lambda", "120", "--mu", "30", "--c", "10", "--simulate", "--json"],
+    )
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert "simulation" in payload["pools"]["agent"]
+
+
+def test_queue_unstable_input_exits_four() -> None:
+    result = RUNNER.invoke(app, ["queue", "--lambda", "500", "--mu", "30", "--c", "5"])
+    assert result.exit_code == 4
+
+
+def test_queue_too_few_runners_for_split_exits_four() -> None:
+    result = RUNNER.invoke(app, ["queue", "--lambda", "10", "--mu", "30", "--c", "1"])
+    assert result.exit_code == 4
