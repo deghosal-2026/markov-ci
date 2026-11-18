@@ -69,9 +69,7 @@ bounded even under adversarial probabilities.
 > (ADR-0016, [GHSA-5jj3-gcw8-pm5g](SECURITY.md)).
 
 ```bash
-pip install -U "markov-ci>=0.1.1"        # PyPI; 3.11–3.13
-# until 0.1.1 is on PyPI, install the release tag:
-# pip install "markov-ci @ git+https://github.com/deghosal-2026/markov-ci@v0.1.1"
+pip install -U "markov-ci>=0.1.1"        # PyPI; Python 3.11–3.13
 
 markov-ci analyze                                   # zero-config: prints the worked example
 markov-ci analyze --category unit_assertion         # per-attempt decay + expected cost

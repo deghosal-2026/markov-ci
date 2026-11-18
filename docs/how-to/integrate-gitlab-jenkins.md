@@ -15,7 +15,7 @@ markov-govern:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
-    - pip install markov-ci
+    - pip install -U "markov-ci>=0.1.1"
     - pytest tests/unit --junitxml=report.xml || true
     - |
       code=0
@@ -52,7 +52,7 @@ pipeline {
     stage('govern') {
       steps {
         sh '''
-          pip install markov-ci
+          pip install -U "markov-ci>=0.1.1"
           markov-ci run .markov-ci/config.yaml --junit report.xml --seed 42
         '''
       }
