@@ -43,6 +43,7 @@ def repo(tmp_path: Path) -> Path:
     path = tmp_path / "repo"
     path.mkdir()
     _git(path, "init", "-q")
+    _git(path, "branch", "-M", "main")  # pin the branch name; CI's git may default to master
     _git(path, "config", "user.email", "t@e.com")
     _git(path, "config", "user.name", "T")
     (path / "src").mkdir()
