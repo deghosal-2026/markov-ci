@@ -16,6 +16,11 @@ ignored. Default config: spec 0003 §1 (packaged as `markov_ci.data.default`).
 | `agent` | map | adapter selection + allowlists |
 | `telemetry` | map | sink + path |
 
+`states` and `transitions` define the **planning/forecast** model — they feed `analyze`
+and `simulate`. The runtime (`run`) does **not** assemble or drive the chain: it is a
+bounded governor (ADR-0014), so the matrix is what you *forecast* with, not what
+executes.
+
 ## `transitions` entries
 
 | Field | Type | Notes |
@@ -44,20 +49,21 @@ Keyed by *(adapter → category)*, with `default` as fallback:
 
 ```yaml
 priors:
-  default:                                  # adapter "*" — shipped conservative priors
-    lint_error:     { success: [0.92, 0.65, 0.20], cost_weight: 1.0, source: prior }
-    type_mismatch:  { success: [0.85, 0.55, 0.25], cost_weight: 1.5, source: prior }
-    unit_assertion: { success: [0.74, 0.45, 0.15], cost_weight: 2.5, source: prior }
-    infra_timeout:  { success: [0.05, 0.01, 0.00], cost_weight: 5.0, source: prior }
+  default:                                  # adapter "*" — illustrative shipped priors (not measured)
+    lint_error:     { success: [0.92, 0.65, 0.20], source: prior }
+    type_mismatch:  { success: [0.85, 0.55, 0.25], source: prior }
+    unit_assertion: { success: [0.74, 0.45, 0.15], source: prior }
+    infra_timeout:  { success: [0.05, 0.01, 0.00], source: prior }
   claude-code:                              # adapter-specific once telemetry exists
-    unit_assertion: { success: [0.71, 0.42, 0.12], cost_weight: 3.1, source: empirical }
+    unit_assertion: { success: [0.71, 0.42, 0.12], source: empirical }
 ```
 
 - Resolution: `priors[adapter][category]` → `priors.default[category]` → error.
-- `success[k]` = P(patch valid on attempt k); `cost_weight` scales the per-state cost
+- `success[k]` = P(patch valid on attempt k)
   vector behind `C = N·c`.
 - `source: prior | empirical` is **required** — `recompute` writes `empirical`
-  (spec 0007 §4); cold start runs on labeled priors, never on false confidence.
+  (spec 0007 §4); cold start runs on **illustrative** priors (never presented as
+  measured), never on false confidence.
 
 ## `agent`
 
@@ -66,14 +72,22 @@ agent:
   adapter: simulated            # simulated | harness (BYO command via harness.command_template)
   allow_write: ["src/**", "tests/**"]
   deny_write: []                # informational — the always-denied set applies regardless
+  env: []                       # extra env var names to pass to the validation child
+  container: null               # run validation in this image (--network=none, read-only, non-root)
   harness:
-    command_template: 'claude -p --output-format json "%PROMPT%"'
+    name: claude-code            # reported as the adapter id (default: "harness")
+    command_template: 'claude -p --output-format json %PROMPT%'
     timeout_seconds: 300
 ```
 
+The template is **argv-only** (ADR-0016): it is split with `shlex.split` before
+`%PROMPT%` is substituted, the prompt becomes one argv element, and the process runs with
+`shell=False`. Do not quote `%PROMPT%` and do not rely on shell composition in a
+template.
+
 **Always-denied regardless of config** (cannot be widened): `.github/**`, `.git`,
 `*.env`, `**/secrets/**`, CI configs, lockfiles, `LICENSE` (spec 0005 §1).
-Harness adapters ship as `pip install markov-ci[harness]` (ADR-0007); the simulated
+Harness adapters ship as `pip install markov-ci` (ADR-0007); the simulated
 agent needs nothing.
 
 ## `telemetry`

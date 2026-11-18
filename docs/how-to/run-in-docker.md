@@ -19,7 +19,7 @@ setting up Python.
 - **Provably offline** — the demos run under `--network none`.
 - **Zero setup** — one command, no virtualenv.
 
-It is **not** the engine's sandbox: the governed loop still applies patches in a
+It is **not** the engine's validation copy: the governed loop still applies patches in a
 disposable `git` worktree (spec [0011](../spec/0011-engine-runtime.md) §2). Docker
 here is packaging for the examples and the docs.
 
@@ -30,7 +30,7 @@ docker build -t markov-ci:dev .
 ```
 
 The image is `python:3.12-slim` plus `git`; it installs the package and copies the
-examples in (so the demos are real git repositories for the worktree sandbox).
+examples in (so the demos are real git repositories for the validation copy).
 
 ## Run a single demo
 
@@ -79,7 +79,7 @@ docker run --rm --network none --user "$(id -u):$(id -g)" \
 
 ## What is out of scope
 
-- **Container as the engine sandbox** — the sandbox stays a worktree; a container
+- **Container as the engine's validation copy** — the validation copy stays a worktree; a container
   backend would need its own ADR.
 - **Registry publishing / signing** — not needed to demo.
 - **Demo 05 (GitHub Actions e2e)** — that one is *live* and requires secrets; it does

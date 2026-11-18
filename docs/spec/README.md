@@ -22,7 +22,7 @@ was migrated, nothing dropped.
 | [0008](0008-cli-contract.md) | CLI contract | Commands, options, exit codes | **Stable** (exit codes are API) |
 | [0009](0009-queueing.md) | Queueing | Erlang-C (M/M/c) + discrete-event simulator | Experimental until v0.2 |
 | [0010](0010-triage.md) | Failure triage | JUnit/log classification, taxonomy, log minimizer | **Stable** |
-| [0011](0011-engine-runtime.md) | Engine runtime | Transition loop, sandbox, RunResult | Stable |
+| [0011](0011-engine-runtime.md) | Engine runtime | Transition loop, worktree validation, RunResult | Stable |
 | [0012](0012-engineering-baseline.md) | Engineering baseline | Packaging, compat, testing tiers, versioning policy | Stable |
 
 **Reading order for a new contributor:** 0001 → 0002 → 0003 → 0004 → 0010 → 0006 →

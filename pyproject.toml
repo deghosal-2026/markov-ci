@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "markov-ci"
-version = "0.1.0"
+version = "0.1.1"
 description = "Markov-governed, self-healing CI/CD — governance for agentic pipelines"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -31,6 +31,7 @@ dependencies = [
   "rich>=13",
   "jsonschema>=4",
   "defusedxml>=0.7",
+  "pathspec>=0.12",
 ]
 
 [project.optional-dependencies]
@@ -50,8 +51,6 @@ security = [
   "pip-licenses>=4",
   "cyclonedx-bom>=4",
 ]
-# Reserved for headless harness adapters (F19 / ADR-0007); populated in M4.3–M4.4.
-harness = []
 
 [project.scripts]
 markov-ci = "markov_ci.cli:app"
@@ -100,7 +99,7 @@ addopts = "-ra"
 # Milestone gate: >= 95% line coverage of src/markov_ci (docs/WBS.md).
 [tool.coverage.run]
 source = ["markov_ci"]
-branch = false
+branch = true
 
 [tool.coverage.report]
 fail_under = 95

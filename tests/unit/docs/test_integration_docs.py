@@ -26,7 +26,7 @@ def test_covers_both_platforms() -> None:
 
 def test_shows_the_full_exit_code_contract() -> None:
     text = _text()
-    for code, state in (("0", "a1"), ("2", "a2"), ("3", "a3"), ("4", "invalid")):
+    for code, state in (("0", "a1"), ("1", "a2"), ("3", "a3"), ("4", "invalid"), ("5", "internal")):
         assert f"{code})" in text or f"{code} =" in text, f"missing exit code {code}"
         assert state in text
 

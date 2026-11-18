@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 import yaml
@@ -66,6 +67,7 @@ def test_run_script_governs_a_repo_and_writes_outputs(tmp_path: Path) -> None:
     env = {
         **os.environ,
         "PYTHONPATH": str(ROOT / "src"),
+        "PATH": os.path.dirname(sys.executable) + os.pathsep + os.environ.get("PATH", ""),
         "GITHUB_OUTPUT": str(out),
         "INPUT_JUNIT": "report.xml",
         "INPUT_SEED": "1",

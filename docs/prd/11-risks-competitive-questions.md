@@ -34,8 +34,8 @@ cost, proves they can't run away, and keeps humans accountable for merges.
 ## 3. Open questions
 
 1. PyPI availability for `markov-ci` (verify before M10.2).
-2. ~~Adapter packaging~~ — **resolved 2026-11-16:** harness adapters as extras
-   (`markov-ci[harness]`) + generic BYO-command; raw SDKs not wrapped in core.
+2. ~~Adapter packaging~~ — **resolved 2026-11-16:** harness adapters in the core
+   + generic BYO-command; raw SDKs not wrapped in core.
 3. Public flip timing vs articles 1–2 (articles must link a public repo; current plan:
    flip first, then publish — confirm at the release gate).
 4. Should `a3_budget_exceeded` events feed an org-level budget ledger? (v0.3 question)

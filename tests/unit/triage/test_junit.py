@@ -114,3 +114,36 @@ def test_dtd_entities_are_never_expanded() -> None:
 
 def test_is_deterministic() -> None:
     assert parse_junit(GOOD) == parse_junit(GOOD)
+
+
+def test_billion_laughs_is_refused_not_expanded() -> None:
+    # M13.39 (#123): nested entities are refused by the hardened parser.
+    payload = (
+        '<!DOCTYPE lolz [<!ENTITY lol "lol"><!ENTITY lol2 "&lol;&lol;&lol;">]>'
+        "<testsuites><testsuite/></testsuites>"
+    )
+    report = parse_junit(payload)
+    assert report.warnings
+    assert report.failures == ()
+
+
+def test_an_oversized_report_is_ignored() -> None:
+    report = parse_junit("<testsuites>" + ("x" * (11 * 1024 * 1024)) + "</testsuites>")
+    assert report.failures == ()
+    assert any("cap" in warning for warning in report.warnings)
+
+
+def test_a_testcase_child_that_is_not_a_failure_is_skipped() -> None:
+    doc = (
+        '<testsuites><testsuite><testcase name="t" classname="c">'
+        "<system-out>noise</system-out></testcase></testsuite></testsuites>"
+    )
+    assert parse_junit(doc).failures == ()
+
+
+def test_regex_recovery_skips_a_testcase_without_a_failure() -> None:
+    # malformed XML forces the regex path; a testcase with no <failure> is skipped
+    doc = "<testsuites><testsuite><testcase name='t' classname='c'></testsuite>"
+    report = parse_junit(doc)
+    assert report.warnings
+    assert report.failures == ()

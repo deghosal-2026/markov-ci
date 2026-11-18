@@ -17,6 +17,7 @@ from typing import Any
 import yaml
 from pydantic import ValidationError
 
+from markov_ci.agents.harness import validate_template
 from markov_ci.config.models import Config
 
 
@@ -44,11 +45,6 @@ def _format_validation_error(error: ValidationError, text: str) -> str:
     return "; ".join(lines)
 
 
-def _check_version(config: Config) -> None:
-    if config.version != 1:
-        raise ConfigError(f"unsupported config version {config.version}; expected 1")
-
-
 def _check_transitions(config: Config) -> None:
     known = set(config.states)
     absorbing = set(config.absorbing_ids)
@@ -68,6 +64,17 @@ def _check_transitions(config: Config) -> None:
             )
 
 
+def _check_harness(config: Config) -> None:
+    """Validate the harness command template at load time (M13.2, ADR-0016)."""
+    harness = config.agent.harness
+    if harness is None:
+        return
+    try:
+        validate_template(harness.command_template)
+    except ValueError as exc:
+        raise ConfigError(str(exc)) from exc
+
+
 def parse_config(text: str) -> Config:
     """Parse and validate a config document from a YAML string."""
     try:
@@ -77,13 +84,19 @@ def parse_config(text: str) -> Config:
     if not isinstance(raw, dict):
         raise ConfigError("config document must be a mapping")
 
+    # Check the version before the pydantic schema (M13.30): a v2 document should
+    # fail with a version message, not a confusing schema error.
+    raw_version = raw.get("version", 1)
+    if raw_version != 1:
+        raise ConfigError(f"unsupported config version {raw_version}; expected 1")
+
     try:
         config = Config.model_validate(raw)
     except ValidationError as exc:
         raise ConfigError(_format_validation_error(exc, text)) from exc
 
-    _check_version(config)
     _check_transitions(config)
+    _check_harness(config)
     # re-validate the effective policy so bad thresholds fail at load time
     config.policy.to_policy()
     return config

@@ -49,7 +49,7 @@ runnable demo; publishing gated on the public flip (see [12-launch-and-gtm.md](1
 ## 4. Security requirements (binding)
 
 1. **Secrets never in events/logs/output** — schema-enforced + scrub test.
-2. **Sandbox isolation** — patches apply in a disposable worktree, never the PR branch.
+2. **Worktree isolation** — patches apply in a disposable worktree, never the PR branch.
 3. **Least privilege at the adapter seam** — harness subprocesses inherit no CI secrets
    beyond what triage minimized; token scopes documented per integration template.
 4. **Supply chain** — pinned, minimal runtime deps; no post-install hooks; extras

@@ -27,7 +27,7 @@ services:
   demo-02:
     <<: *demo
     command:
-      - "2"
+      - "1"
       - markov-ci
       - run
       - /examples/02-unit-assertion-decay/config.yaml
@@ -41,7 +41,7 @@ services:
   demo-03:
     <<: *demo
     command:
-      - "2"
+      - "1"
       - markov-ci
       - run
       - /examples/03-infra-timeout/config.yaml

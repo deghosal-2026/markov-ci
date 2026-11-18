@@ -3,13 +3,13 @@
 **Demo:** `examples/01-lint-error` · **Ships:** v0.1.0 · **Exit code to expect:** `0`
 
 The happy path: a trivial lint failure is classified, fixed by the (simulated) agent on
-attempt 1, validated in the sandbox, regression-checked, and parked on an isolated
+attempt 1, validated in the worktree validation, regression-checked, and parked on an isolated
 branch for human review — all offline, all deterministic.
 
 ## Run it
 
 ```bash
-# one-time: the demo repo must be a real git repository (the sandbox uses git worktrees)
+# one-time: the demo repo must be a real git repository (the validation copy uses git worktrees)
 git -C examples/01-lint-error/repo init -q && \
   git -C examples/01-lint-error/repo add -A && \
   git -C examples/01-lint-error/repo commit -qm "demo baseline"

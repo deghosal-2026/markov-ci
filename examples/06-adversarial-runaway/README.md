@@ -1,6 +1,6 @@
 # Example 06 — adversarial runaway (termination is a theorem)
 
-**Ships:** v0.1.0 · **Exit code to expect:** `2` · **Tutorial:** [06 — adversarial runaway](../../docs/tutorials/06-adversarial-runaway.md)
+**Ships:** v0.1.0 · **Exit code to expect:** `1` · **Tutorial:** [06 — adversarial runaway](../../docs/tutorials/06-adversarial-runaway.md)
 
 The strongest guarantee in the product. Give the pipeline the most hostile prior there
 is — `type_mismatch: success = [1.0, 1.0, 1.0]`, i.e. "the agent always succeeds" — and a
@@ -19,7 +19,7 @@ git -C examples/06-adversarial-runaway/repo init -q && \
 markov-ci run examples/06-adversarial-runaway/config.yaml \
   --junit examples/06-adversarial-runaway/report.xml \
   --repo examples/06-adversarial-runaway/repo --seed 42
-echo $?      # 2 = absorbed in a2_escalate_to_author
+echo $?      # 1 = absorbed in a2_escalate_to_author
 ```
 
 ## Expected event stream

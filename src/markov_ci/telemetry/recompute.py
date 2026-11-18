@@ -32,17 +32,22 @@ def recompute(
     alpha: float = 1.0,
     prior: Mapping[str, Mapping[str, Sequence[float]]] | None = None,
     min_attempts: int = 3,
+    include_synthetic: bool = False,
 ) -> dict[str, dict[str, dict[str, Any]]]:
     """Rebuild empirical priors, keyed by adapter then category.
 
-    Curves are padded to at least ``min_attempts`` so the output can be dropped
-    straight into a config whose ``max_attempts`` is that value.
+    Simulated (``synthetic``) events are excluded by default so the priors reflect
+    real runs, not the offline demo (M13.29). Curves are padded to at least
+    ``min_attempts`` so the output can be dropped straight into a config whose
+    ``max_attempts`` is that value.
     """
     attempted: dict[tuple[str, str], dict[int, int]] = {}
     succeeded: dict[tuple[str, str], dict[int, int]] = {}
 
     for event in events:
-        if event.get("event", "transition") != "transition":
+        if event.get("event", "transition") not in {"transition", "gate_rejected"}:
+            continue
+        if event.get("synthetic") and not include_synthetic:
             continue
         key = _key(event)
         fro = str(event.get("from_state", ""))
@@ -76,7 +81,6 @@ def recompute(
             curve.append(smoothed.mean[0])
         result.setdefault(adapter, {})[category] = {
             "success": curve,
-            "cost_weight": 1.0,
             "source": "empirical",
         }
     return result

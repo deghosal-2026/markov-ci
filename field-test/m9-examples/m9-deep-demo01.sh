@@ -1,7 +1,7 @@
 #!/bin/sh
 # Deep demo-01 re-check (the first attempt died on a quoting bug in the caller).
 set -u
-cd /Users/deghosal/Desktop/code/github/markov-ci
+cd "$(git rev-parse --show-toplevel)"
 
 echo "=== 4. deep demo-01: evidence, repo untouched, determinism ==="
 docker compose run --rm --entrypoint sh demo-01 -c '

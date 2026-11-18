@@ -13,7 +13,7 @@ Examples come in two shapes:
   it ships a workflow that uses the Action and is exercised on a real PR, not offline.
 
 The demo trees are made real git repositories once per session by
-``tests/conftest.py`` (the sandbox applies patches in git worktrees).
+``tests/conftest.py`` (validation applies patches in git worktrees).
 """
 
 from __future__ import annotations
@@ -99,7 +99,7 @@ def test_every_example_readme_carries_both_proof_sections(example: Path) -> None
     assert _EXPECTED_SECTION.search(text), (
         "README needs an '## Expected output' or '## Expected event stream' section"
     )
-    assert _declared_exit_code(text) in {0, 2, 3}
+    assert _declared_exit_code(text) in {0, 1, 3}
 
 
 def test_every_example_is_a_cli_demo_or_a_workflow_demo() -> None:
@@ -161,3 +161,40 @@ def test_example_report_scripts_run(script: Path) -> None:
     )
     assert result.returncode == 0, result.stderr
     assert result.stdout.strip(), "report script printed nothing"
+
+
+_STREAM_ROW = re.compile(r"`([A-Za-z0-9_#]+)\s*→\s*([A-Za-z0-9_#]+)`")
+
+
+def _event_stream_examples() -> list[Path]:
+    return [p for p in _cli_examples() if "## Expected event stream" in _readme_text(p)]
+
+
+def _expected_stream(readme: str) -> list[tuple[str, str]]:
+    section = readme.split("## Expected event stream", 1)[1].split("\n## ", 1)[0]
+    return _STREAM_ROW.findall(section)
+
+
+@pytest.mark.parametrize("example", _event_stream_examples(), ids=lambda p: p.name)
+def test_cli_example_event_stream_matches_its_readme(example: Path) -> None:
+    # M13.39 (#123): the golden event stream is the README's, hop for hop.
+    import yaml
+
+    readme = _readme(example)
+    expected = _expected_stream(readme)
+    assert expected, f"{example.name} declares no event stream"
+    config = yaml.safe_load((example / "config.yaml").read_text(encoding="utf-8"))
+    events_path = ROOT / config["telemetry"]["path"]
+    if events_path.exists():
+        events_path.unlink()
+    result = RUNNER.invoke(app, _run_tokens(readme))
+    assert result.exit_code == _declared_exit_code(readme), result.stdout
+    actual = [
+        (event["from_state"], event["to_state"])
+        for event in (
+            json.loads(line)
+            for line in events_path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        )
+    ]
+    assert actual == expected

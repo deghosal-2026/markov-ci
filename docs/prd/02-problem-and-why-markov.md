@@ -4,13 +4,14 @@
 
 1. **The DAG assumption is dead.** Same commit ≠ same result: network jitter, CPU
    contention, spot interruptions, registry 503s. And agents — the second and bigger
-   force — are stochastic: fix 75% / loop 15% / regress 10% is typical field behavior.
+   force — are stochastic: fix 75% / loop 15% / regress 10% is a commonly cited
+   ballpark, not a markov-ci measurement.
 2. **Deterministic governance of probabilistic systems fails.** Strict rules → agent
    never useful; loose rules → unbounded retries.
 3. **The pain is already concrete** (evidence from the field-test literature this product
    is based on):
    - overnight agent loops → cloud/token bill shock;
-   - agent sandbox runs saturate shared runners → humans wait, context-switch, lose flow;
+   - agent validation runs saturate shared runners → humans wait, context-switch, lose flow;
    - agents "fix" tests by weakening assertions → green build, dead test suite;
    - retry counts, escalation thresholds, and budgets are chosen by gut, never computed;
    - no telemetry to say whether agentic CI helped or hurt.
@@ -23,7 +24,7 @@
 - Agent adoption in CI is happening **now**; the governance layer is the missing piece
   between agent harnesses (which act) and CI systems (which execute).
 - First credible open-source implementation + a documented model + articles = category
-  definition ("Markov-governed CI").
+  definition ("Markov-planned CI governance").
 
 ## 3. Cost of inaction (for adopters)
 
@@ -37,12 +38,14 @@ the next hop depends only on the current state. An agentic CI pipeline **already
 that system — the model doesn't approximate the pipeline, it names what the pipeline
 has become:
 
-- **Discrete states:** verify → triage → agent-reasoning → sandbox → regression → outcome.
+- **Discrete states:** verify → triage → agent-reasoning → worktree validation → regression → outcome.
 - **Probabilistic hops:** a patch passes validation ~65% of the time, a regression check
   ~90% — the hop is a coin weighted by reality, not a rule.
 - **Termination:** every run ends — ready-for-review, escalated, or budget-stopped.
   Termination makes this an *absorbing* Markov chain: the branch of the theory built
-  precisely for "systems that eventually stop."
+  precisely for "systems that eventually stop." In the running system the stop is
+  enforced by the attempt counter and per-call timeouts; the absorbing chain is the
+  model's guarantee, not the runtime's mechanism.
 
 Because the pipeline already has this shape, textbook results become product features:
 

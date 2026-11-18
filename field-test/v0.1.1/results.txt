@@ -1,0 +1,23 @@
+M14.1 environment	PASS	env.txt written
+M14.2 01-lint-error	PASS	exit=0 (expected 0)
+M14.2 02-unit-assertion-decay	PASS	exit=1 (expected 1)
+M14.2 03-infra-timeout	PASS	exit=1 (expected 1)
+M14.2 04-runner-pool-sizing	PASS	exit=0 (expected 0)
+M14.2 05-github-actions-e2e	PASS	no CLI command (workflow demo)
+M14.2 06-adversarial-runaway	PASS	exit=1 (expected 1)
+M14.2 07-cheating-agent	PASS	exit=1 (expected 1)
+M14.3 payload[0]	PASS	marker_created=False
+M14.3 payload[1]	PASS	marker_created=False
+M14.3 payload[2]	PASS	marker_created=False
+M14.3 payload[3]	PASS	marker_created=False
+M14.3 payload[4]	PASS	marker_created=False
+M14.3 payload[5]	PASS	marker_created=False
+M14.3 payload[6]	PASS	marker_created=False
+M14.3 payload[7]	PASS	marker_created=False
+M14.3 payload[8]	PASS	marker_created=False
+M14.4 delete-ci	PASS	exit=1, sandbox_invoked=False
+M14.4 rename-into-github	PASS	exit=1, sandbox_invoked=False
+M14.4 quoted-octal	PASS	exit=1, sandbox_invoked=False
+M14.6 timeout->a3	PASS	exit=3, last=a3_budget_exceeded
+M14.6 scrubbed-env	PASS	wrote=True, GITHUB_TOKEN_present=False
+M14.6 process-group-kill	PASS	grandchild_ran=False

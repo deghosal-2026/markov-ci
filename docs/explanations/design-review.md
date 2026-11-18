@@ -8,7 +8,7 @@ seed for article #2.
 ## What it got right (kept as-is)
 
 - **The core move:** model agentic pipelines as absorbing Markov chains; transient
-  states (verify → triage → agent → sandbox → regression) and designed absorbing
+  states (verify → triage → agent → worktree validation → regression) and designed absorbing
   outcomes.
 - **The canonical form** `P = [[Q, R], [0, I]]` and `N = (I − Q)⁻¹` as the expected-
   visits tool.
@@ -19,7 +19,7 @@ seed for article #2.
 ## What it got wrong (and how markov-ci fixes it)
 
 **1. Per-attempt decay silently breaks the math.** The article's example decays
-success probabilities per retry step — a *time-inhomogeneous* chain for which
+success probabilities per retry step — a *history-dependent* chain for which
 `N = (I−Q)⁻¹` does not apply, while still claiming exact expectations.
 **Fix:** step-augmented states (`s2#1`, `s2#2`, …) restore a true homogeneous chain —
 exact results, no special cases (ADR-0002).

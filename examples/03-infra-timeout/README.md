@@ -1,6 +1,6 @@
 # Example 03 — infra timeout, zero tokens
 
-**Ships:** v0.1.0 · **Exit code to expect:** `2` · **Tutorial:** [03 — infra timeout](../../docs/tutorials/03-infra-timeout-no-tokens.md)
+**Ships:** v0.1.0 · **Exit code to expect:** `1` · **Tutorial:** [03 — infra timeout](../../docs/tutorials/03-infra-timeout-no-tokens.md)
 
 The "don't LLM the outage" story: some failures are *not code*, and the fastest agent is
 the one that never runs. A registry timeout is classified deterministically and routed
@@ -11,7 +11,7 @@ straight to a human — **zero events, zero tokens**.
 ```bash
 markov-ci run examples/03-infra-timeout/config.yaml \
   --junit examples/03-infra-timeout/report.xml --seed 42
-echo $?      # 2 = absorbed in a2_escalate_to_author
+echo $?      # 1 = absorbed in a2_escalate_to_author
 ```
 
 ## Expected output

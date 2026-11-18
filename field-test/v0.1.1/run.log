@@ -1,0 +1,25 @@
+[PASS] M14.1 environment: env.txt written
+[PASS] M14.2 01-lint-error: exit=0 (expected 0)
+[PASS] M14.2 02-unit-assertion-decay: exit=1 (expected 1)
+[PASS] M14.2 03-infra-timeout: exit=1 (expected 1)
+[PASS] M14.2 04-runner-pool-sizing: exit=0 (expected 0)
+[PASS] M14.2 05-github-actions-e2e: no CLI command (workflow demo)
+[PASS] M14.2 06-adversarial-runaway: exit=1 (expected 1)
+[PASS] M14.2 07-cheating-agent: exit=1 (expected 1)
+[PASS] M14.3 payload[0]: marker_created=False
+[PASS] M14.3 payload[1]: marker_created=False
+[PASS] M14.3 payload[2]: marker_created=False
+[PASS] M14.3 payload[3]: marker_created=False
+[PASS] M14.3 payload[4]: marker_created=False
+[PASS] M14.3 payload[5]: marker_created=False
+[PASS] M14.3 payload[6]: marker_created=False
+[PASS] M14.3 payload[7]: marker_created=False
+[PASS] M14.3 payload[8]: marker_created=False
+[PASS] M14.4 delete-ci: exit=1, sandbox_invoked=False
+[PASS] M14.4 rename-into-github: exit=1, sandbox_invoked=False
+[PASS] M14.4 quoted-octal: exit=1, sandbox_invoked=False
+[PASS] M14.6 timeout->a3: exit=3, last=a3_budget_exceeded
+[PASS] M14.6 scrubbed-env: wrote=True, GITHUB_TOKEN_present=False
+[PASS] M14.6 process-group-kill: grandchild_ran=False
+
+23 cases, 0 failed: []

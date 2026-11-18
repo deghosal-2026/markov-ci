@@ -55,9 +55,33 @@ def test_analyze_json_is_machine_readable() -> None:
     assert payload["category"] == "default"
     assert "absorption_probabilities" in payload
     assert "a1_ready_for_human_review" in payload["absorption_probabilities"]
-    assert payload["absorption_probabilities"]["a1_ready_for_human_review"] == pytest.approx(
-        0.92, abs=0.01
+
+
+def test_analyze_defaults_to_failed_builds_and_reports_both_rows() -> None:
+    # M13.26 (#110): default start s1 (the engine runs after a failure); both rows printed.
+    payload = json.loads(RUNNER.invoke(app, ["analyze", "--json"]).stdout)
+    assert payload["start_state"] == "s1_failure_triage"
+    all_builds = payload["rows"]["all builds"]["absorption_probabilities"]
+    assert all_builds["a1_ready_for_human_review"] == pytest.approx(0.92, abs=0.01)
+    assert "failed builds" in payload["rows"]
+
+
+def test_analyze_start_state_override() -> None:
+    payload = json.loads(
+        RUNNER.invoke(app, ["analyze", "--json", "--start", "s0_deterministic_verify"]).stdout,
     )
+    assert payload["start_state"] == "s0_deterministic_verify"
+
+
+def test_analyze_unknown_start_state_exits_four() -> None:
+    result = RUNNER.invoke(app, ["analyze", "--start", "nope"])
+    assert result.exit_code == 4
+
+
+def test_analyze_labels_a3_as_not_modelled() -> None:
+    # M13.28 (#112): P(a3) is not modelled analytically.
+    result = RUNNER.invoke(app, ["analyze"])
+    assert "not modelled" in result.stdout
 
 
 def test_analyze_exposes_the_fundamental_matrix() -> None:
@@ -118,7 +142,7 @@ def test_run_infra_failure_escalates_without_tokens(tmp_path: Path) -> None:
     junit = tmp_path / "report.xml"
     junit.write_text(INFRA_JUNIT, encoding="utf-8")
     result = RUNNER.invoke(app, ["run", "--junit", str(junit)])
-    assert result.exit_code == 2  # a2, zero tokens spent
+    assert result.exit_code == 1  # a2, zero tokens spent
 
 
 def _events_file(tmp_path: Path) -> Path:
@@ -215,3 +239,17 @@ def test_queue_unstable_input_exits_four() -> None:
 def test_queue_too_few_runners_for_split_exits_four() -> None:
     result = RUNNER.invoke(app, ["queue", "--lambda", "10", "--mu", "30", "--c", "1"])
     assert result.exit_code == 4
+
+
+def test_queue_rejects_an_out_of_range_human_share() -> None:
+    result = RUNNER.invoke(app, ["queue", "--lambda", "10", "--mu", "5", "--c", "4",
+                                 "--human-share", "1.0"])
+    assert result.exit_code == 4
+
+
+def test_queue_simulate_pools_runs() -> None:
+    result = RUNNER.invoke(app, ["queue", "--lambda", "10", "--mu", "5", "--c", "4",
+                                 "--simulate", "--json"])
+    assert result.exit_code == 0
+    payload = json.loads(result.stdout)
+    assert "simulation" in payload["pools"]["human"]

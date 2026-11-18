@@ -1,0 +1,9 @@
+payload '$(touch {marker})': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload '`touch {marker}`': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload 'break"out ; touch {marker} ; echo "x': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload 'a; touch {marker}': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload 'a | touch {marker}': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload 'a && touch {marker}': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload 'line1\nline2; touch {marker}': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload '$HOME': exit=1 absorbing=a2_escalate_to_author marker_created=False
+payload '> {marker}': exit=1 absorbing=a2_escalate_to_author marker_created=False

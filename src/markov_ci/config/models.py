@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from markov_ci.policy import Policy
 
@@ -65,13 +65,23 @@ class PriorConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     success: list[float]
-    cost_weight: float = 1.0
     source: Literal["prior", "empirical"] = "prior"
+
+    @field_validator("success")
+    @classmethod
+    def _validate_success(cls, values: list[float]) -> list[float]:
+        for value in values:
+            if not 0.0 <= value <= 1.0:
+                raise ValueError(
+                    f"prior success values must be within [0, 1], got {value}",
+                )
+        return values
 
 
 class HarnessConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
+    name: str | None = None
     command_template: str
     timeout_seconds: int = 300
 
@@ -82,6 +92,10 @@ class AgentConfig(BaseModel):
     adapter: Literal["simulated", "harness"] = "simulated"
     allow_write: list[str] = Field(default_factory=lambda: ["src/**", "tests/**"])
     deny_write: list[str] = Field(default_factory=list)
+    env: list[str] = Field(default_factory=list)
+    container: str | None = None
+    failing_command: str | None = None
+    regression_command: str | None = None
     harness: HarnessConfig | None = None
 
 

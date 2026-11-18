@@ -78,3 +78,41 @@ def test_result_is_frozen() -> None:
     result = posterior((1, 1), UNIFORM)
     assert isinstance(result, Posterior)
     assert isinstance(result.mean, tuple)
+
+
+def test_mean_matches_the_closed_form() -> None:
+    # M13.39 (#123): pin the posterior mean to an independently computed value.
+    counts, prior, alpha = (7, 3), (1.0, 1.0), 1.0
+    result = posterior(counts, prior, alpha=alpha)
+    denominator = alpha + sum(counts)
+    expected0 = (alpha * prior[0] / sum(prior) + counts[0]) / denominator
+    assert result.mean[0] == pytest.approx(expected0, abs=1e-12)
+    assert result.mean[1] == pytest.approx(1.0 - expected0, abs=1e-12)
+
+
+def test_known_numeric_mean_is_pinned() -> None:
+    assert posterior((7, 3), (1, 1)).mean[0] == pytest.approx(7.5 / 11, abs=1e-12)
+
+
+def test_interval_matches_the_normal_approximation() -> None:
+    import math
+
+    from markov_ci.model.posterior import norm_ppf
+
+    counts, prior, alpha, level = (7, 3), (1.0, 1.0), 1.0, 0.95
+    result = posterior(counts, prior, alpha=alpha, level=level)
+    denominator = alpha + sum(counts)
+    a = alpha * prior[0] / sum(prior) + counts[0]
+    b = denominator - a
+    mean = a / denominator
+    spread = norm_ppf(1 - (1 - level) / 2) * math.sqrt(
+        a * b / (denominator**2 * (denominator + 1)),
+    )
+    assert result.lower[0] == pytest.approx(mean - spread, abs=1e-12)
+    assert result.upper[0] == pytest.approx(mean + spread, abs=1e-12)
+
+
+def test_alpha_scales_the_prior_strength() -> None:
+    weak = posterior((7, 3), (1, 1), alpha=1.0)
+    strong = posterior((7, 3), (1, 1), alpha=100.0)
+    assert abs(strong.mean[0] - 0.5) < abs(weak.mean[0] - 0.5)

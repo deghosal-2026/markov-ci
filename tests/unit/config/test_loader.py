@@ -120,3 +120,117 @@ def test_non_mapping_document_is_rejected() -> None:
 
 def test_error_is_a_value_error() -> None:
     assert issubclass(ConfigError, ValueError)
+
+
+def _with_harness(template: str) -> str:
+    return VALID + (
+        "\nagent:\n  adapter: harness\n  harness:\n"
+        f"    command_template: {template}\n"
+    )
+
+
+def test_a_valid_harness_template_is_accepted() -> None:
+    config = parse_config(_with_harness("'claude -p --output-format json %PROMPT%'"))
+    assert config.agent.harness is not None
+    assert config.agent.harness.command_template.endswith("%PROMPT%")
+
+
+def test_empty_harness_template_is_rejected() -> None:
+    with pytest.raises(ConfigError, match="empty"):
+        parse_config(_with_harness("''"))
+
+
+def test_unparseable_harness_template_is_rejected() -> None:
+    # an unbalanced quote is not parseable by shlex
+    with pytest.raises(ConfigError, match="parseable|unbalanced|quote"):
+        parse_config(_with_harness("'harness --msg \"%PROMPT%'"))
+
+
+def test_harness_template_without_a_prompt_placeholder_is_rejected() -> None:
+    with pytest.raises(ConfigError, match="%PROMPT%"):
+        parse_config(_with_harness("'harness --msg fixed'"))
+
+
+def test_harness_template_using_the_prompt_as_program_is_rejected() -> None:
+    with pytest.raises(ConfigError, match="program"):
+        parse_config(_with_harness("'%PROMPT% --flag'"))
+
+
+def _harness(template: str) -> str:
+    import json
+
+    return _with_harness(json.dumps(template))
+
+
+@pytest.mark.parametrize("shell", ["sh", "bash", "zsh", "dash", "pwsh", "powershell", "cmd"])
+def test_shell_reentry_with_the_prompt_in_the_c_script_is_rejected(shell: str) -> None:
+    # M13.3 (#87): a shell that would re-parse the prompt is rejected (ADR-0016 §5).
+    with pytest.raises(ConfigError, match="shell"):
+        parse_config(_harness(f"{shell} -c 'tool %PROMPT%'"))
+
+
+def test_cmd_reentry_uses_the_windows_c_flag() -> None:
+    with pytest.raises(ConfigError, match="shell"):
+        parse_config(_harness("cmd /c 'tool %PROMPT%'"))
+
+
+def test_a_shell_program_without_c_is_allowed() -> None:
+    # No `-c` / `/c`: the prompt is an ordinary argument, not a script.
+    config = parse_config(_harness("bash wrapper.sh %PROMPT%"))
+    assert config.agent.harness is not None
+
+
+def test_the_safe_positional_shell_form_is_allowed() -> None:
+    # ADR-0016 §5: `bash -c 'tool "$1"' _ %PROMPT%` keeps the prompt positional.
+    config = parse_config(_harness("""bash -c 'tool "$1"' _ %PROMPT%"""))
+    assert config.agent.harness is not None
+
+
+def test_prompt_file_only_template_is_accepted() -> None:
+    # M13.4 (#88): %PROMPT_FILE% is a valid placeholder (prompt off argv).
+    config = parse_config(_harness("harness --prompt-file %PROMPT_FILE%"))
+    assert config.agent.harness is not None
+
+
+def test_harness_name_sets_the_adapter_id() -> None:
+    # M13.19 (#103): the harness reports its template name, not a generic "harness".
+    text = VALID + (
+        "\nagent:\n  adapter: harness\n  harness:\n    name: claude-code\n"
+        "    command_template: 'claude -p %PROMPT%'\n"
+    )
+    config = parse_config(text)
+    assert config.agent.harness is not None
+    assert config.agent.harness.name == "claude-code"
+
+
+def test_prior_success_outside_the_unit_interval_is_rejected() -> None:
+    # M13.30 (#114)
+    broken = VALID + (
+        "\npriors:\n  default:\n    default: { success: [1.5, 0.5, 0.2] }\n"
+    )
+    with pytest.raises(ConfigError, match="within \\[0, 1\\]"):
+        parse_config(broken)
+
+
+def test_version_is_checked_before_the_schema() -> None:
+    # a v2 document fails with a version message, not a schema error
+    with pytest.raises(ConfigError, match="version"):
+        parse_config("version: 2\nstates: {}\ntransitions: []\n")
+
+
+def test_the_dead_cost_weight_key_is_rejected() -> None:
+    # M13.31 (#115): cost_weight was dead config; it is no longer accepted.
+    broken = VALID + "\npriors:\n  default:\n    default: { success: [0.9], cost_weight: 2.5 }\n"
+    with pytest.raises(ConfigError, match="cost_weight"):
+        parse_config(broken)
+
+
+def test_invalid_yaml_is_reported() -> None:
+    with pytest.raises(ConfigError, match="invalid YAML"):
+        parse_config("version: 1\nstates: {a: [unclosed\n")
+
+
+def test_an_unknown_key_without_a_line_is_still_reported() -> None:
+    # `_line_of` returns None for a key not present verbatim; the error still fires
+    with pytest.raises(ConfigError):
+        parse_config(VALID + "\npolicy:\n  bogus: 1\n")

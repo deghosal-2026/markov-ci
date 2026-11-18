@@ -2,7 +2,7 @@
 
 One thin protocol lets any agent run under governance while keeping the core free
 of agent-specific assumptions. The engine never trusts an adapter: every
-`PatchProposal` still has to clear the guardrails and the sandbox before any state
+`PatchProposal` still has to clear the guardrails and worktree validation before any state
 advances.
 """
 
@@ -29,6 +29,7 @@ class RepairContext:
     context: str
     diff: str | None = None
     repo_rules: tuple[str, ...] = ()
+    timeout: int | None = None
 
     def __post_init__(self) -> None:
         if self.attempt < 1:
@@ -49,7 +50,7 @@ class PatchProposal:
 
     diff: str
     rationale: str
-    tokens_used: int = 0
+    tokens_used: int | None = None
     files_changed: tuple[str, ...] = ()
 
 

@@ -25,7 +25,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: deghosal-2026/markov-ci@v0.2.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: s0 — your tests
+        run: pytest tests/unit --junitxml=report.xml || true
+      - uses: deghosal-2026/markov-ci@v0.1.1
         with:
           config: .markov-ci/config.yaml
           junit: report.xml
@@ -45,7 +52,7 @@ Push a PR with a trivially failing test. The workflow runs `s0` (your tests prod
 ## 3. Live agents (optional rung)
 
 L3 of the adoption ladder: add `agent.adapter: harness` with your harness's headless
-command (e.g. `claude -p --output-format json "%PROMPT%"`), store the provider key as a
+command (e.g. `claude -p --output-format json %PROMPT%`), store the provider key as a
 repository secret, and mark the job's runner with your burst-pool label. Governance is
 unchanged — allowlists, budgets, caps, and the no-auto-merge rule apply regardless of
 harness settings (ADR-0007).

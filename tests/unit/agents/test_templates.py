@@ -7,6 +7,8 @@ Each template is exercised through a stub runner, so the suite is fully offline.
 from __future__ import annotations
 
 import subprocess
+from collections.abc import Sequence
+from pathlib import Path
 
 import pytest
 
@@ -34,12 +36,19 @@ class StubRunner:
     def __init__(self, stdout: str = FENCED, returncode: int = 0) -> None:
         self.stdout = stdout
         self.returncode = returncode
-        self.calls: list[tuple[str, int]] = []
+        self.calls: list[tuple[list[str], int]] = []
 
-    def __call__(self, command: str, *, timeout: int) -> subprocess.CompletedProcess[str]:
-        self.calls.append((command, timeout))
+    def __call__(
+        self,
+        argv: Sequence[str],
+        *,
+        timeout: int,
+        cwd: str | Path | None = None,
+        env: dict[str, str] | None = None,
+    ) -> subprocess.CompletedProcess[str]:
+        self.calls.append((list(argv), timeout))
         return subprocess.CompletedProcess(
-            args=command, returncode=self.returncode, stdout=self.stdout, stderr="",
+            args=list(argv), returncode=self.returncode, stdout=self.stdout, stderr="",
         )
 
 
@@ -75,9 +84,9 @@ def test_conformance_agent_is_an_adapter(name: str) -> None:
 def test_conformance_prompt_is_substituted(name: str) -> None:
     runner = StubRunner()
     build_template_agent(name, runner=runner).repair(_context())
-    command, _ = runner.calls[0]
-    assert "%PROMPT%" not in command
-    assert "AssertionError" in command
+    argv, _ = runner.calls[0]
+    assert all("%PROMPT%" not in part for part in argv)
+    assert any("AssertionError" in part for part in argv)
 
 
 @pytest.mark.parametrize("name", sorted(TEMPLATES))

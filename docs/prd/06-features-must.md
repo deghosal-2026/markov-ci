@@ -15,7 +15,7 @@ spec contracts, and the CUJ traceability matrix (appendix 13).
 | F5 | Deterministic triage | JUnit/log → category; infra flakes never reach an agent | CUJ-2 |
 | F6 | Adapter protocol + simulated agent | One-method protocol; offline, seeded, calibrated | CUJ-2, CUJ-4 |
 | F7 | Enforced guardrails | Allowlist, TMR, branch isolation, no force-push, no auto-merge | CUJ-2, CUJ-6 |
-| F8 | Runtime engine | The governed loop + sandbox + RunResult | CUJ-2, CUJ-3 |
+| F8 | Runtime engine | The governed loop + worktree validation + RunResult | CUJ-2, CUJ-3 |
 | F9 | Telemetry contract | Versioned JSONL; events alone recompute the matrix | CUJ-3, CUJ-4, CUJ-5 |
 | F10 | CLI surface | validate/analyze/run + stable exit-code contract | all |
 | F11 | Packaged defaults | Zero-config `analyze` works out of the box | CUJ-1 |
@@ -40,7 +40,7 @@ row, unknown state reference. Golden assembly test on default config.
 **F3 — Forecast math engine.** `N = (I−Q)⁻¹`, `B = N·R`, `t = N·1`, `C = N·c`
 (user-supplied per-state cost vector), Dirichlet posterior CIs from counts.
 *AC:* property tests (B rows sum to 1; N ≥ 0; t finite; C monotone in c); golden numbers
-on default config (P(a1|s2) ≈ 0.72, P(a1|s0) ≈ 0.92).
+on default config (P(a1|s2) ≈ 0.72, P(a1|s0) ≈ 0.92, P(a1|s1) ≈ 0.54).
 
 **F4 — Policy engine.** Ordered gate: budget → attempt cap → confidence threshold →
 transition. Fields: `min_confidence` (0.40), `max_attempts` (3), `max_tokens` (200k),
@@ -69,7 +69,7 @@ isolation: `ai-fix/pr-<n>` / `ai-fix/local-<run_id>`; **no force-push code path 
 *AC:* adversarial fixture suite (path traversal, symlink, renamed test, deleted
 assertion) all blocked; absence-of-force-push asserted by test.
 
-**F8 — Runtime engine.** Governed loop (spec 0011): triage → assemble → hop; sandbox
+**F8 — Runtime engine.** Governed loop (spec 0011): triage → assemble → hop; worktree validation
 apply-and-test in an isolated worktree; crash-safe JSONL event per hop; `RunResult` =
 absorbing state + visit counts + tokens + wall-clock + guardrail report.
 *AC:* e2e fixtures → expected absorbing states; kill-mid-run leaves valid partial event
@@ -100,8 +100,9 @@ ADRs for the core decisions; mkdocs site builds in CI.
 **F13 — Offline proof-suite demos.** `01-lint-error` (first-pass green),
 `02-unit-assertion-decay` (decay → a2 with the math shown), `03-infra-timeout`
 (zero tokens, immediate a2), `06-adversarial-runaway` (success=[1,1,1] still absorbs
-at the cap — **termination is a theorem**), `07-cheating-agent` (assertion-deleting
-patch hard-stopped by TMR — **green still means green**).
+at the cap — **the model is acyclic after the cap**), `07-cheating-agent` (assertion-deleting
+patch hard-stopped by TMR — **blocks the textbook test-weakening patterns; source-side
+special-casing is not detected**).
 *AC:* each runs in CI with no network; outputs byte-stable under `--seed`; tutorials
 match actual output; every example README carries **"What this proves"** and
 **"Forecast vs. actual"**.

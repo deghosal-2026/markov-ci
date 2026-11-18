@@ -1,7 +1,7 @@
 # Queueing theory for runner fleets
 
 Agentic repair changes the *shape* of CI load: humans push in diurnal waves; agents
-fire bursty, recursive sandbox runs. Queue wait is the silent killer of developer flow —
+fire bursty, recursive validation runs. Queue wait is the silent killer of developer flow —
 this is the math for keeping it bounded.
 
 ## 1. The M/M/c model
@@ -14,8 +14,12 @@ queue that cannot clear (spec 0009).
 **Erlang-C** — the probability an arriving job must wait at all:
 
 ```
-P_wait = [ a^c / (c! · (c − a)) ] / [ Σ_{k=0}^{c−1} a^k/k!  +  a^c / (c! · (c − a)) ]
+P_wait = [ (a^c / c!) · c/(c − a) ] / [ Σ_{k=0}^{c−1} a^k/k!  +  (a^c / c!) · c/(c − a) ]
+       = [ a^c / (c! · (1 − ρ)) ]     / [ Σ_{k=0}^{c−1} a^k/k!  +  a^c / (c! · (1 − ρ)) ]
 ```
+
+(The numerator and denominator both carry the factor `c/(c − a) = 1/(1 − ρ)`, as the
+worked example below applies.)
 
 **Mean wait:** `Wq = P_wait / (cμ − λ)`
 **p95 wait** (exact for M/M/c — a job either doesn't wait, or waits exponentially):
@@ -45,14 +49,15 @@ acceptable is a product decision — now it's a *visible* one.
 Both M's are optimistic for agents:
 
 - **Arrivals are not Poisson** — agent loops fan out in bursts (twenty simultaneous
-  sandbox runs at 2 PM), not smooth randomness.
+  validation runs at 2 PM), not smooth randomness.
 - **Service times are not exponential** — regression checks have a floor; agent loops
   have heavy tails.
 
 The closed form is the quick estimator; the discrete-event simulator (spec 0009 §2)
 takes arbitrary arrival patterns and empirical service distributions. Under Poisson
 input the DES must converge to Erlang-C (property test); under bursty input, *the
-divergence is the finding*.
+divergence is the finding*. This agreement is a **Monte-Carlo vs closed-form
+consistency check**, not validation of the model (spec 0009 §3).
 
 ## 4. Partitioning: the product answer
 

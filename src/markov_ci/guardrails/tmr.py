@@ -10,7 +10,10 @@ patch for mandatory review.
 
 from __future__ import annotations
 
+from collections.abc import Iterator
 from dataclasses import dataclass
+
+from markov_ci.guardrails.diffpaths import normalize_path
 
 _RATIO_LIMIT = 1.0
 
@@ -36,21 +39,28 @@ def _is_test_path(path: str) -> bool:
     return name == "conftest.py" or name.startswith("test_") or name.endswith("_test.py")
 
 
-def _changes(diff: str):  # type: ignore[no-untyped-def]
-    """Yield ``(path, sign, text)`` for every added/removed content line."""
-    current: str | None = None
+def _changes(diff: str) -> Iterator[tuple[str, str, str]]:
+    """Yield ``(path, sign, text)`` for every added/removed content line.
+
+    The path comes from the shared diff parser (spec 0005 §1): a **removed** line is
+    attributed to the file's **original** path and an **added** line to its new path,
+    so a deleted test file is classified by its original test path.
+    """
+    old_path: str | None = None
+    new_path: str | None = None
     for line in diff.splitlines():
-        if line.startswith("+++ "):
-            path = line[4:].strip()
-            current = path[2:] if path.startswith("b/") else path
-            continue
         if line.startswith("--- "):
+            old_path = normalize_path(line[4:].split("\t", 1)[0])
             continue
-        if current is None or not line or line[0] not in {"+", "-"}:
+        if line.startswith("+++ "):
+            new_path = normalize_path(line[4:].split("\t", 1)[0])
             continue
-        if line.startswith(("+++", "---")):
+        if not line or line[0] not in {"+", "-"}:
             continue
-        yield current, line[0], line[1:]
+        path = (old_path or new_path) if line[0] == "-" else (new_path or old_path)
+        if path is None:
+            continue
+        yield path, line[0], line[1:]
 
 
 def check_test_modification(diff: str) -> TMRResult:

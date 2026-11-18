@@ -63,9 +63,11 @@ def _referenced_file_missing(args: list[str]) -> bool:
 
 
 def test_quickstart_commands_are_executable() -> None:
-    runnable = [args for args in _quickstart_commands() if not _referenced_file_missing(args)]
-    assert runnable, "expected at least one self-contained quick-start command"
-    for args in runnable:
+    commands = _quickstart_commands()
+    assert commands, "expected at least one quick-start command"
+    missing = [args for args in commands if _referenced_file_missing(args)]
+    assert missing == [], f"quick-start references paths that do not exist: {missing}"
+    for args in commands:
         result = RUNNER.invoke(app, args)
         assert result.exit_code == 0, f"{' '.join(args)} → exit {result.exit_code}: {result.stdout}"
 

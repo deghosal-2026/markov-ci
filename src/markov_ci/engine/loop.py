@@ -1,6 +1,6 @@
 """The governed transition loop (docs/spec/0011-engine-runtime.md §1).
 
-Triage → assemble → policy gates → adapter repair → guardrails → sandbox →
+Triage → assemble → policy gates → adapter repair → guardrails → worktree validation →
 next hop or absorption. The gate is evaluated in strict order (budget → cap →
 confidence), so every path terminates in one of the three designed absorbing
 states — absorption by construction.
@@ -14,22 +14,32 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from markov_ci.agents import AgentAdapter, RepairContext
-from markov_ci.engine.sandbox import SandboxResult
+from markov_ci.agents.harness import HarnessTimeout
+from markov_ci.engine.validation import ValidationResult
 from markov_ci.guardrails import check_paths, check_test_modification
+from markov_ci.guardrails.diffpaths import parse_diff_paths, symlink_paths
 from markov_ci.policy import A2, A3, Decision, Policy, evaluate
 from markov_ci.telemetry import RunResult, TransitionEvent, utc_now
 from markov_ci.telemetry.events import JsonlSink
 from markov_ci.triage import FailureCategory
+from markov_ci.triage.minimize import minimize
 
 A1 = "a1_ready_for_human_review"
 
 
-class SandboxLike(Protocol):
-    """The subset of `Sandbox` the loop depends on."""
+class ValidatorLike(Protocol):
+    """The subset of `WorktreeValidator` the loop depends on."""
 
     def apply_and_test(
-        self, diff: str, command: Sequence[str], *, timeout: int = ...,
-    ) -> SandboxResult: ...
+        self,
+        diff: str,
+        command: Sequence[str],
+        *,
+        timeout: int = ...,
+        allow_write: Sequence[str] = ...,
+        deny_write: Sequence[str] = ...,
+        env_allow: Sequence[str] = ...,
+    ) -> ValidationResult: ...
 
 
 class SinkLike(Protocol):
@@ -38,7 +48,7 @@ class SinkLike(Protocol):
 
 @dataclass(frozen=True, slots=True)
 class LoopConfig:
-    """Everything the loop needs beyond the adapter and sandbox."""
+    """Everything the loop needs beyond the adapter and worktree validation."""
 
     policy: Policy
     success_curve: tuple[float, ...]
@@ -46,6 +56,8 @@ class LoopConfig:
     deny_write: tuple[str, ...]
     failing_command: tuple[str, ...]
     regression_command: tuple[str, ...]
+    env_allow: tuple[str, ...] = ()
+    validation_timeout: int = 600
 
 
 def _confidence(config: LoopConfig, attempt: int) -> float:
@@ -53,6 +65,12 @@ def _confidence(config: LoopConfig, attempt: int) -> float:
     if 0 <= index < len(config.success_curve):
         return config.success_curve[index]
     return 0.0
+
+
+def _summarize(output: str, limit: int = 400) -> str:
+    """A bounded summary of validation output (spec 0011 §2, M13.25)."""
+    collapsed = " ".join(output.split())
+    return collapsed[:limit]
 
 
 def _bump(visits: dict[str, int], state: str) -> None:
@@ -65,30 +83,42 @@ def run_loop(  # noqa: PLR0913
     category: FailureCategory,
     context: str,
     config: LoopConfig,
-    sandbox: SandboxLike,
+    validator: ValidatorLike,
     run_id: str,
     commit_sha: str = "",
     pr_number: int | None = None,
     sink: SinkLike | None = None,
     patch_branch: str | None = None,
+    config_hash: str | None = None,
+    model_version: str | None = None,
     clock: Callable[[], float] = time.monotonic,
 ) -> RunResult:
     """Run the governed loop and return the full evidence trail."""
     started = clock()
-    tokens = 0
+    tokens: int | None = None
     visits: dict[str, int] = {}
     guardrail_report: list[str] = []
     mandatory_review = False
     absorbing: str | None = None
+    validated_patch: str | None = None
+    retry_context: str | None = None
+    retry_diff: str | None = None
+    validation_output: str | None = None
     current = "s1_failure_triage"
     attempt = 1
 
-    def emit(to_state: str, hop_attempt: int) -> None:
+    def emit(
+        to_state: str,
+        hop_attempt: int,
+        *,
+        event: str = "transition",
+        gate_rejected: str | None = None,
+    ) -> None:
         nonlocal current
         if sink is not None:
             sink.emit(
                 TransitionEvent(
-                    event="transition",
+                    event=event,
                     run_id=run_id,
                     commit_sha=commit_sha,
                     pr_number=pr_number,
@@ -100,6 +130,10 @@ def run_loop(  # noqa: PLR0913
                     attempt=hop_attempt,
                     adapter=adapter.id,
                     ts=utc_now(),
+                    synthetic=adapter.id == "simulated",
+                    gate_rejected=gate_rejected,
+                    config_hash=config_hash,
+                    model_version=model_version,
                 ),
             )
         current = to_state
@@ -109,13 +143,13 @@ def run_loop(  # noqa: PLR0913
         gate = evaluate(
             config.policy,
             attempt=attempt,
-            tokens_used=tokens,
+            tokens_used=tokens or 0,
             elapsed_seconds=clock() - started,
             next_success_probability=_confidence(config, attempt),
         )
         if gate.decision is not Decision.PROCEED:
             absorbing = gate.absorbing_state or A2
-            emit(absorbing, attempt)
+            emit(absorbing, attempt, event="gate_rejected", gate_rejected=gate.reason)
             _bump(visits, absorbing)
             break
 
@@ -123,18 +157,55 @@ def run_loop(  # noqa: PLR0913
         emit(agent_state, attempt)
         _bump(visits, agent_state)
 
-        proposal = adapter.repair(
-            RepairContext(
-                category=category,
-                attempt=attempt,
-                max_attempts=config.policy.max_attempts,
-                context=context,
-            ),
+        remaining = max(
+            1, int(config.policy.wall_clock_seconds - (clock() - started)),
         )
-        tokens += proposal.tokens_used
+        try:
+            proposal = adapter.repair(
+                RepairContext(
+                    category=category,
+                    attempt=attempt,
+                    max_attempts=config.policy.max_attempts,
+                    context=retry_context or context,
+                    diff=retry_diff,
+                    timeout=remaining,
+                ),
+            )
+        except HarnessTimeout:
+            absorbing = A3
+            emit(A3, attempt)
+            _bump(visits, A3)
+            break
+        if proposal.tokens_used is not None:
+            tokens = (tokens or 0) + proposal.tokens_used
 
+        if not proposal.diff.strip():
+            absorbing = A2
+            emit(A2, attempt)
+            _bump(visits, A2)
+            break
+
+        symlinks = symlink_paths(proposal.diff)
+        if symlinks:
+            guardrail_report.append(
+                f"symlink creation denied: {', '.join(symlinks)}",
+            )
+            absorbing = A2
+            emit(A2, attempt)
+            _bump(visits, A2)
+            break
+
+        derived = parse_diff_paths(proposal.diff)
+        if not derived:
+            guardrail_report.append("could not determine the paths this patch touches")
+            absorbing = A2
+            emit(A2, attempt)
+            _bump(visits, A2)
+            break
+
+        touched = tuple(dict.fromkeys((*derived, *proposal.files_changed)))
         allowed = check_paths(
-            proposal.files_changed,
+            touched,
             allow_write=config.allow_write,
             deny_write=config.deny_write,
         )
@@ -154,29 +225,63 @@ def run_loop(  # noqa: PLR0913
             _bump(visits, A2)
             break
 
-        if not proposal.diff:
+        validation_state = f"s3_sandbox_validation#{attempt}"
+        emit(validation_state, attempt)
+        _bump(visits, validation_state)
+
+        validation = validator.apply_and_test(
+            proposal.diff,
+            config.failing_command,
+            timeout=min(config.validation_timeout, remaining),
+            allow_write=config.allow_write,
+            deny_write=config.deny_write,
+            env_allow=config.env_allow,
+        )
+        if validation.timed_out:
+            absorbing = A3
+            emit(A3, attempt)
+            _bump(visits, A3)
+            break
+        if not validation.applied:
+            validation_output = _summarize(validation.output)
             absorbing = A2
             emit(A2, attempt)
             _bump(visits, A2)
             break
-
-        sandbox_state = f"s3_sandbox_validation#{attempt}"
-        emit(sandbox_state, attempt)
-        _bump(visits, sandbox_state)
-
-        validation = sandbox.apply_and_test(proposal.diff, config.failing_command)
-        if not validation.applied:
+        if validation.guardrail_report:
+            guardrail_report.extend(validation.guardrail_report)
             absorbing = A2
             emit(A2, attempt)
             _bump(visits, A2)
             break
         if not validation.passed:
+            # feed the previous validation output + diff into the next attempt
+            retry_context = minimize([], logs=validation.output).text
+            retry_diff = proposal.diff
+            validation_output = _summarize(validation.output)
             attempt += 1
             continue
 
+        if not config.regression_command:
+            # no explicit broader regression command → skip s4 (M13.31)
+            validated_patch = proposal.diff
+            absorbing = A1
+            emit(A1, attempt)
+            _bump(visits, A1)
+            break
+
         emit("s4_regression_check", attempt)
         _bump(visits, "s4_regression_check")
-        regression = sandbox.apply_and_test(proposal.diff, config.regression_command)
+        validated_patch = proposal.diff
+        regression = validator.apply_and_test(
+            proposal.diff,
+            config.regression_command,
+            allow_write=config.allow_write,
+            deny_write=config.deny_write,
+            env_allow=config.env_allow,
+        )
+        if regression.guardrail_report:
+            guardrail_report.extend(regression.guardrail_report)
         absorbing = A1 if regression.passed else A2
         emit(absorbing, attempt)
         _bump(visits, absorbing)
@@ -191,6 +296,8 @@ def run_loop(  # noqa: PLR0913
         patch_branch=patch_branch,
         mandatory_review=mandatory_review,
         run_id=run_id,
+        patch=validated_patch if absorbing == A1 else None,
+        validation_output=validation_output,
     )
 
 

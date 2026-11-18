@@ -4,6 +4,10 @@ Raw logs of the M9 validation runs, preserved exactly as produced (byte-verified
 copies). **This directory is hand-maintained evidence — no automation writes
 here; nothing in this tree may be overwritten or regenerated.**
 
+Logs are preserved **verbatim**, including any environment paths they contain; the
+re-runnable scripts (`m9-deep-*.sh`) use repo-relative paths
+(`cd "$(git rev-parse --show-toplevel)"`).
+
 Environment: macOS (host) · Docker Compose · image `python:3.12-slim` + git
 (Python 3.12.16, git 2.47.3, pytest 9.2.0 inside the container).
 

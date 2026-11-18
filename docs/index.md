@@ -1,10 +1,11 @@
 # markov-ci
 
-**Markov-governed, self-healing CI/CD.**
+**Markov-planned, guardrailed CI/CD.**
 
-> **Status: pre-alpha.** The CLI, config, and telemetry contracts on this site
+> **Status: pre-1.0.** The CLI, config, and telemetry contracts on this site
 > (golden numbers included) are implemented and executed in CI — docs-are-tests.
-> `v0.1.0` is the first tagged release; the public API is not yet stable.
+> `v0.1.1` ("Trust") is the current release; **upgrade from `v0.1.0`** (harness
+> shell-injection advisory, ADR-0016). The public API is not yet stable.
 
 CI/CD pipelines have become probabilistic: ephemeral infrastructure flakes identical
 builds, and AI agents embedded in pipelines fix, loop, and regress probabilistically.
@@ -18,13 +19,13 @@ are — **absorbing Markov chains** — then turns that model into three capabil
 | **Learn** | Every state transition emits a versioned JSONL event; the transition matrix recomputes from your own telemetry, per failure category and per agent harness |
 
 **Why it can't run away:** attempt caps remove loop-back edges at assembly time, so
-every chain markov-ci can execute is absorbing *by construction* — termination is a
-theorem, not a timeout.
+every chain markov-ci can execute is absorbing *by construction* — after the cap `Q` is
+nilpotent. The runtime stops via its attempt counter and per-call timeouts.
 
 ## Try it in five minutes
 
 ```bash
-pip install markov-ci
+pip install -U "markov-ci>=0.1.1"
 markov-ci analyze          # zero-config: prints the worked example
 ```
 

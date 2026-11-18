@@ -39,6 +39,7 @@ def test_event_carries_the_documented_fields() -> None:
         "schema_version", "event", "run_id", "commit_sha", "pr_number",
         "from_state", "to_state", "duration_ms", "tokens_used",
         "failure_category", "attempt", "adapter", "ts",
+        "synthetic", "gate_rejected", "config_hash", "model_version",
     }
     assert set(payload) == expected
     assert payload["schema_version"] == SCHEMA_VERSION

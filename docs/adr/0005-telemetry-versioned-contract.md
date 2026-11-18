@@ -2,6 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-11-16
+**Amended by:** spec 0007 §4 — the v1 schema gains an exit reason / `gate_rejected`, plus `config_hash` and `model_version`, so events can separate gate exits from agent failures (DES-12; M13.29).
 
 ## Context
 

@@ -5,8 +5,10 @@
 
 ## Context
 
-Agents in CI make pipeline behavior probabilistic (fix ~75% / loop ~15% / regress ~10%
-is typical). Deterministic if/else governance of such systems produces either useless
+Agents in CI make pipeline behavior probabilistic. A commonly cited ballpark is
+fix ~75% / loop ~15% / regress ~10% (uncited); markov-ci's shipped defaults are the
+illustrative spec 0001 §3 curves (0.65 / 0.25 / 0.10, ADR-0015) — not a measurement.
+Deterministic if/else governance of such systems produces either useless
 agents or runaway loops, and cannot answer "2 retries or 10?" with data. Pipelines are
 finite-state systems that terminate — exactly the shape absorbing Markov chain theory
 describes.
@@ -17,6 +19,14 @@ We model the pipeline as an absorbing Markov chain: a small decision-boundary st
 space, measured transition probabilities, and three designed terminal states
 (`a1_ready_for_human_review`, `a2_escalate_to_author`, `a3_budget_exceeded`), and we
 compute expectations from the matrix rather than guessing policies.
+
+## Considered options
+
+- **Deterministic DAG with retry rules (the status quo).** Rejected: it cannot forecast
+  cost or attempts, and yields either useless agents or runaway loops.
+- **Simulation-only (no closed form).** Rejected: a simulator cannot cheaply size caps or
+  give `N`/`B`/`t`/`C`, and offers no structural termination guarantee.
+- **Absorbing Markov chain (chosen).**
 
 ## Consequences
 

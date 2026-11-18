@@ -87,3 +87,77 @@ def test_is_deterministic() -> None:
 
 def test_windows_style_backslashes_are_normalized() -> None:
     assert check_paths(["src\\..\\..\\etc\\passwd"]).allowed is False
+
+
+def test_env_variants_are_denied() -> None:
+    # M13.12 (#96): `.env*` / `**/.env*` — tested under allow_write=("**",) so
+    # the always-denied set is the only reason to deny.
+    for path in (".env.local", "config/.env.production", ".envrc", ".env"):
+        assert check_paths([path], allow_write=("**",)).allowed is False, path
+
+
+def test_codeowners_is_denied() -> None:
+    for path in ("CODEOWNERS", "docs/CODEOWNERS", ".github/CODEOWNERS"):
+        assert check_paths([path], allow_write=("**",)).allowed is False, path
+
+
+def test_key_and_credential_files_are_denied() -> None:
+    for path in (
+        "src/deploy.pem",
+        "config/service.key",
+        "home/.ssh/id_rsa",
+        ".aws/credentials",
+        "ops/service-account.json",
+        "cert/server.p12",
+    ):
+        assert check_paths([path], allow_write=("**",)).allowed is False, path
+
+
+def test_common_ci_configs_are_denied() -> None:
+    for path in (
+        ".gitlab-ci.yml",
+        ".travis.yml",
+        "azure-pipelines.yml",
+        "Jenkinsfile",
+        ".circleci/config.yml",
+        ".buildkite/pipeline.yml",
+        "bitbucket-pipelines.yml",
+    ):
+        assert check_paths([path], allow_write=("**",)).allowed is False, path
+
+
+def test_common_build_configs_are_denied() -> None:
+    for path in (
+        "Dockerfile",
+        "docker-compose.yml",
+        "Makefile",
+        "pyproject.toml",
+        "setup.py",
+        "tox.ini",
+        ".pre-commit-config.yaml",
+    ):
+        assert check_paths([path], allow_write=("**",)).allowed is False, path
+
+
+def test_matching_is_case_insensitive() -> None:
+    assert check_paths([".GITHUB/workflows/ci.yml"], allow_write=("**",)).allowed is False
+    assert check_paths(["License"], allow_write=("**",)).allowed is False
+    assert check_paths(["CONFIG.ENV"], allow_write=("**",)).allowed is False
+    assert check_paths(["SRC/Deploy.PEM"], allow_write=("**",)).allowed is False
+
+
+def test_adversarial_paths_are_denied_even_under_a_wildcard_allowlist() -> None:
+    # M13.39 (#123): the always-denied set is the only guard when allow_write=("**",)
+    for path in (
+        ".github/workflows/ci.yml",
+        ".env",
+        ".env.local",
+        "secrets/token",
+        "LICENSE",
+        "package-lock.json",
+        "id_rsa",
+        "src/deploy.pem",
+        "src/../../etc/passwd",
+        "/etc/passwd",
+    ):
+        assert check_paths([path], allow_write=("**",)).allowed is False, path

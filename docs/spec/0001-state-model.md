@@ -32,9 +32,13 @@ s3_sandbox_validation → s3_sandbox_validation#1, …, #max_attempts
 - Loop-back edges `s3#k → s2#(k+1)` carry **per-attempt probabilities** (§4 of this spec).
 - Non-loop states (`s0`, `s1`, `s4`) are singletons.
 - Rationale: this keeps the chain genuinely Markov while modeling per-attempt decay —
-  the fix for time-inhomogeneous "decay hack" probability tables. See ADR-0002.
+  the fix for history-dependent "decay hack" probability tables. See ADR-0002.
 
-## 3. Base transition probabilities (defaults, field-test literature)
+## 3. Base transition probabilities (defaults, illustrative)
+
+> These structural edges (0.82, 0.75, 0.65, …) are **illustrative defaults, not
+> measurements**; override them per your pipeline or replace the priors via `recompute`
+> (ADR-0015).
 
 | from | to | p | note |
 |---|---|---|---|
@@ -58,18 +62,18 @@ use has been observed to vary ~70×). Priors are therefore two-dimensional, with
 
 ```yaml
 priors:
-  default:                        # adapter "*" — the shipped conservative priors
-    default:        { success: [0.95, 0.95, 0.95], cost_weight: 1.0 }
-    lint_error:     { success: [0.92, 0.65, 0.20], cost_weight: 1.0 }
-    type_mismatch:  { success: [0.85, 0.55, 0.25], cost_weight: 1.5 }
-    unit_assertion: { success: [0.74, 0.45, 0.15], cost_weight: 2.5 }
-    infra_timeout:  { success: [0.05, 0.01, 0.00], cost_weight: 5.0 }
+  default:                        # adapter "*" — illustrative shipped priors (not measured)
+    default:        { success: [0.95, 0.95, 0.95] }
+    lint_error:     { success: [0.92, 0.65, 0.20] }
+    type_mismatch:  { success: [0.85, 0.55, 0.25] }
+    unit_assertion: { success: [0.74, 0.45, 0.15] }
+    infra_timeout:  { success: [0.05, 0.01, 0.00] }
   claude-code:                    # adapter-specific, once telemetry exists
-    unit_assertion: { success: [0.71, 0.42, 0.12], cost_weight: 3.1 }
+    unit_assertion: { success: [0.71, 0.42, 0.12] }
 ```
 
 - Resolution order: `priors[adapter][category]` → `priors["default"][category]` → error.
-- `success[k]` = P(patch valid on attempt k); `cost_weight` scales the per-state cost
+- `success[k]` = P(patch valid on attempt k)
   vector for `C = N·c` (spec 0002 §3).
 - Every prior must be labeled `source: prior` or `source: empirical` in config; empirical
   entries are produced by `recompute` (spec 0007 §4) and carry credible intervals.

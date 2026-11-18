@@ -18,6 +18,7 @@ _TOL = 1e-9
 ROW_SUM = "row_sum"
 ABSORBING_IDENTITY = "absorbing_identity"
 UNREACHABLE_ABSORPTION = "unreachable_absorption"
+PROBABILITY_RANGE = "probability_range"
 
 
 @dataclass(frozen=True, slots=True)
@@ -110,10 +111,30 @@ def _reachable_absorption_findings(chain: Chain) -> list[Finding]:
     return findings
 
 
+def _probability_range_findings(chain: Chain) -> list[Finding]:
+    """Every matrix entry must lie in [0, 1] (spec 0002 §1.4, M13.30)."""
+    findings: list[Finding] = []
+    for state_id, position in chain.index.items():
+        for probability in chain.P[position]:
+            value = float(probability)
+            if value < -_TOL or value > 1.0 + _TOL:
+                findings.append(
+                    Finding(
+                        code=PROBABILITY_RANGE,
+                        message=(
+                            f"row {state_id!r} has probability {value:.6f} outside [0, 1]"
+                        ),
+                        state=state_id,
+                    ),
+                )
+    return findings
+
+
 def validate(chain: Chain) -> ValidationResult:
     """Validate a chain; return every finding (never raises on bad data)."""
     findings: list[Finding] = []
     findings.extend(_absorbing_identity_findings(chain))
     findings.extend(_row_sum_findings(chain))
+    findings.extend(_probability_range_findings(chain))
     findings.extend(_reachable_absorption_findings(chain))
     return ValidationResult(ok=not findings, findings=tuple(findings))

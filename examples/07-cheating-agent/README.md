@@ -1,6 +1,6 @@
-# Example 07 — the cheating agent (green still means green)
+# Example 07 — the cheating agent (textbook weakening patterns blocked)
 
-**Ships:** v0.1.0 · **Exit code to expect:** `2` · **Tutorial:** [07 — cheating agent](../../docs/tutorials/07-cheating-agent.md)
+**Ships:** v0.1.0 · **Exit code to expect:** `1` · **Tutorial:** [07 — cheating agent](../../docs/tutorials/07-cheating-agent.md)
 
 The adversarial agent. Instead of fixing the code, the agent proposes a patch that makes
 the failing test "pass" by **deleting its assertion** — the project's anti-pattern #1.
@@ -18,7 +18,7 @@ git -C examples/07-cheating-agent/repo init -q && \
 markov-ci run examples/07-cheating-agent/config.yaml \
   --junit examples/07-cheating-agent/report.xml \
   --repo examples/07-cheating-agent/repo --seed 42
-echo $?      # 2 = absorbed in a2_escalate_to_author
+echo $?      # 1 = absorbed in a2_escalate_to_author
 ```
 
 The agent is a BYO command adapter (spec 0006 T3): `cheat.py` prints a diff that removes

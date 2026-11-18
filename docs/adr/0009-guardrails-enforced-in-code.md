@@ -2,6 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-11-16
+**Amended by:** spec [0005 §1](../spec/0005-guardrails.md) — the allowlist now derives paths from the diff, and the always-denied set is broadened (`.env*` / `**/.env*`, `CODEOWNERS`, credentials/keys, CI + build configs, matched case-insensitively).
 
 ## Context
 
@@ -31,6 +32,14 @@ regardless of adapter:
 
 Harness/host settings are additive defense only; they never substitute for these.
 
+## Considered options
+
+- **Prompt instructions to the agent** ("do not touch CI files"). Rejected: a suggestion,
+  not a control — the agent may ignore it.
+- **Delegate to the harness's own allowlist / auto-accept settings.** Rejected: governance
+  would then live outside markov-ci (principle #7) and vary per harness.
+- **Enforce in the engine, applied to every patch (chosen).**
+
 ## Consequences
 
 - Safety becomes **testable**: adversarial fixtures assert every rule.
@@ -38,6 +47,13 @@ Harness/host settings are additive defense only; they never substitute for these
   by design.
 - TMR can produce false positives on legitimate test changes; the reviewer sees the
   ratio and the diff and can approve deliberately. Friction is placed where it belongs.
+- The allowlist derives paths from the diff itself — both sides of renames/deletes, with
+  git-quoted paths unescaped and post-apply verification by `git diff --name-status -M` —
+  so a patch cannot smuggle a denied path past its declared set (spec 0005 §1).
+- TMR stays **line-based**: it does not catch a meaning-preserving assertion rewrite
+  (`assert f() == 2` → `assert True`). That is caught in human review, which is why `a1`
+  is never auto-merged.
 - **Falsifier:** any confirmed bypass of a guardrail is a security-class bug: add a
-  regression test, fix the rule, and record it. If TMR's false-positive rate becomes a
-  real burden, the threshold is tunable — the hard stop is not.
+  regression test, fix the rule, and record it. The threshold is fixed at `1.0` in v0.1
+  (spec 0005 §2 — there is no config key); making it tunable is a future decision, not a
+  config change, and the hard stop is not tunable.

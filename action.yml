@@ -1,6 +1,6 @@
 name: markov-ci
 description: >-
-  Markov-governed, self-healing CI/CD — forecast, govern, and learn from your
+  Markov-planned, guardrailed CI/CD — forecast, govern, and learn from your
   agentic repair loops. Never merges, never force-pushes.
 author: deghosal-2026
 
@@ -17,7 +17,7 @@ inputs:
     description: JUnit XML produced by your test step.
     required: true
   repo:
-    description: "Repository to sandbox (default: the checked-out workspace)."
+    description: "Repository to validate (default: the checked-out workspace)."
     required: false
     default: ""
   seed:
@@ -25,7 +25,30 @@ inputs:
     required: false
     default: "42"
   adapter:
-    description: Agent adapter to use — "simulated" (offline) or "harness" (opt-in extra).
+    description: >-
+      Agent adapter to use — "simulated" (offline) or "harness" (opt-in extra). For
+      pull_request from untrusted authors (forks), enable `container` (see below).
+    required: false
+    default: ""
+  container:
+    description: >-
+      Container image to run validation in (ADR-0012). Recommended (and the default
+      for fork PRs) so untrusted PR code cannot reach host credentials. Empty = the
+      interim host-clone path.
+    required: false
+    default: ""
+  publish:
+    description: >-
+      "true" to apply the validated diff to a fresh ai-fix/* branch and push it
+      (never the PR branch, never main, never force). Default "false".
+    required: false
+    default: "false"
+  failing-command:
+    description: "Command that reproduces the failure (default: from config, else pytest -q)."
+    required: false
+    default: ""
+  regression-command:
+    description: "Broader regression command; empty skips the s4 regression check."
     required: false
     default: ""
   max-tokens:
@@ -42,7 +65,7 @@ outputs:
     description: a1_ready_for_human_review | a2_escalate_to_author | a3_budget_exceeded
     value: ${{ steps.govern.outputs.absorbing-state }}
   exit-code:
-    description: Run outcome code (0 = a1, 2 = a2, 3 = a3, 4 = invalid config).
+    description: Run outcome code (0 = a1, 1 = a2, 2 = usage error, 3 = a3, 4 = invalid config, 5 = internal).
     value: ${{ steps.govern.outputs.exit-code }}
   run-id:
     description: Correlates with the uploaded event-stream artifact.
@@ -53,6 +76,9 @@ outputs:
   events-path:
     description: Path to the uploaded events.jsonl artifact.
     value: ${{ steps.govern.outputs.events-path }}
+  patch-path:
+    description: Path to the uploaded validated-patch artifact, if a fix was validated.
+    value: ${{ steps.govern.outputs.patch-path }}
 
 runs:
   using: composite
@@ -70,14 +96,26 @@ runs:
         INPUT_REPO: ${{ inputs.repo }}
         INPUT_SEED: ${{ inputs.seed }}
         INPUT_ADAPTER: ${{ inputs.adapter }}
+        INPUT_CONTAINER: ${{ inputs.container }}
+        INPUT_PUBLISH: ${{ inputs.publish }}
+        INPUT_FAILING_COMMAND: ${{ inputs.failing-command }}
+        INPUT_REGRESSION_COMMAND: ${{ inputs.regression-command }}
         INPUT_MAX_TOKENS: ${{ inputs.max-tokens }}
         INPUT_WALL_CLOCK: ${{ inputs.wall-clock }}
       run: bash "${{ github.action_path }}/action/run.sh"
 
     - name: Upload the event stream
       if: ${{ always() && steps.govern.outputs.events-path != '' }}
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
       with:
         name: markov-ci-events-${{ steps.govern.outputs.run-id }}
         path: ${{ steps.govern.outputs.events-path }}
+        if-no-files-found: warn
+
+    - name: Upload the validated patch
+      if: ${{ always() && steps.govern.outputs.patch-path != '' }}
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      with:
+        name: markov-ci-patch-${{ steps.govern.outputs.run-id }}
+        path: ${{ steps.govern.outputs.patch-path }}
         if-no-files-found: warn

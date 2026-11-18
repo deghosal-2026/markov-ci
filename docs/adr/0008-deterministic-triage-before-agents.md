@@ -3,6 +3,12 @@
 **Status:** Accepted
 **Date:** 2026-11-16
 
+**Review note (v0.1.1).** The routing taxonomy lives in spec 0010, not here; this ADR owns
+only the *principle* (deterministic triage before any agent). Two honest caveats: failures
+routed away never get an attempt, so their fixability is never observed (the falsifier
+needs a shadow/exploration mode); and `unknown` requires a prior to opt in, which spec 0003
+does not currently supply.
+
 ## Context
 
 Agents are expensive and unreliable on non-code failures. Routing an AWS spot

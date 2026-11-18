@@ -1,0 +1,44 @@
+[main]	INFO	profile include tests: None
+[main]	INFO	profile exclude tests: None
+[main]	INFO	cli include tests: None
+[main]	INFO	cli exclude tests: None
+[main]	INFO	running on Python 3.14.5
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:49
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:50
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:51
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:52
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:53
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:54
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:56
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:59
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:61
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:62
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:63
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:64
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:65
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:67
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:70
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:71
+[tester]	WARNING	nosec encountered (B108), but no failed test on file src/markov_ci/engine/container.py:73
+Run started:2026-11-18 04:53:28.419579+00:00
+
+Test results:
+	No issues identified.
+
+Code scanned:
+	Total lines of code: 4041
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 2
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 21
+		Medium: 0
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 1
+		High: 20
+Files skipped (0):

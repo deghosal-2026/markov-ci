@@ -2,6 +2,10 @@
 
 **Status:** Stable (new keys additive only) · **Amends:** — · **Implements:** PRD F1, F11
 
+**Scope:** `states` and `transitions` define the planning/forecast model — they feed
+`analyze` and `simulate`. The runtime (`run`) is a bounded governor and does **not**
+assemble or drive the chain (ADR-0014).
+
 ## 1. Normative example (default config, abridged)
 
 ```yaml
@@ -38,17 +42,20 @@ policy:
 
 priors:
   default:
-    lint_error:     { success: [0.92, 0.65, 0.20], cost_weight: 1.0, source: prior }
-    type_mismatch:  { success: [0.85, 0.55, 0.25], cost_weight: 1.5, source: prior }
-    unit_assertion: { success: [0.74, 0.45, 0.15], cost_weight: 2.5, source: prior }
-    infra_timeout:  { success: [0.05, 0.01, 0.00], cost_weight: 5.0, source: prior }
+    lint_error:     { success: [0.92, 0.65, 0.20], source: prior }
+    type_mismatch:  { success: [0.85, 0.55, 0.25], source: prior }
+    unit_assertion: { success: [0.74, 0.45, 0.15], source: prior }
+    infra_timeout:  { success: [0.05, 0.01, 0.00], source: prior }
 
 agent:
   adapter: simulated            # simulated | harness (BYO command via harness.command_template)
   allow_write: ["src/**", "tests/**"]
   deny_write: []                # the always-denied set applies regardless (spec 0005)
+  env: []                       # extra env var names passed to the validation child (ADR-0012)
+  container: null               # run validation in this image (--network=none, read-only, non-root)
   harness:                      # used when adapter: harness (spec 0006)
-    command_template: 'claude -p --output-format json "%PROMPT%"'
+    name: claude-code           # reported as the adapter id (default: "harness")
+    command_template: 'claude -p --output-format json %PROMPT%'
     timeout_seconds: 300
 
 telemetry:

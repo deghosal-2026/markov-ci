@@ -1,11 +1,11 @@
 # markov-ci
 
-**Markov-governed, self-healing CI/CD — governance for agentic pipelines.**
+**Markov-planned, guardrailed CI/CD — governance for agentic pipelines.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/markov-ci.svg)](https://pypi.org/project/markov-ci/)
 [![Python 3.11 | 3.12 | 3.13](https://img.shields.io/pypi/pyversions/markov-ci.svg)](https://www.python.org/)
-[![Status: pre-alpha](https://img.shields.io/badge/status-pre--alpha-orange.svg)](docs/WBS.md)
+[![Status: pre-1.0](https://img.shields.io/badge/status-pre--1.0-orange.svg)](CHANGELOG.md)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Types: mypy strict](https://img.shields.io/badge/types-mypy%20--strict-blue.svg)](https://mypy-lang.org/)
 [![Docs: mkdocs](https://img.shields.io/badge/docs-mkdocs--material-526CFE.svg)](mkdocs.yml)
@@ -13,13 +13,17 @@
 
 `markov-ci` models an agentic CI/CD pipeline as an **absorbing Markov chain** — a small
 state space, measured transition probabilities, and three designed terminal outcomes —
-instead of a deterministic DAG governed by brittle `if/else` retry rules. From that
-model it **forecasts** what your agents will cost, **governs** them with hard limits at
-runtime, and **learns** from its own telemetry.
+instead of a deterministic DAG governed by brittle `if/else` retry rules. The chain is
+the **planning** model (it forecasts cost and attempts and sizes the caps); at runtime a
+bounded **governor** admits, checks and stops the repair loop — it does not sample the
+chain. From the model `markov-ci` **forecasts** what your agents will cost, **governs**
+them with hard limits at runtime, and **learns** from its own telemetry (ADR-0014).
 
-> **Status: pre-alpha.** Private during initial development; intended for open-source
-> release under Apache-2.0. The CLI, config, and telemetry contracts are specified and
-> documented; implementation lands per the [WBS](docs/WBS.md).
+> **Status: pre-1.0.** `v0.1.1` ("Trust") is the current release — the security and
+> correctness fixes from the v0.1.1 review. **Upgrade from `v0.1.0`:** that release ran
+> the harness prompt through a shell (a remote-code-execution path); `v0.1.1` makes
+> harness invocation **argv-only** (ADR-0016). See the [CHANGELOG](CHANGELOG.md) and
+> [SECURITY.md](SECURITY.md). The public API is not yet stable.
 
 ## The problem
 
@@ -28,7 +32,8 @@ CI/CD stopped being deterministic, for two reasons:
 1. **Ephemeral infrastructure** — distributed suites, cloud runners, spot
    interruptions: identical commits now flake.
 2. **AI agents in the loop** — agents triage, patch, and refactor inside pipelines,
-   with probabilistic behavior (fix ~75% / loop ~15% / regress ~10% is typical).
+   with probabilistic behavior (fix ~75% / loop ~15% / regress ~10% is a commonly
+   cited ballpark, not a markov-ci measurement).
 
 Governed by rigid rules, probabilistic agents give you one of two disasters: guardrails
 so strict the agent never helps, or runaway retries that burn tokens, hang PRs, and
@@ -44,16 +49,29 @@ silently weaken your tests. And nobody can answer *"should the agent get 2 retri
 | 🔁 | **Learn** | One versioned JSONL event per state hop; the transition matrix recomputes from your own telemetry, per failure category *and per agent harness* |
 
 **Why it cannot run away:** attempt caps remove loop-back edges at assembly time, so
-every chain markov-ci can execute is absorbing *by construction*. Termination is a
-theorem, not a timeout — even under adversarial probabilities.
+every chain markov-ci can execute is absorbing *by construction* — after the cap `Q` is
+nilpotent, so absorption is a property of the **model**. The **runtime** stops via its
+attempt counter plus per-call timeouts (a hung child is killed on timeout), so a run is
+bounded even under adversarial probabilities.
+
+> ⚠️ **Security notice (v0.1.1).** For `pull_request` events from **untrusted authors**
+> (forks), enable container isolation (`container: python:3.12-slim`, or the
+> `--container-image` flag) so PR code cannot reach host credentials; it is the
+> recommended default for fork PRs. Without it, do **not** set `adapter: harness` on
+> untrusted forks — use `adapter: simulated`. See [SECURITY.md](SECURITY.md) and
+> [ADR-0013](docs/adr/0013-trust-boundary.md).
 
 ## Quick start
 
-> The commands below are the v0.1.0 contract. Docs-are-tests: CI runs them verbatim
+> The commands below are the v0.1.1 contract. Docs-are-tests: CI runs them verbatim
 > (see `docs/quick-start.md`, executed by `tests/unit/docs/test_docs_are_tests.py`).
+> **Install `v0.1.1` or later** — `v0.1.0` carries the harness shell-injection advisory
+> (ADR-0016, [GHSA-5jj3-gcw8-pm5g](SECURITY.md)).
 
 ```bash
-pip install markov-ci
+pip install -U "markov-ci>=0.1.1"        # PyPI; 3.11–3.13
+# until 0.1.1 is on PyPI, install the release tag:
+# pip install "markov-ci @ git+https://github.com/deghosal-2026/markov-ci@v0.1.1"
 
 markov-ci analyze                                   # zero-config: prints the worked example
 markov-ci analyze --category unit_assertion         # per-attempt decay + expected cost
@@ -65,15 +83,17 @@ markov-ci run examples/01-lint-error/config.yaml \
     --repo examples/01-lint-error/repo --seed 42
 ```
 
-No API keys, no network — the default agent is a seeded, offline simulator. See the
-[quick start](docs/quick-start.md) for the full five-minute path.
+`markov-ci` is published on PyPI as [`markov-ci`](https://pypi.org/project/markov-ci/)
+(Trusted Publishing, PEP 740 build provenance). No API keys, no network — the default
+agent is a seeded, offline simulator. See the [quick start](docs/quick-start.md) for
+the full five-minute path.
 
 ## How it works
 
 A pipeline becomes a chain of decision states with three absorbing outcomes:
 
 ```
-s0 verify ─▶ s1 triage ─▶ s2 agent ─▶ s3 sandbox ─▶ s4 regression ─▶ a1 ready-for-review
+s0 verify ─▶ s1 triage ─▶ s2 agent ─▶ s3 worktree validation ─▶ s4 regression ─▶ a1 ready-for-review
                               ▲             │                              ▲
                               └──── loop ────┘        escalate ─▶ a2 · budget ─▶ a3
                          (attempt index in the state: s2#1, s3#2, …)
@@ -119,11 +139,12 @@ Everything below also builds as a site — run `mkdocs serve`.
 
 | Release | Theme | Highlights |
 |---|---|---|
-| **v0.1.0** | *Absorption* | Math core · policy engine · triage · simulated agent · guardrails · runtime · telemetry · CLI · offline proof-suite demos 01–03, 06–07 |
-| **v0.2.0** | *Capacity & reach* | GitHub Action · queueing (Erlang-C + DES) · `simulate` · `recompute` · harness adapters (Claude Code, OpenCode, Aider) |
+| **v0.1.0** | *Absorption* | Shipped: math core · policy engine · triage · simulated, harness and local-LLM agents · guardrails · runtime · telemetry + `recompute` · queueing (Erlang-C + DES) · CLI (`validate`/`analyze`/`run`/`simulate`/`queue`/`recompute`) · composite GitHub Action · offline demos 01–07 |
+| **v0.1.1** | *Trust* | **Shipped** ([PyPI](https://pypi.org/project/markov-ci/)): argv-only harness (ADR-0016) · diff-derived guardrails · worktree validation + opt-in container isolation · hard budgets (remaining-timeout → `a3`) · patch delivery (`--output-patch`, `--publish`) · model/runtime honesty (`analyze` from `s1`) · hardened test suite · field-test evidence |
+| **v0.2.0** | *Capacity & reach* | Live harness verification (Claude Code / OpenCode / Aider) · MCP tool surface · drift/windowing |
 | **v0.3.0** | *Live operations* | MCP governance server · currency cost model · drift alerts · community harness templates |
 
-Full ticket-level breakdown: [docs/WBS.md](docs/WBS.md).
+Full ticket-level breakdown: [v0.1.1 WBS](docs/WBS-v0.1.1.md) · [v0.1.0 WBS](docs/WBS.md).
 
 ## What it is not
 

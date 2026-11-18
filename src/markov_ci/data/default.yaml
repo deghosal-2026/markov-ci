@@ -23,6 +23,7 @@ states:
     type: absorbing
 
 transitions:
+  # Illustrative structural edges (not measured) — override per your pipeline.
   - { from: s0_deterministic_verify, to: a1_ready_for_human_review, probability: 0.82 }
   - { from: s0_deterministic_verify, to: s1_failure_triage, probability: 0.18 }
   - { from: s1_failure_triage, to: s2_agent_reasoning, probability: 0.75 }
@@ -42,28 +43,26 @@ policy:
   wall_clock_seconds: 900
 
 priors:
+  # Illustrative, hand-set curves — NOT measured field data. They ship so
+  # `analyze` works with zero configuration; replace them with `recompute`
+  # output (source: empirical) once you have telemetry. See ADR-0015.
   default:
     # the generic structural curve — used when no failure category is given;
-    # reproduces the worked example (P(a1|s0) ≈ 0.92, P(a1|s2) ≈ 0.72)
+    # reproduces the worked example (P(a1|s0) ≈ 0.92, P(a1|s1) ≈ 0.54, P(a1|s2) ≈ 0.72)
     default:
       success: [0.95, 0.95, 0.95]
-      cost_weight: 1.0
       source: prior
     lint_error:
       success: [0.92, 0.65, 0.20]
-      cost_weight: 1.0
       source: prior
     type_mismatch:
       success: [0.85, 0.55, 0.25]
-      cost_weight: 1.5
       source: prior
     unit_assertion:
       success: [0.74, 0.45, 0.15]
-      cost_weight: 2.5
       source: prior
     infra_timeout:
       success: [0.05, 0.01, 0.00]
-      cost_weight: 5.0
       source: prior
 
 agent:

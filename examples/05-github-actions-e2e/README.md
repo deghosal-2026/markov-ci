@@ -1,6 +1,6 @@
 # Example 05 — GitHub Actions, end-to-end
 
-**Ships:** v0.2.0 (F15, F18) · **Exit code to expect:** `0` (absorbed `a1`) · **Tutorial:** [05 — GitHub Actions](../../docs/tutorials/05-github-actions-e2e.md)
+**Ships:** v0.1.0 (F15, F18) · **Exit code to expect:** `0` (absorbed `a1`) · **Tutorial:** [05 — GitHub Actions](../../docs/tutorials/05-github-actions-e2e.md)
 
 The production wiring: the same governed loop, on a pull request, via the composite
 Action at the repo root ([`action.yml`](../../action.yml)). It is the only demo that is
@@ -14,7 +14,7 @@ runs your fast checks to produce a JUnit report, then hands it to the Action:
 ```yaml
       - name: Govern the failure
         id: markov
-        uses: deghosal-2026/markov-ci@v0.2.0
+        uses: deghosal-2026/markov-ci@v0.1.1
         with:
           config: .markov-ci/config.yaml
           junit: report.xml

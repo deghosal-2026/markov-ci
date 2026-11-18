@@ -2,7 +2,7 @@
 
 ## Appendix A — Glossary
 
-- **Transient state** — a state the run can leave (verify, triage, agent, sandbox, regression).
+- **Transient state** — a state the run can leave (verify, triage, agent, worktree validation, regression).
 - **Absorbing state** — terminal; once entered, never left (`a1`, `a2`, `a3`).
 - **Fundamental matrix** — `N = (I−Q)⁻¹`; expected visits to each transient state.
 - **Absorption probability** — `B = N·R`; chance of ending in each absorbing state.

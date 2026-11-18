@@ -3,7 +3,7 @@
 # then exercise each demo's evidence beyond exit codes. Everything under
 # network_mode: none (inherited from the compose services).
 set -u
-cd /Users/deghosal/Desktop/code/github/markov-ci
+cd "$(git rev-parse --show-toplevel)"
 
 echo "=== 1. build ==="
 docker compose build

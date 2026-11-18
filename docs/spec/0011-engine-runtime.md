@@ -1,6 +1,6 @@
 # Spec 0011 — Engine runtime
 
-**Status:** Stable (v0.1 contract) · **Implements:** PRD F8
+**Status:** Stable (v0.1 contract) · **Amends:** ADR-0012 (adds the container validation path) · **Implements:** PRD F8
 
 ## 1. The governed loop
 
@@ -16,7 +16,7 @@ run(config, junit, logs, adapter) -> RunResult:
       low confidence   → a2   (record event, stop)
     proposal = adapter.repair(ctx)            (spec 0006)
     report   = guardrails.check(proposal)     (spec 0005)  — deny → a2
-    applied  = sandbox.apply_and_test(proposal)
+    applied  = validation.apply_and_test(proposal)
     applied → s3#k: pass → s4 → (a1 | a2)
               fail → s2#(k+1) or a2
     emit transition event per hop (spec 0007) — append + flush
@@ -24,15 +24,21 @@ run(config, junit, logs, adapter) -> RunResult:
 
 Single-threaded; no side effects outside the isolated patch branch.
 
-## 2. Sandbox apply-and-test
+## 2. Worktree validation (apply-and-test)
 
-- Apply the patch in an isolated git worktree — never the PR branch, never `main`.
+- Apply the patch in an isolated disposable validation copy — never the PR branch,
+  never `main`. The copy is a **fresh clone** (`git clone --no-hardlinks --local`), so
+  the host repo's hooks, config and credentials are not shared (ADR-0012 §1).
 - Run only the failing tests first (fast signal), then full suite at `s4`.
 - Revert on failure; the loop's next attempt starts from a clean tree.
-- **Not a container backend (v0.1).** The sandbox is a worktree by design — no
-  daemon dependency. Running the *examples* in Docker (#61) is demos/docs packaging,
-  not the sandbox; a container sandbox backend would be a separate architectural
-  change requiring its own ADR.
+- **Container path (v0.1.1, ADR-0012).** A container (`--network=none`, read-only
+  checkout, tmpfs work dir, non-root) becomes the default for **fork PRs**; the clone
+  remains the interim default elsewhere. Running the *examples* in Docker (#61) is
+  packaging, not this path.
+- **Not a full security boundary in v0.1.** The validation copy runs on the same kernel
+  and filesystem as the host, but with an allowlisted environment (ADR-0012 §2), a
+  process-group kill and resource limits (§3–§4); the container path is the real
+  boundary (ADR-0012/ADR-0013, M13.18).
 
 ## 3. Crash-safety
 

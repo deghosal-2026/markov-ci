@@ -27,7 +27,12 @@ the way every service ships with a health check.
 
 ## Tagline
 
-*Markov-governed, self-healing CI/CD.*
+*Markov-planned, guardrailed CI/CD.*
+
+The **chain is the planning model** — it forecasts expected attempts, token spend and
+outcome probabilities, and sizes the caps. The **runtime is a bounded governor** — it
+admits, checks and stops the repair loop under the policy gates; it does not sample the
+chain (ADR-0014).
 
 ## Positioning statement
 

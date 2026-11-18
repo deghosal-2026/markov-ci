@@ -34,7 +34,7 @@ Pure functions over numpy arrays; fully typed; property-tested (spec 0012 §3).
 
 ## 3. Cost vectors
 
-`c` is a per-state cost vector (tokens, runner-seconds, or `cost_weight`-scaled units).
+`c` is a per-state cost vector (tokens, runner-seconds, or unit weights).
 `C = N·c` is the forecast API behind `analyze --json` (PRD US-1, US-9) and the FinOps
 baseline that `recompute` (spec 0007) later compares against actuals.
 

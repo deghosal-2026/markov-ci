@@ -3,6 +3,9 @@
 Live end-to-end runs of the root composite Action (`action.yml`), exercising M10.1 (#46)
 and M9.5 (#45). **Hand-maintained evidence — no automation writes here.**
 
+Logs are preserved verbatim; the absolute paths in them are the GitHub-hosted runner's
+(`/home/runner/...`), not a maintainer's.
+
 Workflow: `.github/workflows/markov-ci-e2e.yml` (workflow_dispatch) · Action: `uses: ./`
 · target: the bundled `examples/01-lint-error` demo · runner: GitHub-hosted
 `ubuntu-latest`, Python 3.12.

@@ -14,7 +14,7 @@ B/C within CI.
 **F19 — Harness adapters (opt-in extras).** Real agents run through harness CLIs in
 headless mode — `claude -p`, `opencode run`, `aider --yes-always` — plus a generic
 bring-your-own-command adapter; markov-ci enforces its own allowlists/budgets regardless
-of harness settings. Extras: `pip install markov-ci[harness]`; no network in this
+of harness settings. Extras: `pip install markov-ci`; no network in this
 repo's CI tests. Full strategy: [07-harness-compatibility.md](07-harness-compatibility.md).
 **F20 — GitLab/Jenkins how-tos.** Same engine, adapter wiring documented.
 **F21 — `recompute` pipeline.** events.jsonl → posterior matrix + CIs → config

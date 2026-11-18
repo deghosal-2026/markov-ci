@@ -3,7 +3,7 @@
 **Status:** Experimental until v0.2 · **Implements:** PRD F16
 
 Agentic repair loops change the *shape* of CI load: humans push in diurnal waves; agents
-fire bursty, recursive sandbox runs. This module sizes runner pools for both.
+fire bursty, recursive validation runs. This module sizes runner pools for both.
 
 ## 1. Erlang-C (M/M/c) — `erlang_c(lam, mu, c) -> QueueMetrics`
 
@@ -21,11 +21,14 @@ traffic. The DES accepts arbitrary arrival patterns (e.g., bursty agent fan-out:
 20 simultaneous agent loops at 2 PM) and empirical service-time distributions, and
 reports wait percentiles (p50/p95/p99) and utilization per pool.
 
-## 3. Validation
+## 3. Monte-Carlo vs closed form — a check, not validation
 
-Under Poisson input, DES output must converge to Erlang-C within tolerance
-(property test). Under bursty input, the divergence *is the finding* — the docs
-(explanations/queueing-theory.md) explain when the closed form is good enough.
+Under Poisson input, DES output must converge to Erlang-C within tolerance (property
+test). That agreement is a **Monte-Carlo vs linear-algebra / closed-form consistency
+check**: it corroborates that the two implementations agree with each other. It is **not**
+"validation" of the model, and it says nothing about whether M/M/c's assumptions match
+real agentic traffic. Under bursty input the divergence *is the finding* —
+explanations/queueing-theory.md explains when the closed form is good enough.
 
 ## 4. Partitioning guidance (productized in `queue` output)
 

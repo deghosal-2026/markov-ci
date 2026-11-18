@@ -2,10 +2,10 @@
 
 | Field | Value |
 |---|---|
-| **Product** | markov-ci — Markov-governed, self-healing CI/CD |
+| **Product** | markov-ci — Markov-planned, guardrailed CI/CD |
 | **Version** | 1.1 (reviewed) |
 | **Date** | 2026-11-16 |
-| **Status** | Private, pre-release · v0.1.0 implemented (release tracked in M10.2 / #47) |
+| **Status** | Private, pre-release · v0.1.1 implemented (release tracked in M15) |
 | **Owner** | @deghosal-2026 |
 | **License** | Apache-2.0 |
 | **Related docs** | [../OVERVIEW.md](../OVERVIEW.md) · [../spec/](../spec/README.md) · [../WBS.md](../WBS.md) |

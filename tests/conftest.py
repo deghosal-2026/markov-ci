@@ -18,7 +18,7 @@ if str(_SRC) not in sys.path:
 
 
 def _ensure_git_repo(path: Path) -> None:
-    """Make an example's demo tree a real git repo (the sandbox uses worktrees)."""
+    """Make an example's demo tree a real git repo (validation uses worktrees)."""
     if (path / ".git").exists():
         return
     for args in (
@@ -35,8 +35,20 @@ def _ensure_git_repo(path: Path) -> None:
 def _example_repos_are_git() -> None:
     """Materialize every `examples/<NN>-*/repo` once, so the documented run
     commands execute verbatim (docs-are-tests) and the proof-suite enforcer can
-    drive the real sandbox."""
+    drive real worktree validation."""
     examples = Path(__file__).resolve().parents[1] / "examples"
     for repo in sorted(examples.glob("[0-9][0-9]-*/repo")):
         if repo.is_dir():
             _ensure_git_repo(repo)
+
+
+@pytest.fixture(autouse=True)
+def _no_network(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Block outbound sockets so the whole suite proves it runs offline (M13.41)."""
+    import socket
+
+    def _blocked(*_args: object, **_kwargs: object) -> None:
+        raise RuntimeError("network access is blocked in the test suite")
+
+    monkeypatch.setattr(socket.socket, "connect", _blocked)
+    monkeypatch.setattr(socket, "create_connection", _blocked)

@@ -2,7 +2,8 @@
 
 The engine is a CLI (F10); anything that can run a shell step can run markov-ci. The
 GitHub Action (F15) is just a wrapper — GitLab and Jenkins get the same guarantees via
-the exit-code contract (spec 0008): `0 = a1` · `2 = a2` · `3 = a3` · `4 = invalid`.
+the exit-code contract (spec 0008, ADR-0017): `0 = a1` · `1 = a2` · `2 = usage error` ·
+`3 = a3` · `4 = invalid` · `5 = internal`.
 
 ## GitLab CI
 
@@ -21,9 +22,10 @@ markov-govern:
       markov-ci run .markov-ci/config.yaml --junit report.xml --seed 42 || code=$?
       case $code in
         0) echo "a1: ready for human review" ;;
-        2) echo "a2: escalated to author"; exit 1 ;;
+        1) echo "a2: escalated to author"; exit 1 ;;
         3) echo "a3: budget exceeded"; exit 1 ;;
         4) echo "invalid config"; exit 1 ;;
+        5) echo "internal failure"; exit 1 ;;
       esac
   artifacts:
     paths: [.markov-ci/events.jsonl]

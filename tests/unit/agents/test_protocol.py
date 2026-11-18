@@ -75,7 +75,8 @@ def test_max_attempts_must_be_positive() -> None:
 
 def test_patch_proposal_defaults() -> None:
     proposal = PatchProposal(diff="--- a\n+++ b", rationale="fix")
-    assert proposal.tokens_used == 0
+    # M13.21 (#105): unknown usage is None, not a false zero.
+    assert proposal.tokens_used is None
     assert proposal.files_changed == ()
 
 

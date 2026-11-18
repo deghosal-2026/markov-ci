@@ -31,8 +31,8 @@
 | Claude Code | T2 | `claude -p --output-format json "<prompt>"` | from JSON stream | v0.2.0 |
 | OpenCode | T2 | `opencode run "<prompt>"` | provider-reported, else estimate | v0.2.0 |
 | Aider | T2 | `aider --yes-always --message "<prompt>"` | commit-based estimate | v0.2.0 |
-| **Local model servers** (Ollama, Apple MLX, LM Studio, llama.cpp, vLLM) | T2 | `python3 -m markov_ci.agents.local_llm "%PROMPT%"` — any OpenAI-compatible endpoint (ADR-0011) | endpoint `usage` when reported | v0.2.0 (#64) |
-| Aider + Ollama | T2 | `aider --yes-always --model ollama_chat/<model> --message "%PROMPT%"` | commit-based estimate | v0.2.0 (#64) |
+| **Local model servers** (Ollama, Apple MLX, LM Studio, llama.cpp, vLLM) | T2 | `python3 -m markov_ci.agents.local_llm %PROMPT%` — any OpenAI-compatible endpoint (ADR-0011) | endpoint `usage` when reported | v0.2.0 (#64) |
+| Aider + Ollama | T2 | `aider --yes-always --model ollama_chat/<model> --message %PROMPT%` | commit-based estimate | v0.2.0 (#64) |
 | Codex CLI, Goose, OpenHands | T2/T3 | community templates (F28) | varies | v0.3.0 backlog |
 | Anything else | T3 | user-supplied `command_template` | estimate | v0.2.0 |
 
@@ -43,7 +43,7 @@
    additive defense, never a substitute. A harness's "auto-accept everything" mode
    changes nothing inside markov-ci.
 2. **No SDK in core.** Core is importable with zero LLM/harness dependencies;
-   T2 adapters live in the `markov-ci[harness]` extra; contract tests run offline.
+   T2 adapters ship in the core; contract tests run offline.
 3. **Every invocation bounded.** `policy.wall_clock_seconds` wraps every harness call;
    a hung harness absorbs into `a3`, never hangs the pipeline.
 4. **Token accounting, best effort but explicit.** Prefer harness-reported usage;

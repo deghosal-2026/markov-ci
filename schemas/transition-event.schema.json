@@ -26,7 +26,7 @@
       "description": "Event contract version; bumped only on breaking change."
     },
     "event": {
-      "enum": ["transition", "absorbed", "guardrail"]
+      "enum": ["transition", "absorbed", "guardrail", "gate_rejected"]
     },
     "run_id": { "type": "string", "minLength": 1 },
     "commit_sha": { "type": "string" },
@@ -34,10 +34,20 @@
     "from_state": { "type": "string", "minLength": 1 },
     "to_state": { "type": "string", "minLength": 1 },
     "duration_ms": { "type": "integer", "minimum": 0 },
-    "tokens_used": { "type": "integer", "minimum": 0 },
+    "tokens_used": { "type": ["integer", "null"], "minimum": 0 },
     "failure_category": { "type": "string", "minLength": 1 },
     "attempt": { "type": "integer", "minimum": 1 },
     "adapter": { "type": "string", "minLength": 1 },
-    "ts": { "type": "string", "minLength": 1 }
+    "ts": { "type": "string", "minLength": 1 },
+    "synthetic": {
+      "type": "boolean",
+      "description": "True for events from the offline simulated adapter (excluded by recompute)."
+    },
+    "gate_rejected": {
+      "type": ["string", "null"],
+      "description": "The gate reason when the event is a gate_rejected event."
+    },
+    "config_hash": { "type": ["string", "null"] },
+    "model_version": { "type": ["string", "null"] }
   }
 }

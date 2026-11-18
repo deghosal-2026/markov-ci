@@ -8,8 +8,13 @@ clobbering each other, and `a1` never merges.
 
 from __future__ import annotations
 
+import os
 import re
+import subprocess
+import tempfile
+from collections.abc import Sequence
 from dataclasses import dataclass
+from pathlib import Path
 
 _PREFIX = "ai-fix"
 _UNSAFE = re.compile(r"[^A-Za-z0-9._-]")
@@ -52,3 +57,61 @@ def push_commands(branch: str, remote: str = "origin") -> tuple[tuple[str, ...],
         ("git", "commit", "-m", "chore(ci-agent): automated fix"),
         ("git", "push", "-u", remote, branch),
     )
+
+
+def publish_commands(
+    branch: str, paths: Sequence[str], *, base: str, remote: str = "origin",
+) -> tuple[tuple[str, ...], ...]:
+    """The exact commands that publish **only the validated paths** (M13.24).
+
+    Never ``git add -A`` (a stray file must not ride along) and never a force push.
+    """
+    return (
+        ("git", "checkout", "-b", branch, base),
+        ("git", "add", "--", *paths),
+        ("git", "commit", "-m", "chore(ci-agent): automated fix"),
+        ("git", "push", "-u", remote, branch),
+    )
+
+
+def publish_patch(
+    repo: str | Path,
+    *,
+    branch: str,
+    diff: str,
+    paths: Sequence[str],
+    base: str = "HEAD",
+    remote: str = "origin",
+) -> str | None:
+    """Apply exactly ``diff`` to ``branch`` off ``base`` and push it (M13.24).
+
+    Returns the branch name only after a successful push; ``None`` on any failure.
+    Commits only ``paths``; asserts git's staged set equals them; never forces.
+    """
+    expected = set(paths)
+
+    def _git(*args: str) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(
+            ["git", "-C", str(repo), *args], capture_output=True, text=True, check=False,
+        )
+
+    if _git("checkout", "-b", branch, base).returncode != 0:
+        return None
+    with tempfile.NamedTemporaryFile("w", suffix=".diff", delete=False) as handle:
+        handle.write(diff)
+        patch_file = handle.name
+    try:
+        if _git("apply", patch_file).returncode != 0:
+            return None
+    finally:
+        os.unlink(patch_file)
+    if not paths or _git("add", "--", *paths).returncode != 0:
+        return None
+    staged = set(_git("diff", "--cached", "--name-only").stdout.split())
+    if staged != expected:
+        return None
+    if _git("commit", "-m", "chore(ci-agent): automated fix").returncode != 0:
+        return None
+    if _git("push", "-u", remote, branch).returncode != 0:
+        return None
+    return branch

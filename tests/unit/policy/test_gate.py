@@ -116,3 +116,16 @@ def test_gate_result_is_frozen() -> None:
     result = _eval()
     with pytest.raises(FrozenInstanceError):
         result.decision = Decision.ESCALATE  # type: ignore[misc]
+
+
+def test_exactly_at_the_wall_clock_limit_is_allowed() -> None:
+    # spec 0004: the trip is strict (`>`), so the boundary value is permitted
+    assert _eval(elapsed_seconds=900.0).decision is Decision.PROCEED
+
+
+def test_exactly_at_the_token_limit_is_allowed() -> None:
+    assert _eval(tokens_used=200_000).decision is Decision.PROCEED
+
+
+def test_one_over_the_token_limit_trips() -> None:
+    assert _eval(tokens_used=200_001).decision is Decision.BUDGET_EXCEEDED

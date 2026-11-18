@@ -24,7 +24,7 @@ API key, no data egress: the pipeline, the telemetry, *and* the model all stay l
 agent:
   adapter: harness
   harness:
-    command_template: 'python3 -m markov_ci.agents.local_llm "%PROMPT%"'
+    command_template: 'python3 -m markov_ci.agents.local_llm %PROMPT%'
     timeout_seconds: 300
 ```
 
@@ -37,7 +37,7 @@ export LOCAL_LLM_TIMEOUT="300"
 markov-ci run --junit report.xml
 ```
 
-Everything else is unchanged: triage, budgets, caps, allowlists, TMR, the sandbox,
+Everything else is unchanged: triage, budgets, caps, allowlists, TMR, the worktree validation,
 the isolated `ai-fix/*` branch, and the event stream — full governance, local model.
 
 **Prefer a full harness?** Use the `aider-ollama` template instead:
@@ -46,7 +46,7 @@ the isolated `ai-fix/*` branch, and the event stream — full governance, local 
 agent:
   adapter: harness
   harness:
-    command_template: 'aider --yes-always --model ollama_chat/qwen2.5-coder:7b --message "%PROMPT%"'
+    command_template: 'aider --yes-always --model ollama_chat/qwen2.5-coder:7b --message %PROMPT%'
 ```
 
 ## 3. What the client expects

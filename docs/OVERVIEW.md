@@ -104,7 +104,7 @@ Instead of a tangled graph of jobs, you declare a small set of decision states:
 
 ```
 s0 deterministic verify → s1 failure triage → s2 agent reasoning
-  → s3 sandbox validation → s4 regression check
+  → s3 worktree validation → s4 regression check
         ↘ loop: s3 can send the agent back around with new error logs
 absorbing: a1 ready-for-review · a2 escalate · a3 budget-exceeded
 ```
@@ -112,7 +112,7 @@ absorbing: a1 ready-for-review · a2 escalate · a3 budget-exceeded
 ### 2. Attach probabilities
 
 Each edge carries a probability — from your telemetry if you have it, from bundled
-conservative priors if you don't. Attempt history is encoded *in the state name*
+**illustrative** priors if you don't. Attempt history is encoded *in the state name*
 (`s2#1`, `s2#2`, `s3#3`), which keeps the model mathematically honest while letting
 success probability decay per attempt.
 
@@ -133,7 +133,7 @@ and an infra flake is predicted to waste zero tokens.
 At runtime the engine checks, in order: budget → step cap → confidence threshold. A patch
 is only applied if it passes an allowlist (agents may write `src/` and `tests/`, never
 `.github/` or secrets), a test-modification check (weak assertions = hard stop), and a
-sandbox test run. Patches go to an isolated `ai-fix/pr-<n>` branch — never the PR branch,
+validation test run. Patches go to an isolated `ai-fix/pr-<n>` branch — never the PR branch,
 never force-pushed, never auto-merged.
 
 ### 5. Learn from telemetry

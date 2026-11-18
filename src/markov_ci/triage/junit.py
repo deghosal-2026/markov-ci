@@ -80,10 +80,19 @@ def _from_regex(text: str, warning: str) -> JUnitReport:
     return JUnitReport(failures=tuple(failures), warnings=(warning,))
 
 
+MAX_JUNIT_BYTES = 10 * 1024 * 1024
+
+
 def parse_junit(text: str) -> JUnitReport:
     """Parse a JUnit XML document into failures, never raising on bad input."""
     if not text.strip():
         return JUnitReport(failures=(), warnings=("empty JUnit document",))
+    if len(text.encode("utf-8", "ignore")) > MAX_JUNIT_BYTES:
+        # a size cap: an oversized report is ignored, not parsed (M13.39)
+        return JUnitReport(
+            failures=(),
+            warnings=(f"JUnit report exceeds the {MAX_JUNIT_BYTES} byte cap; ignored",),
+        )
     try:
         return _from_element_tree(text)
     except DefusedXmlException as exc:

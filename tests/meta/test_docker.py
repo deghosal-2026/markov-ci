@@ -13,7 +13,7 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[2]
 
-EXPECTED_EXIT_CODES = {"demo-01": "0", "demo-02": "2", "demo-03": "2", "demo-04": "0"}
+EXPECTED_EXIT_CODES = {"demo-01": "0", "demo-02": "1", "demo-03": "1", "demo-04": "0"}
 
 
 def test_dockerfile_pins_python_and_installs_git() -> None:

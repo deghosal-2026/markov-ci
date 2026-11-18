@@ -50,6 +50,17 @@ def test_empty_events_yield_empty_priors() -> None:
     assert recompute([]) == {}
 
 
+def test_synthetic_events_are_excluded_by_default() -> None:
+    # M13.29 (#113): the offline demo must not pollute empirical priors.
+    events = _attempt(
+        adapter="simulated", category="unit_assertion", attempt=1, success=True,
+    )
+    for event in events:
+        event["synthetic"] = True
+    assert recompute(events) == {}
+    assert recompute(events, include_synthetic=True) != {}
+
+
 def test_success_rate_is_derived_from_transitions() -> None:
     events: list[dict[str, Any]] = []
     for _ in range(8):
@@ -106,10 +117,48 @@ def test_output_merges_into_a_config() -> None:
     merged_priors["evolved"] = {
         "lint_error": type(merged_priors["default"]["lint_error"])(
             success=priors["simulated"]["lint_error"]["success"],
-            cost_weight=1.0,
             source="empirical",
         ),
     }
     updated = merged.model_copy(update={"priors": merged_priors})
     chain = chain_from_config(updated, category="lint_error", adapter="evolved")
     assert chain.transient
+
+
+def test_gate_rejected_events_are_counted() -> None:
+    # M13.29: gate_rejected events participate in the estimate.
+    events = [
+        {
+            "event": "gate_rejected", "adapter": "harness", "failure_category": "unit_assertion",
+            "from_state": "s2_agent_reasoning#1", "to_state": "a2_escalate_to_author",
+            "synthetic": False,
+        },
+    ]
+    assert "harness" in recompute(events)
+
+
+def test_non_transition_events_are_ignored() -> None:
+    assert recompute([{"event": "absorbed", "adapter": "x", "failure_category": "y"}]) == {}
+
+
+def test_a_prior_curve_is_used_when_supplied() -> None:
+    events = _attempt(adapter="harness", category="c", attempt=1, success=True)
+    priors = recompute(events, prior={"harness": {"c": [0.9, 0.5, 0.2]}})
+    assert priors["harness"]["c"]["success"][0] > 0.5
+
+
+def test_a_non_numeric_attempt_suffix_defaults_to_one() -> None:
+    from markov_ci.telemetry.recompute import _attempt_of
+
+    assert _attempt_of("s2_agent_reasoning#x") == 1
+    assert _attempt_of("s2_agent_reasoning") == 1
+
+
+def test_unrelated_transitions_are_ignored() -> None:
+    events = [
+        {
+            "event": "transition", "adapter": "harness", "failure_category": "c",
+            "from_state": "s4_regression_check", "to_state": "a1_ready_for_human_review",
+        },
+    ]
+    assert recompute(events) == {}

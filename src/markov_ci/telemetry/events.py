@@ -33,12 +33,16 @@ class TransitionEvent:
     from_state: str
     to_state: str
     duration_ms: int
-    tokens_used: int
+    tokens_used: int | None
     failure_category: str
     attempt: int
     adapter: str
     ts: str
     schema_version: int = SCHEMA_VERSION
+    synthetic: bool = False
+    gate_rejected: str | None = None
+    config_hash: str | None = None
+    model_version: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -55,6 +59,10 @@ class TransitionEvent:
             "attempt": self.attempt,
             "adapter": self.adapter,
             "ts": self.ts,
+            "synthetic": self.synthetic,
+            "gate_rejected": self.gate_rejected,
+            "config_hash": self.config_hash,
+            "model_version": self.model_version,
         }
 
     def to_json(self) -> str:
@@ -89,13 +97,16 @@ class RunResult:
 
     absorbing_state: str | None
     visits: Mapping[str, int]
-    tokens_used: int
+    tokens_used: int | None
     wall_clock_ms: int
     guardrail_report: tuple[str, ...]
     events_path: str | None
     patch_branch: str | None
     mandatory_review: bool = False
     run_id: str = ""
+    patch: str | None = None
+    patch_path: str | None = None
+    validation_output: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -106,6 +117,9 @@ class RunResult:
             "guardrail_report": list(self.guardrail_report),
             "events_path": self.events_path,
             "patch_branch": self.patch_branch,
+            "patch": self.patch,
+            "patch_path": self.patch_path,
+            "validation_output": self.validation_output,
             "mandatory_review": self.mandatory_review,
             "run_id": self.run_id,
         }

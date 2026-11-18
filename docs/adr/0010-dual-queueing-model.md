@@ -6,7 +6,7 @@
 ## Context
 
 Agentic repair changes the *shape* of CI load: human commits arrive in diurnal waves,
-while agents fire bursty, recursive sandbox runs. Two facts make a single model
+while agents fire bursty, recursive validation runs. Two facts make a single model
 insufficient:
 
 1. **M/M/c's assumptions are optimistic for agents.** Poisson arrivals and exponential

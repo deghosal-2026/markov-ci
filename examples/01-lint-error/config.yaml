@@ -46,28 +46,25 @@ priors:
   default:
     default:
       success: [0.95, 0.95, 0.95]
-      cost_weight: 1.0
       source: prior
     # most lint failures resolve on the first attempt (spec 0001 §4)
     lint_error:
       success: [0.92, 0.65, 0.20]
-      cost_weight: 1.0
       source: prior
     type_mismatch:
       success: [0.85, 0.55, 0.25]
-      cost_weight: 1.5
       source: prior
     unit_assertion:
       success: [0.74, 0.45, 0.15]
-      cost_weight: 2.5
       source: prior
     infra_timeout:
       success: [0.05, 0.01, 0.00]
-      cost_weight: 5.0
       source: prior
 
 agent:
   adapter: simulated
+  failing_command: pytest -q
+  regression_command: pytest -q
   allow_write:
     - "src/**"
     - "tests/**"

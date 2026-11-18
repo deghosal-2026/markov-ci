@@ -11,7 +11,7 @@ P(next hop) depends only on the current state:
 P(Xₙ₊₁ = j | Xₙ = i, everything before) = P(Xₙ₊₁ = j | Xₙ = i)
 ```
 
-A pipeline *is* this: `s0 verify → s1 triage → s2 agent → s3 sandbox → s4 regression`,
+A pipeline *is* this: `s0 verify → s1 triage → s2 agent → s3 worktree validation → s4 regression`,
 ending in one of three **absorbing states** — `a1 ready-for-human-review`,
 `a2 escalate-to-author`, `a3 budget-exceeded`. Absorbing means `P(stay) = 1` forever.
 
@@ -40,14 +40,15 @@ Every row of `B` sums to 1 — the run goes *somewhere* terminal, always.
 → *wall-clock forecast.*
 
 **Expected cost.** With a per-state cost vector `c` (tokens, runner-seconds, or
-`cost_weight` units): `C = N·c`.
+unit weights): `C = N·c`.
 → *the budget number.*
 
 ## 3. Step augmentation keeps the math honest
 
 Success probability decays per attempt, and attempt history matters. Decaying a
 probability table per retry (the common industry hack) makes the chain
-*time-inhomogeneous* — and silently breaks `N = (I−Q)⁻¹`.
+*history-dependent (non-Markov on the base state space)* — and silently breaks
+`N = (I−Q)⁻¹`.
 
 markov-ci instead expands loop-capable states into attempt-indexed states
 (`s2#1 … s2#max_attempts`, `s3#1 …`) whose per-attempt edges come from the priors
@@ -62,7 +63,8 @@ If a loop-back edge carried probability ~1 with no exit, `I − Q` would be sing
 markov-ci removes this failure mode structurally: at `max_attempts`, loop-back edges
 are deleted and their probability mass re-normalizes into `a2`/`a3` (ADR-0004). Every
 matrix the engine can execute is therefore absorbing — *no matter what the priors
-say*. Termination is a theorem; budgets are the second, independent stop.
+say*. The model is acyclic after the cap (`Q` nilpotent); the runtime stops via its
+attempt counter and per-call timeouts, with budgets the second, independent stop.
 
 ## 5. Worked example (the golden numbers)
 
@@ -94,9 +96,11 @@ P(a1|s0) = 0.82 + 0.18 · 0.75 · 0.729 ≈ 0.918
 ```
 
 Those are the **uncapped** values. Because the shipped default caps at
-`max_attempts: 3`, the assembled chain gives P(a1 | s2) ≈ **0.72** and P(a1 | s0) ≈
-**0.92**; as the attempt cap grows the first converges to 0.729. These — `0.72` and
-`0.92` — are the golden values asserted across the test suite, docs, and tutorials.
+`max_attempts: 3`, the assembled chain gives P(a1 | s2) ≈ **0.72**, P(a1 | s1) ≈ **0.54**
+and P(a1 | s0) ≈ **0.92**; as the attempt cap grows the first converges to 0.729. These —
+`0.54`, `0.72`, `0.92` — are the golden values asserted across the test suite, docs, and
+tutorials. `s1` (failed builds) is the default start state: the engine only runs after a
+failure (M13.26).
 Per-category priors (spec 0001 §4) modulate the `s2→s3` edge; the method is identical.
 
 ## 6. Uncertainty: Dirichlet posteriors
@@ -109,7 +113,7 @@ P̂[i][j] = (α_j + n_ij) / (α_0 + Σ_j n_ij)        (posterior mean)
 ```
 
 markov-ci reports credible intervals alongside every empirical estimate
-(`posterior(counts, prior, alpha)`). Cold start = conservative priors clearly labeled
+(`posterior(counts, prior, alpha)`). Cold start = **illustrative** priors clearly labeled
 `source: prior`; drift beyond the interval is a *feature* — the system announces when
 reality has moved.
 

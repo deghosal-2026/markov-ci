@@ -52,7 +52,7 @@ priors alone:
 |---|---|---|
 | P(absorbed in `a1`) | 0.905 | 1.0 (attempt-1 patch) |
 | expected steps to absorption | 1.591 | 1 (realized) |
-| expected cost (cost_weight units) | 1.591 | 1.0 (realized) |
+| expected cost (unit weights) | 1.591 | 1.0 (realized) |
 
 The forecast says *most* lint failures resolve on attempt 1; the seeded fixture
 reproduces exactly that. Forecast and observed agree by construction — the simulated

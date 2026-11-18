@@ -18,10 +18,13 @@ generated against it).
 | `pr_number` | int \| null | null for local runs |
 | `from_state`, `to_state` | str | `name#attempt` form for augmented states |
 | `duration_ms` | int | time in `from_state` |
-| `tokens_used` | int | best known; 0 for simulated |
+| `tokens_used` | int \| null | best known; `null` when the adapter reports no usage (the token cap then does not bind); `0` for simulated |
 | `failure_category` | str | taxonomy from spec 0010 |
 | `attempt` | int | 1-based |
 | `adapter` | str | `simulated` \| `claude-code` \| `opencode` \| `aider` \| custom name |
+| `synthetic` | bool | true for the offline simulated adapter; `recompute` excludes these by default |
+| `gate_rejected` | str \| null | the gate reason on a `gate_rejected` event |
+| `config_hash`, `model_version` | str \| null | provenance of the run's config and model |
 | `ts` | str | ISO-8601 UTC |
 
 ## 2. Example

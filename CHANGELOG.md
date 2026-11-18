@@ -7,9 +7,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Notes
+## [0.1.1] - 2026-11-18
 
-- Post-v0.1.0 work lands here.
+The **trust** release: the v0.1.1 review fixes (FIX-01 … FIX-05), the argv-only
+harness, diff-derived guardrails, worktree validation with a real container option,
+patch delivery, model/runtime honesty, and the test-suite hardening.
+
+### Security
+
+- **FIX-01 — shell injection (Critical).** The harness adapter is **argv-only**: the
+  command template is split with `shlex.split` before `%PROMPT%` is substituted, the
+  prompt becomes one argv element, and the process runs with `shell=False` (ADR-0016).
+  The ad-hoc `"`-escaping and the `# nosec B602` suppression are gone. Templates are
+  validated at config load; shell re-entry (`sh -c … %PROMPT%`) is rejected; the
+  optional `%PROMPT_FILE%` keeps long prompts off `ps` / ARG_MAX.
+- **FIX-02 — guardrails derive paths from the diff.** The allowlist checks
+  **derived ∪ declared** paths, fails closed when a non-empty diff's paths cannot be
+  determined, denies symlink creation, and re-runs on git's own
+  `git diff --name-status -M` after apply. The always-denied set is hardened
+  (`.env*`, CI + build configs, `CODEOWNERS`, credentials/keys) with case-insensitive
+  gitignore semantics via `pathspec`.
+- **FIX-04 — worktree validation and hard budgets.** Validation runs in a fresh clone
+  (`--no-hardlinks --local`; no shared hooks/config/credentials), with an allowlisted
+  environment (no `GITHUB_TOKEN` / `ACTIONS_*` / `*_TOKEN` / `*_KEY` / `*_SECRET`), a
+  process-group kill on timeout, `resource` limits, and remaining-wall-clock timeouts.
+  An opt-in **container** path (`--network=none`, read-only checkout, tmpfs work dir,
+  non-root) is the recommended default for fork PRs. The word "sandbox" is retired
+  (ADR-0012) — it is worktree validation.
+- Release security & supply-chain gate (M13.32–M13.36): the release workflow now runs
+  the **test suite** before building, pins every action by full commit SHA, uses PyPI
+  **Trusted Publishing** (OIDC + PEP 740 attestations) with no long-lived token, and
+  enforces **branch coverage ≥ 95%** in CI.
+
+### Fixed
+
+- `run` no longer discards a validated fix: `RunResult.patch` / `--output-patch` and an
+  Action artifact persist it; `--publish` applies **only** the validated diff to a fresh
+  `ai-fix/*` branch (paths-only, never force, reports the branch only after a push).
+- Retries carry new information (the minimized, scrubbed validation output plus the
+  previous diff); a validation/harness timeout absorbs in `a3` **with an event**; every
+  exit path (ineligible triage, harness error, internal error) emits a terminal event
+  and a documented exit code.
+- `recompute` passes the config prior + `alpha`, excludes simulated events by default,
+  and events carry `synthetic`, `gate_rejected`, `config_hash` and `model_version`.
+- Config validation: prior `success` must lie in `[0, 1]`; every assembled matrix entry
+  is checked; the config `version` is checked before the schema; the dead `cost_weight`
+  key and the empty `[harness]` extra are removed.
+- `analyze` defaults to the `s1` (failed-builds) start state and prints **both** the
+  all-builds and failed-builds rows; `P(a3)` is labelled "not modelled — `simulate`
+  only"; the confidence gate is modelled in assembly.
+
+### Changed
+
+- **Breaking:** the `run` exit-code contract changed (FIX-03, ADR-0017). `a2` now exits
+  `1` (was `2`); `2` is reserved for Click usage errors. The full contract is
+  `0` = `a1`, `1` = `a2`, `2` = usage error, `3` = `a3`, `4` = invalid input,
+  `5` = internal failure. Spec 0008 and the CLI reference were updated. CI that branches
+  on exit codes must be updated.
+- The engine's validation step is **worktree validation**, not a "sandbox" (ADR-0012);
+  the runtime is documented as a capped, guardrailed retry governor whose chain is a
+  planning model (PRD-01).
+- Token accounting reports `null` when a harness reports no usage — the token cap then
+  does not bind (spec 0007).
 
 ## [0.1.0] - 2026-11-16
 

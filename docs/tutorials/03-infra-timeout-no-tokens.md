@@ -1,6 +1,6 @@
 # Tutorial 03 — Infra timeout, zero tokens
 
-**Demo:** `examples/03-infra-timeout` · **Ships:** v0.1.0 · **Exit code to expect:** `2`
+**Demo:** `examples/03-infra-timeout` · **Ships:** v0.1.0 · **Exit code to expect:** `1`
 
 The "don't LLM the outage" story: some failures are *not code*, and the fastest agent
 is the one that never runs.
@@ -10,7 +10,7 @@ is the one that never runs.
 ```bash
 markov-ci run examples/03-infra-timeout/config.yaml \
   --junit examples/03-infra-timeout/report.xml --seed 42
-echo $?      # 2 = absorbed in a2_escalate_to_author
+echo $?      # 1 = absorbed in a2_escalate_to_author
 ```
 
 ## What happens

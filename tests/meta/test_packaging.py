@@ -10,7 +10,9 @@ import markov_ci
 
 ROOT = Path(__file__).resolve().parents[2]
 
-CORE_DEP_NAMES = {"numpy", "pydantic", "pyyaml", "typer", "rich", "jsonschema", "defusedxml"}
+CORE_DEP_NAMES = {
+    "numpy", "pydantic", "pyyaml", "typer", "rich", "jsonschema", "defusedxml", "pathspec",
+}
 BANNED_CORE = ("anthropic", "openai", "litellm", "langchain", "claude")
 
 

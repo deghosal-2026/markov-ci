@@ -119,3 +119,44 @@ def test_cost_is_monotone_in_the_cost_vector(
     visits = fundamental(chain.Q)
     ones = np.ones(len(chain.transient))
     assert np.all(visits @ (ones * 2.0) >= visits @ ones - 1e-12)
+
+
+@given(seed=st.integers(min_value=0, max_value=100_000))
+@settings(max_examples=60, deadline=None)
+def test_random_state_spaces_either_absorb_or_are_flagged(seed: int) -> None:
+    """M13.39 (#123): for any random space, Q is nilpotent (spectral radius < 1) or
+    `validate` reports an unreachable-absorption finding — never a silent lie."""
+    import random
+
+    from markov_ci.model import validate
+
+    rng = random.Random(seed)
+    n = rng.randint(1, 5)
+    space = StateSpace.of(
+        *(State(id=f"t{i}", type=StateType.TRANSIENT, loop_capable=True) for i in range(n)),
+        State(id="a", type=StateType.ABSORBING),
+    )
+    edges = [
+        TransitionEdge(source=f"t{i}", target=f"t{j}")
+        for i in range(n)
+        for j in range(n)
+        if i != j and rng.random() < 0.6
+    ]
+    weights: dict[tuple[str, str], EdgeWeight] = {}
+    for i in range(n):
+        outs = [edge for edge in edges if edge.source == f"t{i}"]
+        if not outs:
+            continue
+        values = [rng.random() for _ in outs]
+        total = sum(values)
+        # half the time keep the row closed (no sink leak), half the time let it leak
+        scale = 1.0 / total if rng.random() < 0.5 else 1.0 / (2 * total)
+        for edge, value in zip(outs, values, strict=True):
+            weights[(edge.source, edge.target)] = value * scale
+
+    chain = assemble(augment(space, tuple(edges), max_attempts=1), weights, sink="a")
+    radius = float(np.max(np.abs(np.linalg.eigvals(chain.Q)))) if chain.Q.size else 0.0
+    result = validate(chain)
+    assert radius < 1.0 + 1e-9 or any(
+        finding.code == "unreachable_absorption" for finding in result.findings
+    )

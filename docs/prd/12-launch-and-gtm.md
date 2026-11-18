@@ -5,6 +5,7 @@
 | Step | Gate | Action |
 |---|---|---|
 | 1 | v0.1.0 tagged, docs green, demos offline | **Public flip**: `gh repo edit --visibility public`; topics, badges, demo GIF in README |
+| 1.1 | v0.1.1 released (security advisory handled; field test green) | Publish the **patch release** to PyPI (Trusted Publishing) + a GitHub Release; tell users to upgrade from `v0.1.0` |
 | 2 | Repo public, articles 1–2 final drafts approved | Publish **article 1** (DAG→Markov concept) on Dev.To + LinkedIn, linking the repo |
 | 3 | +3 days, article 1 traction visible | Publish **article 2** (build log + "what the source article got wrong") |
 | 4 | v0.2.0: Action on Marketplace | Publish **article 3** (queueing theory + harness economics hook) |
@@ -16,7 +17,8 @@ Rule: **articles link working code** — nothing publishes before its demo exist
 
 - **GitHub:** topics (`ci-cd`, `markov-chains`, `ai-agents`, `github-actions`,
   `llm`, `devops`); Marketplace listing (v0.2); release notes written for humans.
-- **PyPI:** `markov-ci` (name check before M10); long-description = README.
+- **PyPI:** [`markov-ci`](https://pypi.org/project/markov-ci/) — published via **Trusted
+  Publishing** (OIDC + PEP 740 build provenance) since v0.1.1; long-description = README.
 - **Launch posts:** Hacker News (Show HN with the 5-minute demo GIF), r/devops,
   r/ExperiencedDevs, LinkedIn articles cross-posted, dev.to canonical.
 - **Ecosystem PRs:** where appropriate, contribute markov-ci mentions to
@@ -60,8 +62,8 @@ bounded, named increment of risk. Priya climbs at her own pace (CUJ-1):
 |---|---|---|---|
 | **L0 — Observe** | `analyze` on their own config (read-only) | none | Their forecast: attempts, tokens, outcomes per category |
 | **L1 — Stress** | `simulate` Monte-Carlo runs | none | Confidence intervals, worst-case spend |
-| **L2 — Govern (offline)** | `run` with the simulated agent; no keys, no network | none — sandbox only | The full governed loop; absorption in practice |
-| **L3 — Govern (live)** | Opt-in harness adapter (`markov-ci[harness]`) | agent writes code — but allowlisted, sandboxed, budget-capped, never auto-merged | Real per-harness economics; per-harness priors emerge |
+| **L2 — Govern (offline)** | `run` with the simulated agent; no keys, no network | none — worktree validation only | The full governed loop; absorption in practice |
+| **L3 — Govern (live)** | Opt-in harness adapter (in the core) | agent writes code — but allowlisted, validated in isolation, budget-capped, never auto-merged | Real per-harness economics; per-harness priors emerge |
 | **L4 — Learn** | `recompute` from their own telemetry | none | Empirical matrix replaces priors; drift becomes visible |
 
 Rules: L0/L1 never execute an agent; nobody reaches L3 with L2 not green; existing

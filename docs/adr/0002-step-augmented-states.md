@@ -8,7 +8,8 @@
 Agent success probability decays per attempt, and attempt history matters ("agent
 already tried twice" changes the odds). A plain Markov chain is memoryless; the
 common industry fix — decaying a probability table per retry step — makes the chain
-*time-inhomogeneous*, silently breaking the `N = (I−Q)⁻¹` math the whole model rests on.
+**history-dependent (non-Markov on the base state space)**, silently breaking the
+`N = (I−Q)⁻¹` math the whole model rests on.
 
 ## Decision
 
@@ -21,5 +22,8 @@ priors. Attempt history lives in the state, not in hidden counters.
 - The chain stays genuinely Markov — all closed-form results remain exact.
 - State-space growth is bounded by `max_attempts` (default 3) — negligible.
 - Per-attempt decay is expressed as ordinary edges; no special-case code.
+- The *runtime* keeps an explicit attempt counter (spec 0004 §2) to enforce the cap; that
+  counter is not hidden model state — it is the gate that stops a live run, and it mirrors
+  the attempt index already encoded in the state name.
 - Falsifier: if telemetry shows within-attempt behavior still depends on unmodeled
   history, we add dimensions the same way (state augmentation), never hidden state.

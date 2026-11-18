@@ -2,6 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-11-16
+**Amends:** ADR-0007 — allows a minimal, **no-tools** model adapter (a stdlib client), which ADR-0007's "never raw SDKs" rule would otherwise forbid. It is not a harness: no repo tools, no session, no diff loop beyond the prompt's ```diff fence.
 
 ## Context
 
@@ -29,10 +30,19 @@ The client uses `urllib` (stdlib), so the zero-LLM-SDK guarantee enforced by
 `test_core_has_no_llm_or_harness_sdk` holds. Unit tests stub `urlopen` — no network
 in CI, no skipped tests. Token accounting uses the endpoint's `usage` when present.
 
+## Considered options
+
+- **A new SDK per local server** (`ollama-python`, `llama-cpp-python`, …). Rejected:
+  breaks the zero-LLM-SDK guarantee and multiplies dependencies.
+- **Shell out to each server's own CLI.** Rejected: no common schema; token accounting and
+  the ```diff contract would differ per server.
+- **OpenAI-compatible HTTP through a stdlib client (chosen).**
+
 ## Consequences
 
-- "Nothing leaves your machine" is now literally true end to end: pipeline,
-  telemetry, and model.
+- "Nothing leaves your machine" is true **by default** and enforced only while
+  `LOCAL_LLM_BASE_URL` is loopback — pointed at any other host, prompts leave the machine
+  (spec 0006 §3).
 - The response must contain a ```diff fence for the harness parser — documented in
   the template and the how-to.
 - Live verification of local endpoints remains maintainer-run (templates ship

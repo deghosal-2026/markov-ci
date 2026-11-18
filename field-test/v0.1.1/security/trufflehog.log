@@ -1,0 +1,4 @@
+🐷🔑🐷  TruffleHog. Unearth your secrets. 🐷🔑🐷
+
+2026-11-17T20:52:51-08:00	info-0	trufflehog	running source	{"source_name": "trufflehog - git", "source_type": "SOURCE_TYPE_GIT", "source_id": 1, "job_id": 1, "source_manager_worker_id": "iryFe", "with_units": true}
+2026-11-17T20:52:52-08:00	info-0	trufflehog	finished scanning	{"chunks": 1318, "bytes": 1371633, "verified_secrets": 0, "unverified_secrets": 0, "scan_duration": "282.05325ms", "trufflehog_version": "3.99.8", "verification_caching": {"Hits":0,"Misses":0,"HitsWasted":0,"AttemptsSaved":0,"VerificationTimeSpentMS":0}}

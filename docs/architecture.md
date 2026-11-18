@@ -9,8 +9,13 @@ chain `P = [[Q, R], [0, I]]` — with the `max_attempts` cap removing loop-back 
 absorption is guaranteed by construction (ADR-0004). The engine executes hops under the
 policy gates (budget → cap → confidence), calls an agent adapter for repairs, checks
 every proposal against enforced guardrails, applies patches only in an isolated
-sandbox, and emits one versioned JSONL event per hop. Telemetry alone can recompute the
+validation copy, and emits one versioned JSONL event per hop. Telemetry alone can recompute the
 matrix, closing the learning loop.
+
+The chain is the **planning** model — it sizes the caps and forecasts cost and attempts.
+The engine is a bounded **governor** that admits, checks and stops the repair loop; it
+does not sample the chain (ADR-0014). "Governance" is the runtime's job; "Markov" is the
+planning model's.
 
 ## Module map
 
@@ -21,7 +26,7 @@ src/markov_ci/
 ├── triage/      JUnit/log → failure category; log minimizer (≤200 lines)       (F5)
 ├── agents/      AgentAdapter protocol · SimulatedAgent · harness adapters      (F6, F19)
 ├── guardrails/  path allowlist · TMR checker · branch isolation · no-auto-merge (F7)
-├── engine/      governed loop · sandbox apply-and-test · RunResult             (F8)
+├── engine/      governed loop · validation apply-and-test · RunResult             (F8)
 ├── telemetry/   JSONL event emission · recompute                                (F9, F21)
 ├── queueing/    Erlang-C (M/M/c) · discrete-event simulator                    (F16)
 ├── config/      pydantic-validated YAML loader                                  (F1)
@@ -42,7 +47,7 @@ src/markov_ci/
    ┌──────────────── policy gates: budget → cap → confidence ────────────────┐
    │            pass                        fail → a2/a3 (recorded)           │
    ▼                                                                        │
- agents.repair(ctx) ─▶ guardrails.check ─▶ sandbox.apply_and_test ─▶ next hop  │
+ agents.repair(ctx) ─▶ guardrails.check ─▶ validation.apply_and_test ─▶ next hop  │
    ▲                    deny → a2            pass → s4 → a1 | a2              │
    └────────── fail → s2#(k+1) or a2 ◀────────────────────────────────────────┘
  every hop ─▶ telemetry.emit(JSONL event, adapter + category + attempt on board)
@@ -62,7 +67,7 @@ src/markov_ci/
 ## Repository layout
 
 ```
-docs/        OVERVIEW · prd/ (15 sub-PRDs) · spec/ (12 contracts) · adr/ (7) · WBS · tutorials · how-to · reference · explanations
+docs/        OVERVIEW · prd/ (15 sub-PRDs) · spec/ (12 contracts) · adr/ (17) · WBS · tutorials · how-to · reference · explanations
 examples/    01-lint-error · 02-unit-assertion-decay · 03-infra-timeout · 04-runner-pool-sizing · 05-github-actions-e2e
 schemas/     transition-event.schema.json (telemetry single source of truth)
 tests/       unit/ · integration/ · e2e/ · fixtures/

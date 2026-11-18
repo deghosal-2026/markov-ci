@@ -55,8 +55,36 @@ def _success_curve(config: Config, adapter: str, category: str) -> tuple[float, 
     return tuple(prior.success)
 
 
-def _curve(success: tuple[float, ...]) -> Callable[[int], float]:
-    return lambda attempt: success[attempt - 1]
+def _gated_curve(
+    success: tuple[float, ...], min_confidence: float,
+) -> Callable[[int], float]:
+    """The prior curve with the confidence gate applied (spec 0004, M13.27).
+
+    An attempt whose success probability is below ``min_confidence`` never reaches
+    the sandbox: its ``s2#k`` edge is zeroed, so the row's mass routes to the
+    escalation sink — exactly what the runtime gate does.
+    """
+    def _weight(attempt: int) -> float:
+        value = success[attempt - 1]
+        return value if value >= min_confidence else 0.0
+
+    return _weight
+
+
+def confidence_gate_warnings(
+    config: Config, adapter: str = "default", category: str = "default",
+) -> tuple[str, ...]:
+    """Warn when the confidence gate makes ``max_attempts`` unreachable (M13.27)."""
+    curve = _success_curve(config, adapter, category)
+    min_confidence = config.policy.min_confidence
+    for attempt in range(1, config.policy.max_attempts + 1):
+        if curve[attempt - 1] < min_confidence:
+            return (
+                f"attempt {attempt}: success {curve[attempt - 1]:.2f} < "
+                f"min_confidence {min_confidence:.2f} — the gate escalates to a2, "
+                f"so max_attempts ({config.policy.max_attempts}) is unreachable",
+            )
+    return ()
 
 
 def _sink(config: Config) -> str:
@@ -95,7 +123,10 @@ def chain_from_config(
     for transition in config.transitions:
         key = (transition.source, transition.target)
         if transition.prior_driven:
-            weights[key] = _curve(_success_curve(config, adapter, category))
+            weights[key] = _gated_curve(
+                _success_curve(config, adapter, category),
+                config.policy.min_confidence,
+            )
         else:
             assert transition.probability is not None  # guaranteed by the model
             weights[key] = transition.probability

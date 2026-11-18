@@ -24,19 +24,20 @@ If a journey fails, the release blocks.
 
 **Success criteria:** forecast produced in < 10 minutes from install; every number
 traceable to config; she defends the budget line in one review meeting.
-**Failure handling:** no telemetry yet → conservative priors, labeled `source: prior`;
+**Failure handling:** no telemetry yet → illustrative priors, labeled `source: prior`;
 invalid matrix → exit 4 with the exact offending row.
 
 ---
 
 ## CUJ-2 — Marcus gets a trivial failure fixed without context-switching
-*Persona: developer · Primary value: the "self-healing" promise*
+*Persona: developer · Primary value: the "self-healing" promise — realized when a
+validated patch is delivered, not when a loop merely runs*
 
 **Entry conditions:** Marcus pushes a PR with a lint/unit failure; governance is wired in.
 
 **Steps**
 1. `s0` fails → deterministic triage classifies `lint_error` and minimizes the log (F5).
-2. Agent loop: patch proposed → sandbox validated → regression checked (F6, F8).
+2. Agent loop: patch proposed → validated in isolation → regression checked (F6, F8).
 3. Patch lands on `ai-fix/pr-42`; a PR comment posts diff + telemetry summary (F7, F8).
 4. Marcus reviews the one-paragraph summary and the small diff; merges it into his PR.
 

@@ -19,6 +19,18 @@ fi
 if [ -n "${INPUT_ADAPTER:-}" ]; then
     args+=(--adapter "$INPUT_ADAPTER")
 fi
+if [ -n "${INPUT_CONTAINER:-}" ]; then
+    args+=(--container-image "$INPUT_CONTAINER")
+fi
+if [ "${INPUT_PUBLISH:-false}" = "true" ]; then
+    args+=(--publish)
+fi
+if [ -n "${INPUT_FAILING_COMMAND:-}" ]; then
+    args+=(--failing-command "$INPUT_FAILING_COMMAND")
+fi
+if [ -n "${INPUT_REGRESSION_COMMAND:-}" ]; then
+    args+=(--regression-command "$INPUT_REGRESSION_COMMAND")
+fi
 if [ -n "${INPUT_MAX_TOKENS:-}" ]; then
     args+=(--max-tokens "$INPUT_MAX_TOKENS")
 fi
@@ -28,6 +40,8 @@ fi
 args+=(--json)
 
 result="$(mktemp)"
+patch="$(mktemp)"
+args+=(--output-patch "$patch")
 set +e
 python3 -m markov_ci "${args[@]}" > "$result"
 code=$?
@@ -45,7 +59,7 @@ except (OSError, ValueError):
     data = {}  # e.g. a triage short-circuit, which prints a human line
 
 # spec 0008: the exit code and the absorbing state are 1:1.
-BY_CODE = {"0": "a1_ready_for_human_review", "2": "a2_escalate_to_author",
+BY_CODE = {"0": "a1_ready_for_human_review", "1": "a2_escalate_to_author",
            "3": "a3_budget_exceeded"}
 
 
@@ -58,6 +72,7 @@ emit("exit-code", code)
 emit("run-id", data.get("run_id") or "")
 emit("patch-branch", data.get("patch_branch") or "")
 emit("events-path", data.get("events_path") or "")
+emit("patch-path", data.get("patch_path") or "")
 PY
 
 exit "$code"

@@ -30,14 +30,14 @@ jobs:
 
       - name: Govern the failure
         id: markov
-        uses: deghosal-2026/markov-ci@v0.2.0
+        uses: deghosal-2026/markov-ci@v0.1.1
         with:
           config: .markov-ci/config.yaml
           junit: report.xml
           seed: 42
 
       - name: Explain an escalation
-        if: ${{ steps.markov.outputs.absorbing-state != 'a1_ready_for_human_review' }}
+        if: ${{ always() && steps.markov.outputs.absorbing-state != 'a1_ready_for_human_review' }}
         run: |
           echo "escalated to ${{ steps.markov.outputs.absorbing-state }}"
           echo "reason events: ${{ steps.markov.outputs.events-path }}"

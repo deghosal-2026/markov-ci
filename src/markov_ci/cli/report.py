@@ -14,24 +14,17 @@ from markov_ci.queueing import (
 )
 
 
-def build_report(chain: Chain, category: str) -> dict[str, Any]:
-    """Build the forecast report for a chain, from the first transient state."""
-    if not chain.transient:
-        raise ValueError("chain has no transient states to analyse")
-    start = chain.transient[0]
+def _row(
+    chain: Chain,
+    start: str,
+    probabilities: Any,
+    visits: Any,
+    steps: Any,
+    cost: Any,
+) -> dict[str, Any]:
     row = chain.transient.index(start)
-
-    probabilities = absorption(chain)
-    visits = fundamental(chain.Q)
-    steps = steps_to_absorb(chain)
-    unit_costs = dict.fromkeys(chain.transient, 1.0)
-    cost = expected_cost(chain, unit_costs)
-
     return {
-        "category": category,
         "start_state": start,
-        "transient_count": len(chain.transient),
-        "absorbing_count": len(chain.absorbing),
         "absorption_probabilities": {
             state_id: float(probabilities[row, column])
             for column, state_id in enumerate(chain.absorbing)
@@ -43,6 +36,54 @@ def build_report(chain: Chain, category: str) -> dict[str, Any]:
         "expected_steps": float(steps[row]),
         "expected_cost": float(cost[row]),
     }
+
+
+def _resolve_start(chain: Chain, start: str | None) -> str:
+    """Default the start state to ``s1`` (the engine only runs after a failure)."""
+    if start is None:
+        return next(
+            (state for state in chain.transient if state.startswith("s1")),
+            chain.transient[0],
+        )
+    if start not in chain.transient:
+        raise ValueError(f"unknown start state {start!r}")
+    return start
+
+
+def build_report(chain: Chain, category: str, *, start: str | None = None) -> dict[str, Any]:
+    """Build the forecast report for a chain.
+
+    Defaults to ``s1`` (failed builds) because the engine only runs after a failure,
+    and also reports the ``s0`` (all builds) row for contrast (M13.26).
+    """
+    if not chain.transient:
+        raise ValueError("chain has no transient states to analyse")
+    resolved = _resolve_start(chain, start)
+
+    probabilities = absorption(chain)
+    visits = fundamental(chain.Q)
+    steps = steps_to_absorb(chain)
+    unit_costs = dict.fromkeys(chain.transient, 1.0)
+    cost = expected_cost(chain, unit_costs)
+
+    report = {
+        "category": category,
+        "transient_count": len(chain.transient),
+        "absorbing_count": len(chain.absorbing),
+    }
+    report.update(_row(chain, resolved, probabilities, visits, steps, cost))
+    labels = {"s0": "all builds", "s1": "failed builds"}
+    rows: dict[str, Any] = {}
+    for state in chain.transient:
+        key = state.split("_", 1)[0]
+        if key in labels:
+            rows[labels[key]] = _row(chain, state, probabilities, visits, steps, cost)
+    report["rows"] = rows
+    report["notes"] = {
+        "a3_budget_exceeded": "not modelled — `simulate` only (budget overruns depend "
+        "on the wall-clock/token budget, not the matrix)",
+    }
+    return report
 
 
 def build_queue_report(
@@ -136,7 +177,10 @@ def render_human(report: dict[str, Any]) -> str:
         f"Absorption probabilities (start: {report['start_state']})",
     ]
     for state_id, probability in report["absorption_probabilities"].items():
-        lines.append(f"  {state_id:<32} {probability:.3f}")
+        suffix = ""
+        if state_id.startswith("a3"):
+            suffix = "   (not modelled — use `simulate` for budget overruns)"
+        lines.append(f"  {state_id:<32} {probability:.3f}{suffix}")
     lines.append("")
     lines.append("Expected visits per transient state (fundamental matrix row):")
     for state_id, visit_count in report["expected_visits"].items():
@@ -144,4 +188,19 @@ def render_human(report: dict[str, Any]) -> str:
     lines.append("")
     lines.append(f"expected steps to absorption: {report['expected_steps']:.3f}")
     lines.append(f"expected cost (unit weights):  {report['expected_cost']:.3f}")
+    rows = report.get("rows", {})
+    if rows:
+        lines.append("")
+        lines.append("Forecast rows (start state):")
+        for label, row in rows.items():
+            a1 = row["absorption_probabilities"].get("a1_ready_for_human_review", 0.0)
+            lines.append(
+                f"  {label:<14} ({row['start_state']}): "
+                f"P(a1)={a1:.3f} steps={row['expected_steps']:.3f}",
+            )
+    lines.append("")
+    lines.append(
+        "priors: illustrative defaults (source: prior) — not measured field data; "
+        "run `markov-ci recompute` for empirical values",
+    )
     return "\n".join(lines)

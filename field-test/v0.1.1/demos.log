@@ -1,0 +1,35 @@
+== 01-lint-error: run examples/01-lint-error/config.yaml --junit examples/01-lint-error/report.xml --repo examples/01-lint-error/repo --seed 42
+   exit=0 expected=0
+   stdout: absorbed: a1_ready_for_human_review · tokens 0 · 1564 ms · branch ai-fix/local-63d45e18
+   events(4): ['s1_failure_triage -> s2_agent_reasoning#1', 's2_agent_reasoning#1 -> s3_sandbox_validation#1', 's3_sandbox_validation#1 -> s4_regression_check', 's4_regression_check -> a1_ready_for_human_review']
+== 02-unit-assertion-decay: run examples/02-unit-assertion-decay/config.yaml --junit examples/02-unit-assertion-decay/report.xml --repo examples/02-unit-assertion-decay/repo --seed 42
+   exit=1 expected=1
+   stdout: absorbed: a2_escalate_to_author · tokens 0 · 1574 ms · branch ai-fix/local-1d967dc0
+   events(5): ['s1_failure_triage -> s2_agent_reasoning#1', 's2_agent_reasoning#1 -> s3_sandbox_validation#1', 's3_sandbox_validation#1 -> s2_agent_reasoning#2', 's2_agent_reasoning#2 -> s3_sandbox_validation#2', 's3_sandbox_validation#2 -> a2_escalate_to_author']
+== 03-infra-timeout: run examples/03-infra-timeout/config.yaml --junit examples/03-infra-timeout/report.xml --seed 42
+   exit=1 expected=1
+   stdout: infra_timeout: matched 'timeouterror' → infra_timeout — escalating (a2)
+   events(1): ['s1_failure_triage -> a2_escalate_to_author']
+== 04-runner-pool-sizing: queue --lambda 120 --mu 30 --c 5 --simulate --json
+   exit=0 expected=0
+   stdout: {
+  "c": 5,
+  "human_share": 0.6,
+  "mu": 30.0,
+  "pools": {
+    "agent": {
+      "c": 2,
+      "lambda": 48.0,
+      "mean_wait": 0.05925925925925927,
+      "p95_wait": 0.22123380721528307,
+      "p_
+   events(0): []
+== 05-github-actions-e2e: no `markov-ci` command (workflow demo) — skipped
+== 06-adversarial-runaway: run examples/06-adversarial-runaway/config.yaml --junit examples/06-adversarial-runaway/report.xml --repo examples/06-adversarial-runaway/repo --seed 42
+   exit=1 expected=1
+   stdout: absorbed: a2_escalate_to_author · tokens 0 · 2361 ms · branch ai-fix/local-a54e7ec8
+   events(7): ['s1_failure_triage -> s2_agent_reasoning#1', 's2_agent_reasoning#1 -> s3_sandbox_validation#1', 's3_sandbox_validation#1 -> s2_agent_reasoning#2', 's2_agent_reasoning#2 -> s3_sandbox_validation#2', 's3_sandbox_validation#2 -> s2_agent_reasoning#3', 's2_agent_reasoning#3 -> s3_sandbox_validation#3', 's3_sandbox_validation#3 -> a2_escalate_to_author']
+== 07-cheating-agent: run examples/07-cheating-agent/config.yaml --junit examples/07-cheating-agent/report.xml --repo examples/07-cheating-agent/repo --seed 42
+   exit=1 expected=1
+   stdout: absorbed: a2_escalate_to_author · tokens n/a · 41 ms · branch ai-fix/local-c4d60350
+   events(2): ['s1_failure_triage -> s2_agent_reasoning#1', 's2_agent_reasoning#1 -> a2_escalate_to_author']

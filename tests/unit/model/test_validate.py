@@ -131,3 +131,14 @@ def test_finding_and_result_are_frozen() -> None:
     with pytest.raises(FrozenInstanceError):
         Finding(code="x", message="y").code = "z"  # type: ignore[misc]
     assert ValidationResult(ok=True, findings=()).ok is True
+
+
+def test_probability_outside_the_unit_interval_is_flagged() -> None:
+    # M13.30 (#114): every matrix entry must lie in [0, 1].
+    chain = _chain(
+        ["s0"],
+        ["a1"],
+        {"s0": {"a1": 1.5}, "a1": {"a1": 1.0}},
+    )
+    findings = validate(chain).findings
+    assert any(f.code == "probability_range" for f in findings)

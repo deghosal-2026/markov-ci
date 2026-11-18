@@ -1,6 +1,6 @@
 # Quick start
 
-> **Pre-alpha.** The commands below are the v0.1.0 CLI contract (spec 0008),
+> **Pre-1.0.** The commands below are the v0.1.1 CLI contract (spec 0008),
 > implemented and run verbatim in CI — docs-are-tests.
 
 Time to first forecast: **5 minutes. Zero API keys. Zero network.**
@@ -8,7 +8,7 @@ Time to first forecast: **5 minutes. Zero API keys. Zero network.**
 ## 1. Install
 
 ```bash
-pip install markov-ci
+pip install -U "markov-ci>=0.1.1"
 ```
 
 Requires Python 3.11+. (Developing on markov-ci itself? `git clone` the repo and
@@ -27,17 +27,24 @@ prints the worked example:
 markov-ci analyze — default pipeline
 states: 5 transient · 3 absorbing (a1, a2, a3)
 
-Absorption probabilities (start: s0_deterministic_verify)
+Absorption probabilities (start: s1_failure_triage — failed builds)
+  a1_ready_for_human_review   ≈ 0.54
+  a2_escalate_to_author       ≈ 0.46
+  a3_budget_exceeded          —  (policy caps not tripped at forecast time)
+
+Absorption probabilities (start: s0_deterministic_verify — all builds)
   a1_ready_for_human_review   ≈ 0.92
-  a2_escalate_to_author       ≈ 0.07
+  a2_escalate_to_author       ≈ 0.08
   a3_budget_exceeded          —  (policy caps not tripped at forecast time)
 
 Expected steps to absorption: t = N·1
-Expected cost (cost_weight units): C = N·c
+Expected cost (unit weights): C = N·c
 ```
 
-The two golden numbers — **P(a1 | s0) ≈ 0.92** and **P(a1 | s2) ≈ 0.72** — are asserted
-by the test suite; if your build prints different values, the build is wrong.
+The golden numbers — **P(a1 | s0) ≈ 0.92**, **P(a1 | s1) ≈ 0.54** and
+**P(a1 | s2) ≈ 0.72** — are asserted by the test suite; if your build prints different
+values, the build is wrong. `s1` (failed builds) is the default start state, since the
+engine only runs after a failure.
 
 ## 3. Per-category forecast
 
@@ -51,7 +58,7 @@ cost — the number that ends the "2 retries or 10?" debate.
 ## 4. Validate your own pipeline
 
 ```bash
-markov-ci validate config.yaml        # exit 0 = matrix valid, 4 = invalid (with the offending row)
+markov-ci validate        # packaged default; exit 0 = matrix valid, 4 = invalid (with the offending row)
 ```
 
 ## 5. Run a governed demo — still offline

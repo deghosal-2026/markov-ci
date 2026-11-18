@@ -3,7 +3,7 @@
 The chain promises that even a config whose priors swear the agent always
 succeeds (``success = [1.0, 1.0, 1.0]``) cannot make the governed loop run
 away. This is the end-to-end companion of the matrix-level property test in
-``tests/unit/model/test_properties.py``: the sandbox rejects every patch, and
+``tests/unit/model/test_properties.py``: worktree validation rejects every patch, and
 the attempt cap absorbs the run in ``a2`` after exactly ``max_attempts``
 reasoning visits — termination is a theorem, not a timeout.
 """
@@ -30,7 +30,7 @@ JUNIT = (
 )
 
 # The canned SimulatedAgent patch flips `return 1` to `return 2`; this check
-# demands 3, so no attempt can ever pass sandbox validation.
+# demands 3, so no attempt can ever pass worktree validation.
 CHECK = (
     "import sys\nsys.path.insert(0, '.')\n"
     "from src.example import broken\n"
@@ -85,7 +85,7 @@ def test_perfect_priors_still_terminate_at_the_cap(repo: Path, tmp_path: Path) -
             "--json",
         ],
     )
-    assert result.exit_code == 2, result.stdout  # a2_escalate_to_author
+    assert result.exit_code == 1, result.stdout  # a2_escalate_to_author
     payload = json.loads(result.stdout)
     assert payload["absorbing_state"] == "a2_escalate_to_author"
     assert payload["tokens_used"] == 0  # termination is structural, not budgetary
@@ -99,6 +99,6 @@ def test_perfect_priors_still_terminate_at_the_cap(repo: Path, tmp_path: Path) -
         for line in (tmp_path / "events.jsonl").read_text(encoding="utf-8").splitlines()
         if line
     ]
-    assert len(events) == 7  # 3 × (reasoning, sandbox) + the final absorbing hop
+    assert len(events) == 7  # 3 × (reasoning, validation) + the final absorbing hop
     assert events[-1]["to_state"] == "a2_escalate_to_author"
     assert events[-1]["attempt"] == 4  # the attempt-cap gate, not low confidence

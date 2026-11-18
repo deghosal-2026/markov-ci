@@ -1,6 +1,6 @@
 # Tutorial 02 — Assertion decay → escalation
 
-**Demo:** `examples/02-unit-assertion-decay` · **Ships:** v0.1.0 · **Exit code to expect:** `2`
+**Demo:** `examples/02-unit-assertion-decay` · **Ships:** v0.1.0 · **Exit code to expect:** `1`
 
 The guardrail story: a harder failure where the agent's odds decay per attempt until
 the confidence gate says "stop" — *before* the third attempt burns tokens.
@@ -8,7 +8,7 @@ the confidence gate says "stop" — *before* the third attempt burns tokens.
 ## Run it
 
 ```bash
-# one-time: the demo repo must be a real git repository (the sandbox uses git worktrees)
+# one-time: the demo repo must be a real git repository (the validation copy uses git worktrees)
 git -C examples/02-unit-assertion-decay/repo init -q && \
   git -C examples/02-unit-assertion-decay/repo add -A && \
   git -C examples/02-unit-assertion-decay/repo commit -qm "demo baseline"
@@ -16,7 +16,7 @@ git -C examples/02-unit-assertion-decay/repo init -q && \
 markov-ci run examples/02-unit-assertion-decay/config.yaml \
   --junit examples/02-unit-assertion-decay/report.xml \
   --repo examples/02-unit-assertion-decay/repo --seed 42
-echo $?      # 2 = absorbed in a2_escalate_to_author
+echo $?      # 1 = absorbed in a2_escalate_to_author
 ```
 
 ## What happens, hop by hop
@@ -27,9 +27,9 @@ echo $?      # 2 = absorbed in a2_escalate_to_author
 | Hop | State | Gate outcome |
 |---|---|---|
 | 1 | `s1 → s2#1` | classified `unit_assertion`; P(success) = 0.74 ≥ 0.40 → attempt 1 allowed |
-| 2 | `s2#1 → s3#1` | patch proposed — sandbox says it did **not** fix the assertion |
+| 2 | `s2#1 → s3#1` | patch proposed — worktree validation says it did **not** fix the assertion |
 | 3 | `s3#1 → s2#2` | loop back with the new error logs; P(success) = 0.45 ≥ 0.40 → attempt 2 allowed |
-| 4 | `s2#2 → s3#2` | second patch — sandbox rejects again |
+| 4 | `s2#2 → s3#2` | second patch — worktree validation rejects again |
 | 5 | `s3#2 → a2` | attempt 3 would carry P(success) = 0.15 < 0.40 → **confidence gate: escalate** |
 
 Absorbed in `a2_escalate_to_author` — the developer gets the diagnostic context and

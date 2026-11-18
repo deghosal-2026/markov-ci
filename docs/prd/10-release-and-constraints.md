@@ -5,18 +5,20 @@
 | Release | Theme | Scope | Public milestone |
 |---|---|---|---|
 | v0.1.0 | **Absorption** | F1–F14 (MUST) — math, policy, triage, simulated agent, guardrails, engine, telemetry, CLI, docs, demos 01–03 | Public flip + articles 1–2 |
+| v0.1.1 | **Trust** | The v0.1.1 review fixes (FIX-01…FIX-05) + test-suite hardening (M12–M15): argv-only harness, diff-derived guardrails, worktree validation + container option, hard budgets, patch delivery, model/runtime honesty, field-test evidence | Patch release + security advisory |
 | v0.2.0 | **Capacity & reach** | F15–F22 (SHOULD) — Action, queueing, simulate, recompute, demos 04–05, harness adapters (T2: Claude Code, OpenCode, Aider; T3: BYO) | Marketplace listing + article 3 |
 | v0.3.0 | **Live operations** | F19 hardening, F23–F29 selectively (MCP governance server, community templates, currency costs, drift alerts) | Article 4 + community round |
 
-Build order follows [../WBS.md](../WBS.md) (M0→M10); releases cut from the
-MUST→SHOULD→COULD priority order, not the build order.
+Build order follows [../WBS.md](../WBS.md) (M0→M10) and [../WBS-v0.1.1.md](../WBS-v0.1.1.md)
+(M12→M15); releases cut from the MUST→SHOULD→COULD priority order, not the build order.
 
-**Release security gate (blocking, every release — M10.8 / #60):** a release is not
-published (and the repo does not flip public) until a blocking CI gate is green — secret
-scan of the working tree **and full git history** (`trufflehog`, `gitleaks`),
-`pip-audit` on the shipped dependency set, `bandit` SAST with no high-severity findings,
-a permissive-only runtime-license check, and an SBOM attached to the release. Publishing
-uses PyPI Trusted Publishing (OIDC) with attestations; no stored API token.
+**Release security gate (blocking, every release):** a release is not published (and the
+repo does not flip public) until a blocking CI gate is green — the **full test suite** on
+3.11–3.13, a secret scan of the working tree **and full git history** (`trufflehog`,
+`gitleaks`), `pip-audit` on the shipped dependency set, `bandit` SAST with no medium/high
+findings, a permissive-only runtime-license check, and an SBOM attached to the release.
+Every action is pinned by full commit SHA; publishing uses PyPI **Trusted Publishing**
+(OIDC) with PEP 740 build-provenance attestations and no long-lived token (M13.32–M13.36).
 
 **Deprecation policy:** exit codes and event `schema_version` are stable API —
 breaking changes require a major bump and one minor-release deprecation window.
