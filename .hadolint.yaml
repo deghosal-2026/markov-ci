@@ -1,0 +1,8 @@
+# hadolint configuration (M13.40).
+#
+# DL3008 (pin apt versions) is ignored: the base image tag (`python:3.12-slim`)
+# pins the Debian snapshot, and pinning `git` to a version string makes the
+# image break when Debian rotates its archive. The image is a packaging helper
+# for the offline demos, not a distributed artifact.
+ignored:
+  - DL3008
